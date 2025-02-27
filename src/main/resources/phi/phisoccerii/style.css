@@ -1,0 +1,158 @@
+
+.root {
+    -fx-background-color: linear-gradient(to bottom, #1C2833, #17202A);
+}
+
+.text-field{
+-fx-font-size:14px;
+-fx-padding:8px;
+/*-fx-border-color: #33498db;*/
+-fx-border-radius:5px;
+-fx-background-radius:5px;
+}
+
+.button {
+    -fx-background-color: #0a3d62;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-font-weight: bold;
+}
+.button:hover {
+    -fx-background-color: #1e5799;
+}
+.button:pressed{
+-fx-background-color: #1e6ea6;
+}
+
+.label{
+   -fx-text-fill :white;
+}
+#welcome{
+    -fx-text-fill :blue;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Style for the entire table */
+.table-view {
+    -fx-background-color: #f4f4f4; /* Light gray background for the table */
+}
+
+
+/* Style for table headers */
+.table-view .column-header {
+    /*-fx-background-color: linear-gradient(to bottom, #4CAF50, #81C784); /* Green background for headers */
+    -fx-background-color: #229954; /* Dark green */
+    -fx-text-fill: white; /* White text for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-alignment: CENTER; /* Center align header text */
+}
+.table-view .column-header {
+    -fx-background-color: #229954; /* Dark green */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style for table rows */
+.table-row-cell {
+    -fx-background-color: #ffffff; /* White background for rows */
+    -fx-text-fill: #333333; /* Dark gray text for rows */
+}
+
+/* Style for alternating rows (optional) */
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9; /* Light gray background for odd rows */
+}
+
+/* Style for selected rows */
+.table-row-cell:selected {
+    -fx-background-color: #4CAF50; /* Green background for selected rows */
+    -fx-text-fill: white; /* White text for selected rows */
+}
+
+/* Style for table cells */
+.table-cell {
+    -fx-alignment: CENTER; /* Center align content in cells */
+    -fx-text-fill: #333333; /* Dark gray text for cells */
+    -fx-padding: 5px; /* Add padding to cells */
+}
+
+/* Style for specific columns (optional) */
+.rank-column .table-cell {
+    -fx-background-color: #e0f7fa; /* Light blue background for rank column */
+}
+
+.team-column .table-cell {
+    -fx-background-color: #fff3e0; /* Light orange background for team column */
+}
+
+.logo-column .table-cell {
+    -fx-background-color: #fce4ec; /* Light pink background for logo column */
+}
+
+/* Completely remove background of the tab holder */
+.tab-header-area {
+    -fx-background-color: transparent !important; /* Ensure it's transparent */
+    -fx-border-color: transparent !important; /* Remove any borders */
+    -fx-padding: 10px 0; /* Keep padding for spacing */
+    -fx-alignment: center; /* Center tabs */
+}
+
+/* Style for tabs */
+.tab {
+    -fx-background-color: #34495e; /* Default tab color */
+    -fx-text-fill: white;
+    -fx-padding: 8px 20px;
+    -fx-background-insets: 0 5px 0 0;
+    -fx-border-radius: 5px 5px 0 0;
+    -fx-background-radius: 5px 5px 0 0;
+}
+
+/* Hover effect */
+.tab:hover {
+    -fx-background-color: #3b5998;
+}
+
+/* Selected (active) tab */
+.tab:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+/* Center align tab labels */
+.tab-label {
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style the TabPane content area */
+.tab-pane {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 20px;
+}
+
+box {
+    -fx-background-color: green;
+}
+.my-vbox {
+    -fx-background-color: green;
+}
+
+.navigation-bar-buttons{
+     -fx-text-fill: white; /* White text */
+        -fx-font-size: 16px;
+        -fx-padding: 10px 20px;
+        -fx-background-radius: 10px; /* Rounded corners */
+        -fx-effect: dropshadow(gaussian, white, 1, 1, 0,0 ); /* Blur effect */
+}
+
+.top-bar {
+    -fx-background-color: white;
+    /*-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2);*/
+}
+.sidebar {
+    -fx-background-color: #229954;
+    -fx-background-radius: 0px 35px 35px 0px; /* Top-right and bottom-right rounded */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2);
+}
