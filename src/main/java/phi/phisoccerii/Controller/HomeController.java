@@ -1,8 +1,10 @@
 package phi.phisoccerii.Controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +14,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.LinksModel;
+import phi.phisoccerii.Model.match.Match;
 import phi.phisoccerii.Model.player.Player;
 import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.league.LeagueService;
@@ -50,8 +55,11 @@ public class HomeController implements Initializable {
     private FilteredList<String> teamsFilList;
 
 
-    @FXML
-    private ComboBox<String> searchBox;
+    @FXML private ComboBox<String> searchBox;
+    @FXML private TableColumn<Match, String> homeTeam;
+    @FXML private TableColumn<Match, String> status;
+    @FXML private TableColumn<Match, String> awayTeam;
+    @FXML private TableView<Match> liveTable;
 
     @FXML
     void search(ActionEvent event) {
@@ -67,11 +75,25 @@ public class HomeController implements Initializable {
         switchScene(event,"League");
         LeagueController controller2 = loader.getController();
         //controller2.setLeagueId(leagueId);
-        controller2.setLeague(league);
-        controller2.setCells();
+
+        Task<Void>task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(()->{
+                    controller2.setLeague(league);
+                    controller2.setCells();
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();
+
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        liveTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+
         setLists();
         setMap();
         setSearchBox();
@@ -105,6 +127,7 @@ public class HomeController implements Initializable {
         teamsFilList = new FilteredList<>(teamsObsList,p->true);*/
 
     }
+  // private Task<List<League>>taskForTesting =LeagueService.getLeagues(" ");
     private void setSearchBox()
     {
         searchBox.setItems(leaguesFilList);

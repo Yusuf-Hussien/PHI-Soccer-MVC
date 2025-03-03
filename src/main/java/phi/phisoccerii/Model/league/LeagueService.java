@@ -1,5 +1,6 @@
 package phi.phisoccerii.Model.league;
 
+import javafx.concurrent.Task;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.Model.GeneralService;
@@ -11,6 +12,18 @@ import java.util.List;
 
 public class LeagueService {
     //private HashMap<String , String>leagues;
+
+
+    public Task<List<League>>getLeaguesAsync(String url)
+    {
+        new Task<List<League>>(){
+            @Override
+            protected List<League> call() throws Exception {
+                return List.of();
+            }
+        };
+        return null;
+    }
 
 
     public static HashMap<String , Integer>getLeaguesMap(List<League> leagues)

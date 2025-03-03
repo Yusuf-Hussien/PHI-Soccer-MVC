@@ -5,16 +5,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.LeagueController">
+<BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.LeagueController">
    <left>
       <VBox fx:id="sidebar" prefHeight="600.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" styleClass="sidebar" stylesheets="@..\..\style.css" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="200.0" prefWidth="170.0" />
             <Button fx:id="standingBTN" mnemonicParsing="false" onAction="#standing" prefHeight="54.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" text="Standing">
                <font>
                   <Font size="17.0" />
@@ -48,33 +49,42 @@
                </VBox.margin>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" />
+         </BorderPane.margin>
       </VBox>
    </left>
    <top>
-      <Pane prefHeight="65.0" prefWidth="730.0" style="-fx-background-color: #ffffff;" styleClass="top-bar" stylesheets="@..\..\style.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="44.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="leagueNameLab" layoutX="373.0" layoutY="15.0" style="-fx-text-fill: #F39C12;" text="League Name">
+            <Label fx:id="leagueNameLab" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="4.0" style="-fx-text-fill: #F39C12;" text="League Name" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="4.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </Label>
-            <Button layoutX="824.0" layoutY="20.0" mnemonicParsing="false" onAction="#Back" prefHeight="25.0" prefWidth="62.0" text="Home" />
+            <Button layoutX="823.0" layoutY="9.0" mnemonicParsing="false" onAction="#Back" prefHeight="25.0" prefWidth="62.0" text="Home" AnchorPane.rightAnchor="14.600000000000001" AnchorPane.topAnchor="9.0" />
          </children>
-      </Pane>
+      </AnchorPane>
    </top>
    <center>
-      <TableView fx:id="standingTable" prefHeight="494.0" prefWidth="731.0" style="-fx-background-color: #34495e;" BorderPane.alignment="CENTER">
+      <TableView fx:id="standingTable" prefHeight="494.0" prefWidth="731.0" style="-fx-background-color: #34495e; -fx-background-radius: 20;" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="rankCol" prefWidth="31.20001256465912" text="#" />
-          <TableColumn fx:id="logoCol" prefWidth="49.60003662109375" text="logo" />
-            <TableColumn fx:id="teamCol" prefWidth="184.00000762939453" text="Team" />
-            <TableColumn fx:id="playedCol" prefWidth="92.00003051757812" text="Played" />
-            <TableColumn fx:id="winCol" minWidth="7.20001220703125" prefWidth="54.39996337890625" text="W" />
-            <TableColumn fx:id="drawCol" prefWidth="60.7999267578125" text="D" />
-            <TableColumn fx:id="loseCol" prefWidth="56.000030517578125" text="L" />
-            <TableColumn fx:id="GDCol" prefWidth="84.7999267578125" text="GD" />
-            <TableColumn fx:id="pointsCol" prefWidth="94.4000244140625" text="Points" />
+          <TableColumn fx:id="rankCol" prefWidth="31.20001256465912" style="-fx-background-radius: 20;" text="#" />
+          <TableColumn fx:id="logoCol" prefWidth="49.60003662109375" style="-fx-background-radius: 20;" text="logo" />
+            <TableColumn fx:id="teamCol" prefWidth="184.00000762939453" style="-fx-background-radius: 20;" text="Team" />
+            <TableColumn fx:id="playedCol" prefWidth="92.00003051757812" style="-fx-background-radius: 20;" text="Played" />
+            <TableColumn fx:id="winCol" minWidth="7.20001220703125" prefWidth="54.39996337890625" style="-fx-background-radius: 20;" text="W" />
+            <TableColumn fx:id="drawCol" prefWidth="60.7999267578125" style="-fx-background-radius: 20;" text="D" />
+            <TableColumn fx:id="loseCol" prefWidth="56.000030517578125" style="-fx-background-radius: 20;" text="L" />
+            <TableColumn fx:id="GDCol" prefWidth="76.800048828125" style="-fx-background-radius: 20;" text="GD" />
+            <TableColumn fx:id="pointsCol" prefWidth="86.4000244140625" style="-fx-background-radius: 20;" text="Points" />
         </columns>
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" />
+         </BorderPane.margin>
       </TableView>
    </center>
 </BorderPane>

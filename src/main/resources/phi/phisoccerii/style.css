@@ -1,6 +1,6 @@
 
 .root {
-    -fx-background-color: linear-gradient(to bottom, #1C2833, #17202A);
+    -fx-background-color: white; /*linear-gradient(to bottom, #1C2833, #17202A);*/
 }
 
 .text-field{
@@ -35,7 +35,13 @@
 
 /* Style for the entire table */
 .table-view {
-    -fx-background-color: #f4f4f4; /* Light gray background for the table */
+    -fx-background-color:  #34495e; /* Light gray background for the table */
+
+     -fx-background-radius: 20px;
+        -fx-border-radius: 20px;
+        -fx-border-color: transparent;
+        -fx-background-insets: 0;
+        -fx-padding: 5px;
 }
 
 
@@ -48,20 +54,26 @@
     -fx-alignment: CENTER; /* Center align header text */
 }
 .table-view .column-header {
+    -fx-border-color: transparent;
     -fx-background-color: #229954; /* Dark green */
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
+.table-view .column-header-background {
+    -fx-background-color: #3C4A61; /* Match table background */
+    -fx-border-color: transparent;
+}
+
 
 /* Style for table rows */
 .table-row-cell {
-    -fx-background-color: #ffffff; /* White background for rows */
-    -fx-text-fill: #333333; /* Dark gray text for rows */
+    -fx-background-color: #34495e; /* White background for rows */
+    -fx-text-fill: white; /* Dark gray text for rows */
 }
 
 /* Style for alternating rows (optional) */
 .table-row-cell:odd {
-    -fx-background-color: #f9f9f9; /* Light gray background for odd rows */
+    -fx-background-color: #34495e; /* Light gray background for odd rows */
 }
 
 /* Style for selected rows */
@@ -73,7 +85,7 @@
 /* Style for table cells */
 .table-cell {
     -fx-alignment: CENTER; /* Center align content in cells */
-    -fx-text-fill: #333333; /* Dark gray text for cells */
+    -fx-text-fill: white; /* Dark gray text for cells */
     -fx-padding: 5px; /* Add padding to cells */
 }
 
@@ -89,6 +101,56 @@
 .logo-column .table-cell {
     -fx-background-color: #fce4ec; /* Light pink background for logo column */
 }
+
+
+
+
+
+
+/* Scrollbar track (background) */
+.table-view .scroll-bar:vertical,
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* Remove default background */
+}
+
+/* Scrollbar thumb (movable part) */
+.table-view .scroll-bar:vertical .thumb,
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #4CAF50; /* Green thumb */
+    -fx-background-radius: 10px; /* Rounded scrollbar */
+}
+
+/* Scrollbar when hovered */
+.table-view .scroll-bar:vertical .thumb:hover,
+.table-view .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #388E3C; /* Darker green on hover */
+}
+
+/* Scrollbar buttons (arrows at ends) */
+.table-view .increment-button,
+.table-view .decrement-button {
+    -fx-background-color: transparent; /* Remove buttons */
+    -fx-padding: 0;
+}
+
+/* Remove the border around the scrollbar */
+.table-view .scroll-bar {
+    -fx-border-color: transparent;
+}
+
+/* Change scrollbar width */
+.table-view .scroll-bar:vertical {
+    -fx-pref-width: 10px; /* Adjust as needed */
+}
+
+.table-view .scroll-bar:horizontal {
+    -fx-pref-height: 10px; /* Adjust as needed */
+}
+
+
+
+
+
 
 /* Completely remove background of the tab holder */
 .tab-header-area {
@@ -155,4 +217,68 @@ box {
     -fx-background-color: #229954;
     -fx-background-radius: 0px 35px 35px 0px; /* Top-right and bottom-right rounded */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* styles.css */
+
+/* Styling the ListView */
+.list-view {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+}
+
+/* Styling the list cells */
+.list-cell {
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #333333;
+    -fx-padding: 5px;
+}
+
+/* Styling the selected cell */
+.list-cell:filled:selected {
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+}
+
+/* Styling the hovered cell */
+.list-cell:filled:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333333;
+}
+
+/* Styling the scrollbar */
+.list-view .scroll-bar:vertical {
+    -fx-background-color: #f4f4f4;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 5px;
+}
+
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,21 +9,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.HomeController">
+<AnchorPane prefHeight="600" prefWidth="900" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.HomeController">
    <children>
-      <ComboBox fx:id="searchBox" editable="true" layoutX="160.0" layoutY="23.0" prefHeight="26.0" prefWidth="580.0" promptText="search for League, Team or Player" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="23.0" />
-      <Label layoutX="65.0" layoutY="19.0" prefHeight="33.0" prefWidth="46.0" text="PHI">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TableView layoutX="23.2" layoutY="167.0" prefHeight="458.0" prefWidth="855.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="22.0">
+      <AnchorPane layoutX="23.0" layoutY="18.0" prefHeight="74.0" prefWidth="855.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 7;" stylesheets="@../style.css" AnchorPane.topAnchor="22.0">
+         <children>
+            <ComboBox fx:id="searchBox" editable="true" layoutX="145.0" layoutY="19.0" prefHeight="26.0" prefWidth="580.0" promptText="search for League" style="-fx-background-radius: 7;" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="175.79999999999995" AnchorPane.topAnchor="19.0" />
+            <Button defaultButton="true" layoutX="734.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" prefHeight="36.0" prefWidth="106.0" text="Search" AnchorPane.rightAnchor="14.800000000000068" AnchorPane.topAnchor="19.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Label layoutX="14.0" layoutY="15.0" prefHeight="33.0" prefWidth="46.0" text="PHI">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <TableView fx:id="liveTable" layoutX="23.2" layoutY="167.0" prefHeight="458.0" prefWidth="855.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
         <columns>
-          <TableColumn prefWidth="214.4000244140625" text="Home" />
-          <TableColumn prefWidth="112.79998779296875" text="status" />
-            <TableColumn prefWidth="217.59994506835938" text="Away" />
+          <TableColumn fx:id="homeTeam" prefWidth="324.8000003695488" style="-fx-background-radius: 7;" text="Home" />
+          <TableColumn fx:id="status" prefWidth="210.39999389648438" style="-fx-background-radius: 7;" text="status" />
+            <TableColumn fx:id="awayTeam" prefWidth="305.60009765625" style="-fx-background-radius: 7;" text="Away" />
         </columns>
       </TableView>
-      <Button layoutX="763.0" layoutY="23.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="105.0" text="Button" />
    </children>
 </AnchorPane>

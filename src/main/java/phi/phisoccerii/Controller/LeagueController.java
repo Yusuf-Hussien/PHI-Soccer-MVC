@@ -2,6 +2,7 @@ package phi.phisoccerii.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,6 +82,8 @@ public class LeagueController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        standingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+
         System.out.println("from league Controller constructor");
         //LinksModel model = new LinksModel();
         //setCells();
@@ -105,8 +108,8 @@ public class LeagueController implements Initializable {
     private ObservableList<Team> getObsList(String link)
     {
         List<Team> list= TeamService.getTeams(link);
-        ObservableList<Team>obsList = FXCollections.observableArrayList(list);
-        return obsList;
+                ObservableList<Team>obsList = FXCollections.observableArrayList(list);
+                return obsList;
     }
 
     public void switchTab(String viewName)
