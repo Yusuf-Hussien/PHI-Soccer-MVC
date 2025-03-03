@@ -60,7 +60,7 @@ public class HomeController implements Initializable {
     @FXML private TableColumn<Match, String> status;
     @FXML private TableColumn<Match, String> awayTeam;
     @FXML private TableView<Match> liveTable;
-
+    
     @FXML
     void search(ActionEvent event) {
         if(!validateBox(searchBox))
