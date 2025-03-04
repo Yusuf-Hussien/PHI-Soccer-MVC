@@ -69,7 +69,6 @@ public class GeneralService {
         }catch (Exception e){
             System.out.println("failed Getting BASE_URL");
         }
-        System.out.println(Base+type+"&leagueId="+leagueId);
         return Base+type+"&leagueId="+leagueId;
     }
 

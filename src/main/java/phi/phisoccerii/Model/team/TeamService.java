@@ -87,7 +87,8 @@ public class TeamService {
         ImageView logo = new ImageView(new Image(logoURL));
         logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
 
-        return new Team(name.equals("Israel")?"Shit":name,id,logo,rank,points,matches,goalDiff,win,draw,lose);
+        name = name.equals("Israel")? "Shit" : name;
+        return new Team(name,id,logo,rank,points,matches,goalDiff,win,draw,lose);
     }
 
     public static JSONObject fetchData(String link)

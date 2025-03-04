@@ -15,4 +15,6 @@ module phi.phisoccerii {
 
 
     opens phi.phisoccerii.Model.team to javafx.base;
+    opens phi.phisoccerii.Model.match to javafx.base;
+
 }

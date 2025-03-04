@@ -4,10 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import phi.phisoccerii.Model.GeneralService;
+import phi.phisoccerii.Model.match.Match;
+import phi.phisoccerii.Model.match.MatchService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 public class App extends Application {
@@ -22,13 +27,17 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    private static Properties prop;
-    private static String PREMIER_LEAGUE_LINK;
-    private static String CHAMPIONS_LEAGUE_LINK;
-    private static String EGYPTIAN_LEAGUE_LINK;
-    private static String LEAGUES_LINK;
+
     public static void main(String[] args) {
 
+        GeneralService service = new GeneralService();
+        //System.out.println(service.getLeagueRoutes(152,"Standings"));
+        //System.out.println(service.getURL("Livescore"));
+        //List<Match>matches = MatchService.getMatches("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Livescore");
+       // System.out.println(matches);
+         //List<List<ImageView>>logos = MatchService.getLogos(service.getURL("Livescore"));
+        // List<List<ImageView>>logos = MatchService.getLogos("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2021-05-18&to=2021-05-18");
+          // System.out.println(logos);
         launch();
 
     }
