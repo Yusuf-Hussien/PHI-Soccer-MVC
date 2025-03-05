@@ -12,10 +12,12 @@ import java.util.List;
 public class Match {
 
     private String homeTeam;
-    private String status;
+    private String score;
     private String awayTeam;
     private String  league;
     private String round;
+    private String status;
+    private String  time;
     private SimpleObjectProperty<ImageView> homeLogo;
     private SimpleObjectProperty<ImageView> awayLogo;
 
@@ -25,9 +27,11 @@ public class Match {
     // private String score;
     //private List<Palyer>homeTeamLineUp;
 
-    public Match(String homeTeam, String status, String awayTeam, String league, String round, ImageView homeLogo, ImageView awayLogo) {
+    public Match(String homeTeam, String status,String time,String score, String awayTeam, String league, String round, ImageView homeLogo, ImageView awayLogo) {
         this.homeTeam = homeTeam;
         this.status = status;
+        this.time = time;
+        this.score = score;
         this.awayTeam = awayTeam;
         this.league = league;
         this.round = round;
@@ -43,6 +47,10 @@ public class Match {
         return status;
     }
 
+    public String getTime() {
+        return time;
+    }
+
     public String getAwayTeam() {
         return awayTeam;
     }
@@ -53,6 +61,10 @@ public class Match {
 
     public String getRound() {
         return round;
+    }
+
+    public String getScore() {
+        return score;
     }
 
     public ImageView getHomeLogo() {

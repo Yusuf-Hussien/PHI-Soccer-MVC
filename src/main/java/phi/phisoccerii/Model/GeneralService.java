@@ -16,14 +16,16 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 import static phi.phisoccerii.Model.team.TeamService.getJSONarr;
 
 public class GeneralService {
-    //public static final String BASE_URL="https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&leagueId=3&met=Standings&";
     private static Properties prop;
     //private String LEAGUES, TEAMS, PLAYERS;
 
@@ -74,6 +76,14 @@ public class GeneralService {
             System.out.println("failed Getting BASE_URL");
         }
         return Base+type+"&leagueId="+leagueId;
+    }
+
+    public static String from24Hto12H(String time24H)
+    {
+        LocalTime time = LocalTime.parse(time24H,DateTimeFormatter.ofPattern("HH:mm"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
+        String time12H = time.format(formatter);
+        return time12H;
     }
 
     /*public static <T>List<String>getNames(List<T>objList)

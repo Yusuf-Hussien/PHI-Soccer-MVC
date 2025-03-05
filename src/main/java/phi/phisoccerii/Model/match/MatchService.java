@@ -10,7 +10,11 @@ import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.league.League;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MatchService {
@@ -97,7 +101,9 @@ public class MatchService {
     {
         String homeTeam = matchJson.getString("event_home_team");
         String awayTeam = matchJson.getString("event_away_team");
-        String status = matchJson.getString("event_final_result");
+        String status = matchJson.getString("event_status");
+        String time = matchJson.getString("event_time");
+        String score = matchJson.getString("event_final_result");
         String leagueName = matchJson.getString("league_name");
         String country = matchJson.getString("country_name");
         String round = matchJson.getString("league_round");
@@ -108,6 +114,44 @@ public class MatchService {
         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);*/
 
-        return new Match(homeTeam,status,awayTeam, country+" | "+leagueName , round,null,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,null,null);
+    }
+
+    private static final GeneralService service = new GeneralService();
+    /*public static String getDayMatches(String date)
+    {
+         if(date.length()>0 && date.length()<3)
+            date = getDateFromToday(Integer.parseInt(date));
+        String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
+        return url;
+    } */
+    public static String getDayMatchesURL(String date)
+    {
+        String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
+        return url;
+    }
+
+    public static String getDayMatchesURL(int days)
+    {
+        String date = getDateFromToday(days);
+        return getDayMatchesURL(date);
+    }
+    private static String getDateFromToday(int days)
+    {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date="";
+        if(days==0) date = today.format(formatter);
+        else if(days>0)
+        {
+            LocalDate next = today.plusDays(days);
+            date = next.format(formatter);
+        }
+        else if(days<0)
+        {
+            LocalDate prev = today.minusDays(Math.abs(days));
+            date = prev.format(formatter);
+        }
+        return date;
     }
 }

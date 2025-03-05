@@ -38,6 +38,8 @@ public class App extends Application {
          //List<List<ImageView>>logos = MatchService.getLogos(service.getURL("Livescore"));
         // List<List<ImageView>>logos = MatchService.getLogos("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2021-05-18&to=2021-05-18");
           // System.out.println(logos);
+
+        //System.out.println(GeneralService.from24Hto12H("22:05"));
         launch();
 
     }

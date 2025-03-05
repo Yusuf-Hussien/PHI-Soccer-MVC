@@ -58,6 +58,7 @@ public class HomeController implements Initializable {
 
     private final GeneralService service = new GeneralService();
 
+    @FXML private CheckBox liveBtn;
     @FXML private ComboBox<String> searchBox;
     @FXML private TableColumn<Match, String> homeTeam;
     @FXML private TableColumn<Match, String> status;
@@ -74,7 +75,6 @@ public class HomeController implements Initializable {
         setListsAsync();
         declareMatchesTable();
         setMatchesTable(service.getURL(service.LIVE));
-
     }
 
     @FXML
@@ -90,6 +90,22 @@ public class HomeController implements Initializable {
         LeagueController controller2 = loader.getController();
                     controller2.setLeague(league);
                     controller2.setCells();
+        }
+    }
+
+
+    @FXML
+    void checkIsLive(ActionEvent event) {
+        if(liveBtn.isSelected())
+            setMatchesTable(service.getURL(service.LIVE));
+        else
+        {
+            String date = null;
+            try{
+             date =datePicker.getValue().toString();
+            }catch (Exception e){}
+            date = date==null? MatchService.getDayMatchesURL(0):date;
+            setMatchesTable(MatchService.getDayMatchesURL(date));
         }
     }
 
@@ -183,7 +199,7 @@ public class HomeController implements Initializable {
         awayTeam.setCellValueFactory(new PropertyValueFactory<>("awayTeam"));
         //status.setCellValueFactory(new PropertyValueFactory<>("status"));
         status.setCellValueFactory(cellData-> new SimpleStringProperty(cellData.getValue().getStatus()));
-        setStatus();
+        setMatchStatus();
         homeLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
         awayLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
 
@@ -193,7 +209,6 @@ public class HomeController implements Initializable {
         Task<Void>task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                //String url ="https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152";
                 List<Match>matches = MatchService.getMatches(url);
                 ObservableList<Match>obsList = FXCollections.observableArrayList(matches);
                 Platform.runLater(()->{MatchesTable.setItems(obsList);});
@@ -206,7 +221,7 @@ public class HomeController implements Initializable {
         };
         new Thread(task).start();
     }
-    private void setStatus()
+    private void setMatchStatus()
     {
         status.setCellFactory(tc->new TableCell<>(){
             @Override
@@ -218,8 +233,11 @@ public class HomeController implements Initializable {
                     Match match = getTableView().getItems().get(getIndex());
 
                     // Status ->Bold
-                    Label statusLabel = new Label(match.getStatus());
-                    statusLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                    Label scoreLabel;
+                    if(match.getScore().equals("-"))
+                        scoreLabel = new Label(match.getTime());
+                    else scoreLabel = new Label(match.getScore());
+                    scoreLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
 
                     Label roundLabel = new Label(match.getRound());
@@ -228,7 +246,13 @@ public class HomeController implements Initializable {
                     Label leagueLabel = new Label(match.getLeague());
                     leagueLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
 
-                    VBox vbox = new VBox( leagueLabel ,statusLabel,roundLabel);
+                    Label statusLabel = new Label(match.getStatus());
+                    if(match.getStatus().equals("Finished")) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: red;");
+                    else if(match.getStatus().equals("Postponed") || match.getStatus().equals("After Pen.") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
+                    else if( match.getStatus().equals("Half Time") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: orange;");
+                    else statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill:  #2ecc71;");
+
+                    VBox vbox = new VBox( leagueLabel ,roundLabel ,scoreLabel,statusLabel);
                     vbox.setAlignment(Pos.CENTER);
 
                     setGraphic(vbox);
@@ -279,8 +303,6 @@ public class HomeController implements Initializable {
             }
             setMatchesTable(url);
         }
-
-
         //setTable("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152");
     }
 }
