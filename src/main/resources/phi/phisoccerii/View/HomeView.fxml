@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -14,7 +15,7 @@
       <AnchorPane layoutX="23.0" layoutY="18.0" prefHeight="74.0" prefWidth="855.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 7;" stylesheets="@../style.css" AnchorPane.topAnchor="22.0">
          <children>
             <ComboBox fx:id="searchBox" editable="true" layoutX="145.0" layoutY="19.0" prefHeight="26.0" prefWidth="580.0" promptText="search for League" style="-fx-background-radius: 7;" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="175.79999999999995" AnchorPane.topAnchor="19.0" />
-            <Button defaultButton="true" layoutX="734.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" prefHeight="36.0" prefWidth="106.0" text="Search" AnchorPane.rightAnchor="14.800000000000068" AnchorPane.topAnchor="19.0">
+            <Button defaultButton="true" layoutX="734.0" layoutY="19.0" mnemonicParsing="false" onAction="#searchForLeague" prefHeight="36.0" prefWidth="106.0" text="Search" AnchorPane.rightAnchor="14.800000000000068" AnchorPane.topAnchor="19.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -26,7 +27,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <TableView fx:id="liveTable" layoutX="23.2" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="458.0" prefWidth="855.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
+      <TableView fx:id="MatchesTable" layoutX="23.2" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="422.0" prefWidth="855.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="22.0">
         <columns>
           <TableColumn fx:id="homeTeam" prefWidth="264.7999577522278" style="-fx-background-radius: 7;" text="Home" />
             <TableColumn fx:id="homeLogo" prefWidth="56.0" style="-fx-background-radius: 7;" text="logo" />
@@ -35,5 +36,12 @@
             <TableColumn fx:id="awayTeam" minWidth="0.0" prefWidth="247.2000732421875" style="-fx-background-radius: 7;" text="Away" />
         </columns>
       </TableView>
+      <DatePicker fx:id="datePicker" layoutX="221.0" layoutY="108.0" prefHeight="36.0" prefWidth="218.0" AnchorPane.leftAnchor="215.0" />
+      <ComboBox fx:id="leaguesBox" editable="true" layoutX="486.0" layoutY="108.0" prefHeight="36.0" prefWidth="218.0" promptText="Select League if you need" style="-fx-background-radius: 7;" AnchorPane.rightAnchor="215.0" />
+      <Button defaultButton="true" layoutX="695.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="36.0" prefWidth="106.0" text="OK">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
    </children>
 </AnchorPane>

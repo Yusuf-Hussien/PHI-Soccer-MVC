@@ -1,5 +1,6 @@
 package phi.phisoccerii.Controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -37,6 +38,8 @@ public class LeagueController implements Initializable {
     private  FXMLLoader loader;
     private Parent root;
 
+    private final GeneralService service = new GeneralService();
+
     @FXML private TableColumn<Team, Integer> rankCol;
     @FXML private TableColumn<Team, ImageView> logoCol;
     @FXML private TableColumn<Team, String> teamCol;
@@ -53,6 +56,14 @@ public class LeagueController implements Initializable {
 
     private int leagueId;
     private League league;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        standingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        System.out.println("from league Controller constructor");
+        //setCells();
+    }
 
     @FXML
     void live(ActionEvent event)
@@ -78,17 +89,7 @@ public class LeagueController implements Initializable {
         switchTab("TopScorers");
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        standingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-
-        System.out.println("from league Controller constructor");
-        //LinksModel model = new LinksModel();
-        //setCells();
-    }
-    public void setCells()
+    private void declareStandingTable()
     {
         rankCol.setCellValueFactory(new PropertyValueFactory<>("rank"));
         logoCol.setCellValueFactory(new PropertyValueFactory<>("logo"));
@@ -100,10 +101,21 @@ public class LeagueController implements Initializable {
         drawCol.setCellValueFactory(new PropertyValueFactory<>("draw"));
         loseCol.setCellValueFactory(new PropertyValueFactory<>("lose"));
         pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
+    }
 
-        GeneralService service = new GeneralService();
-        ObservableList<Team>obsList = getObsList(service.getLeagueRoutes(leagueId ,"Standings" ));
-        standingTable.setItems(obsList);
+    public void setCells()
+    {
+        declareStandingTable();
+        Task<ObservableList<Team>>task = new Task<ObservableList<Team>>() {
+            @Override
+            protected ObservableList<Team> call() throws Exception {
+                ObservableList<Team>obsList = getObsList(service.getLeagueRoutes(leagueId ,"Standings" ));
+                return obsList;
+            }
+        };
+        task.setOnSucceeded(e->{standingTable.setItems(task.getValue());});
+
+        new Thread(task).start();
     }
     private ObservableList<Team> getObsList(String link)
     {

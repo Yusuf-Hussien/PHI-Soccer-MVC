@@ -22,14 +22,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
-import phi.phisoccerii.Model.LinksModel;
 import phi.phisoccerii.Model.match.Match;
 import phi.phisoccerii.Model.match.MatchService;
-import phi.phisoccerii.Model.player.Player;
 import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.league.LeagueService;
 import phi.phisoccerii.Model.team.Team;
-import phi.phisoccerii.Model.team.TeamService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,8 +53,10 @@ public class HomeController implements Initializable {
     private Map<String,Integer> teamsMap;
 
     private FilteredList<String> leaguesFilList;
+    private FilteredList<String> leaguesForMatchFilList;
     private FilteredList<String> teamsFilList;
 
+    private final GeneralService service = new GeneralService();
 
     @FXML private ComboBox<String> searchBox;
     @FXML private TableColumn<Match, String> homeTeam;
@@ -65,18 +64,21 @@ public class HomeController implements Initializable {
     @FXML private TableColumn<Match, String> awayTeam;
     @FXML private TableColumn<Match, ImageView> awayLogo;
     @FXML private TableColumn<Match, ImageView> homeLogo;
-    @FXML private TableView<Match> liveTable;
+    @FXML private TableView<Match> MatchesTable;
+    @FXML private DatePicker datePicker;
+    @FXML private ComboBox<String> leaguesBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        liveTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        MatchesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         setListsAsync();
-        setLiveTable();
+        declareMatchesTable();
+        setMatchesTable(service.getURL(service.LIVE));
 
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void searchForLeague(ActionEvent event) {
         if(!validateBox(searchBox))
             showAlert("invalid INPUT","Please Select Exist League");
         else
@@ -86,17 +88,8 @@ public class HomeController implements Initializable {
         League league = new League(leagueName,leagueId);
         switchScene(event,"League");
         LeagueController controller2 = loader.getController();
-        Task<Void>task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                Platform.runLater(()->{
                     controller2.setLeague(league);
                     controller2.setCells();
-                });
-                return null;
-            }
-        };
-        new Thread(task).start();
         }
     }
 
@@ -107,36 +100,39 @@ public class HomeController implements Initializable {
             protected Void call() throws Exception {
                 updateMessage("Fetching league data...");
                 leaguesObsList = FXCollections.observableArrayList();
-                GeneralService service = new GeneralService();
                 leaguesList = LeagueService.getLeagues(service.getURL("Leagues"));
                 //leaguesNamesList = LeagueService.getLeaguesNames(leaguesList);
                 leaguesNamesList =  leaguesList.parallelStream().map(League::getName).toList(); //faster
                 leaguesObsList.addAll(leaguesNamesList);
                 leaguesFilList = new FilteredList<>(leaguesObsList,p->true);
+                leaguesForMatchFilList = new FilteredList<>(leaguesObsList,p->true);
                 if(leaguesList!=null)
                 {
                     setMap();
-                    Platform.runLater(()->{setSearchBox();});
+                    Platform.runLater(()->{
+                        setSearchBox(searchBox,leaguesFilList);
+                        setSearchBox(leaguesBox,leaguesForMatchFilList);
+                    });
                 }
                 return null;
             }
         };
         new Thread(task).start();
     }
-    private void setSearchBox()
+    private void setSearchBox(ComboBox<String>box,FilteredList<String>filteredList)
     {
-        searchBox.setItems(leaguesFilList);
-        searchBox.setEditable(true);
-        searchBox.getEditor().textProperty().addListener(((observable, oldValue, newValue) -> {
-            leaguesFilList.setPredicate(item->{
+        box.setItems(filteredList);
+        box.setEditable(true);
+        box.getEditor().textProperty().addListener(((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(item->{
                 if(newValue==null || newValue.isEmpty())return true;
                 return  item.toLowerCase().contains(newValue.toLowerCase());
             });
-            searchBox.hide();
-            searchBox.show();
+            box.hide();
+            box.show();
         }));
-        searchBox.getEditor().focusedProperty().addListener(((observable, oldValue, newValue) -> {
-            if(!newValue) validateBox(searchBox);
+        box.getEditor().focusedProperty().addListener(((observable, oldValue, newValue) -> {
+            if(!newValue) validateBox(box);
         }));
     }
 
@@ -181,7 +177,7 @@ public class HomeController implements Initializable {
     }
 
 
-    private void setLiveTable()
+    private void declareMatchesTable()
     {
         homeTeam.setCellValueFactory(new PropertyValueFactory<>("homeTeam"));
         awayTeam.setCellValueFactory(new PropertyValueFactory<>("awayTeam"));
@@ -191,18 +187,20 @@ public class HomeController implements Initializable {
         homeLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
         awayLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
 
+    }
+    private void setMatchesTable(String url)
+    {
         Task<Void>task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                GeneralService service = new GeneralService();
-                String url =service.getURL("Livescore");
+                //String url ="https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152";
                 List<Match>matches = MatchService.getMatches(url);
                 ObservableList<Match>obsList = FXCollections.observableArrayList(matches);
-                Platform.runLater(()->{liveTable.setItems(obsList);});
+                Platform.runLater(()->{MatchesTable.setItems(obsList);});
 
                 //setLogos
                 MatchService.setLogos(url,obsList);
-                Platform.runLater(() -> liveTable.refresh());
+                Platform.runLater(() -> MatchesTable.refresh());
                 return null;
             }
         };
@@ -243,12 +241,14 @@ public class HomeController implements Initializable {
     @FXML
     private void onRowClicked()
     {
-        Match selectedMatch = liveTable.getSelectionModel().getSelectedItem();
+        Match selectedMatch = MatchesTable.getSelectionModel().getSelectedItem();
         if (selectedMatch != null) {
             showAlertt("Match Details",
                     "Home Team: " + selectedMatch.getHomeTeam() + "\n" +
                             "Away Team: " + selectedMatch.getAwayTeam() + "\n" +
-                            "Status: " + selectedMatch.getStatus());
+                            "Status: " + selectedMatch.getStatus()+"\n"+
+                            selectedMatch.getLeague()+"\n"+
+                            selectedMatch.getRound());
         }
     }
     private void showAlertt(String title, String msg) {
@@ -262,4 +262,25 @@ public class HomeController implements Initializable {
 
     }
 
+    @FXML
+    void searchWithDate(ActionEvent event) {
+        String date = null;
+        try {
+             date = datePicker.getValue().toString();
+        }catch (Exception e){
+            showAlert("No Date Selected","Please Select date First!");
+        }
+        if(date!=null){
+            String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
+            String league = leaguesBox.getSelectionModel().getSelectedItem();
+            if(league!=null){
+                int leagueId = leaguesMap.get(league);
+                url+= "&"+service.LEAGUE_ID+"="+leagueId;
+            }
+            setMatchesTable(url);
+        }
+
+
+        //setTable("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152");
+    }
 }

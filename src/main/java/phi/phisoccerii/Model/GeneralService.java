@@ -27,6 +27,10 @@ public class GeneralService {
     private static Properties prop;
     //private String LEAGUES, TEAMS, PLAYERS;
 
+    //API parameters
+    public final String LIVE = "Livescore"
+            ,FIXTURES = "Fixtures"
+            ,LEAGUE_ID = "leagueId";
     public GeneralService()
     {
         setProp();
