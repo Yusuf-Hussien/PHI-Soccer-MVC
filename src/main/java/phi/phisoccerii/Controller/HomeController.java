@@ -285,6 +285,7 @@ public class HomeController implements Initializable {
 
     @FXML
     void searchWithDate(ActionEvent event) {
+        liveBtn.setSelected(false);
         String date = null;
         try {
              date = datePicker.getValue().toString();

@@ -112,7 +112,7 @@ public class GeneralService {
 
 
     private static Boolean isFailed=false;
-    public static JSONObject fetchData(String link)
+    /*public static JSONObject fetchData(String link)
     {
         HttpClient client;
         HttpRequest request;
@@ -146,7 +146,34 @@ public class GeneralService {
         }
         if(response==null || response.statusCode()>299) return null;
         return jsonResponse;
+    }*/
+    public static JSONObject fetchData(String link)
+    {
+        HttpClient client;
+        HttpRequest request;
+        HttpResponse<String> response=null;
+        JSONObject jsonResponse = null;
+        try{
+                client = HttpClient.newHttpClient();
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(link))
+                        .GET()
+                        .build();
+                response = client.send(request,HttpResponse.BodyHandlers.ofString());
+                jsonResponse = new JSONObject(response.body());
+                cached.put(link,jsonResponse);
+
+        }catch (IOException e){
+            //System.out.println("Failed To Connect");
+                Platform.runLater(()->{showAlert("Connection Failed","Check Ur network!");});
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if(response==null || response.statusCode()>299) return null;
+        return jsonResponse;
     }
+
     // Extra Services
 
 
