@@ -84,7 +84,7 @@ public class TeamService {
         int lose = JSONteam.getInt("standing_L");
         String logoURL = JSONteam.get("team_logo").toString();
         //ImageView logo = new ImageView(new Image(logoURL,30,30,true,true)); //noise
-        ImageView logo = new ImageView(new Image(logoURL));
+        ImageView logo = new ImageView(new Image(logoURL,true));
         logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
 
         name = name.equals("Israel")? "Shit" : name;

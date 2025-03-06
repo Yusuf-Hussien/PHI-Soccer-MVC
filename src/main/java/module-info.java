@@ -7,6 +7,7 @@ module phi.phisoccerii {
     requires org.json;
     requires java.net.http;
     requires javafx.graphics;
+    requires com.fasterxml.jackson.databind;
 
     opens phi.phisoccerii to javafx.fxml;
     exports phi.phisoccerii;

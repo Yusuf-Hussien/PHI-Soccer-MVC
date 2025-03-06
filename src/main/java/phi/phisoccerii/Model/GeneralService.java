@@ -1,5 +1,9 @@
 package phi.phisoccerii.Model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
@@ -21,6 +25,9 @@ import java.net.http.HttpResponse;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static phi.phisoccerii.Model.team.TeamService.getJSONarr;
 
@@ -147,7 +154,36 @@ public class GeneralService {
         if(response==null || response.statusCode()>299) return null;
         return jsonResponse;
     }
-    // Extra Services
 
 
+
+
+
+
+
+
+
+
+
+    private static final HttpClient CLIENT = HttpClient.newHttpClient();
+    private static final Map<String , JsonNode>cache = new ConcurrentHashMap<>();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    public static CompletableFuture<JsonNode> fetchDataAsync(String url)
+    {
+        if(cache.containsKey(url)) return CompletableFuture.completedFuture(cache.get(url));
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+        return CLIENT.sendAsync(request,HttpResponse.BodyHandlers.ofString())
+                .thenApply(response->{
+                    try {
+                        JsonNode json = OBJECT_MAPPER.readTree(response.body());
+                        if (json!=null) cache.put(url,json);
+                        return json;
+                    } catch (Exception e) {
+                        System.out.println("Error fetching Data!");
+                        return null;
+                    }
+                });
+    }
 }

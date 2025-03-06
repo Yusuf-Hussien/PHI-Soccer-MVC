@@ -1,5 +1,6 @@
 package phi.phisoccerii.Model.league;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import javafx.concurrent.Task;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,21 +10,11 @@ import phi.phisoccerii.Model.team.TeamService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class LeagueService {
     //private HashMap<String , String>leagues;
 
-
-    public Task<List<League>>getLeaguesAsync(String url)
-    {
-        new Task<List<League>>(){
-            @Override
-            protected List<League> call() throws Exception {
-                return List.of();
-            }
-        };
-        return null;
-    }
 
 
     public static HashMap<String , Integer>getLeaguesMap(List<League> leagues)
@@ -74,4 +65,44 @@ public class LeagueService {
 
         return new League(name+" -"+country , id);
     }
+
+
+
+
+
+
+    public static CompletableFuture<List<League>> getLeaguesAsync(String url)
+    {
+        return GeneralService.fetchDataAsync(url).thenApply(jsonNode -> {
+           if(jsonNode==null || !jsonNode.has("result"))
+           {
+               System.out.println("Error getting Leagues Check League Service class!");
+               return List.of();
+           }
+           return getLeagues(jsonNode.get("result"));
+        });
+    }
+
+    private static List<League>getLeagues(JsonNode arr)
+    {
+        if (!arr.isArray()) return List.of();
+        List<League>leagues = new ArrayList<>();
+        for(JsonNode node: arr)
+        {
+            League league = getLeague(node);
+            leagues.add(league);
+        }
+        return leagues;
+    }
+
+    private static League getLeague(JsonNode node)
+    {
+        String name = node.get("league_name").asText();
+        String country = node.get("country_name").asText();
+        int id = node.get("league_key").asInt();
+
+        return new League(name+" -"+country , id);
+    }
+
+
 }

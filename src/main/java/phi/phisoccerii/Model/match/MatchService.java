@@ -71,7 +71,7 @@ public class MatchService {
     {
         String team = teamType+"_team_logo";
         String url = obj.isNull(team)? null : obj.getString(team);
-        ImageView logo = url==null? defaultLogo:new ImageView(new Image(url));
+        ImageView logo = url==null? defaultLogo:new ImageView(new Image(url,true));
         logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
         return logo;
     }
