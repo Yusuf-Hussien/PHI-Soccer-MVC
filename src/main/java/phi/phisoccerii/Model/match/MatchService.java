@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
+import phi.phisoccerii.Model.goal.Goal;
+import phi.phisoccerii.Model.goal.GoalService;
 import phi.phisoccerii.Model.league.League;
 
 import java.time.LocalDate;
@@ -107,6 +109,8 @@ public class MatchService {
         String leagueName = matchJson.getString("league_name");
         String country = matchJson.getString("country_name");
         String round = matchJson.getString("league_round");
+        JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
+        List<Goal> goals = GoalService.getGoals(goalsJsonArr);
         /*String homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
         String awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
         ImageView homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL));
@@ -114,7 +118,7 @@ public class MatchService {
         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);*/
 
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,null,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,null,null,goals);
     }
 
     private static final GeneralService service = new GeneralService();

@@ -1,6 +1,7 @@
 package phi.phisoccerii;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -26,6 +27,7 @@ public class App extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(e->{Platform.exit();});
     }
 
     public static void main(String[] args) {
@@ -41,6 +43,7 @@ public class App extends Application {
 
         //System.out.println(GeneralService.from24Hto12H("22:05"));
         launch();
+        //Thread.currentThread().stop();
 
     }
 }

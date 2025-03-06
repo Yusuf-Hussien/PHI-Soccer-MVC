@@ -28,5 +28,13 @@ public class Goal {
     public String getScore() {
         return score;
     }
+    @Override
+    public String toString()
+    {
+        return "Scorer: "+soccer+
+                "\nAssist: "+assist+
+                "\nTime: "+time+
+                "\nScore: "+score+"\n\n";
+    }
 
 }

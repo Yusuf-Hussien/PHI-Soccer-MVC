@@ -1,8 +1,10 @@
 package phi.phisoccerii.Model;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.App;
@@ -18,16 +20,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 import static phi.phisoccerii.Model.team.TeamService.getJSONarr;
 
 public class GeneralService {
     private static Properties prop;
     //private String LEAGUES, TEAMS, PLAYERS;
+
+   // private static final HttpClient client =HttpClient.newHttpClient();
+    private static final HashMap<String ,JSONObject> cached = new HashMap<>();
 
     //API parameters
     public final String LIVE = "Livescore"
@@ -99,25 +101,51 @@ public class GeneralService {
         obsList.addAll(list);
         return obsList;
     }
+
+    public static void showAlert(String title,String msg)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+
+    private static Boolean isFailed=false;
     public static JSONObject fetchData(String link)
     {
         HttpClient client;
         HttpRequest request;
         HttpResponse<String> response=null;
+        JSONObject jsonResponse = null;
         try{
+            if(false && cached.containsKey(link) && cached.get(link)!=null )
+            {
+                jsonResponse = cached.get(link);
+                System.out.println("Cached");
+            }
+            else {
             client = HttpClient.newHttpClient();
             request = HttpRequest.newBuilder()
                     .uri(URI.create(link))
                     .GET()
                     .build();
             response = client.send(request,HttpResponse.BodyHandlers.ofString());
+            jsonResponse = new JSONObject(response.body());
+            cached.put(link,jsonResponse);
+            }
         }catch (IOException e){
-            System.out.println("Failed To Connect");
+            //System.out.println("Failed To Connect");
+            if(!isFailed)
+            {
+            Platform.runLater(()->{showAlert("Connection Failed","Check Ur network!");});
+            isFailed=true;
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         if(response==null || response.statusCode()>299) return null;
-        return new JSONObject(response.body());
+        return jsonResponse;
     }
     // Extra Services
 

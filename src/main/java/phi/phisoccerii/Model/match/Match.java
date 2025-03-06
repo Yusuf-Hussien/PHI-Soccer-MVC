@@ -18,6 +18,7 @@ public class Match {
     private String round;
     private String status;
     private String  time;
+    List<Goal> goals;
     private SimpleObjectProperty<ImageView> homeLogo;
     private SimpleObjectProperty<ImageView> awayLogo;
 
@@ -27,7 +28,7 @@ public class Match {
     // private String score;
     //private List<Palyer>homeTeamLineUp;
 
-    public Match(String homeTeam, String status,String time,String score, String awayTeam, String league, String round, ImageView homeLogo, ImageView awayLogo) {
+    public Match(String homeTeam, String status,String time,String score, String awayTeam, String league, String round, ImageView homeLogo, ImageView awayLogo,List<Goal> goals) {
         this.homeTeam = homeTeam;
         this.status = status;
         this.time = time;
@@ -35,6 +36,7 @@ public class Match {
         this.awayTeam = awayTeam;
         this.league = league;
         this.round = round;
+        this.goals = goals;
         this.homeLogo = new SimpleObjectProperty<>(homeLogo);
         this.awayLogo = new SimpleObjectProperty<>(awayLogo);
     }
@@ -65,6 +67,10 @@ public class Match {
 
     public String getScore() {
         return score;
+    }
+
+    public List<Goal> getGoals() {
+        return goals;
     }
 
     public ImageView getHomeLogo() {

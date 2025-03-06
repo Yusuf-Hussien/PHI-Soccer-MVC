@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static phi.phisoccerii.Model.GeneralService.showAlert;
+
 public class HomeController implements Initializable {
     private FXMLLoader loader;
     private Stage stage;
@@ -163,13 +165,7 @@ public class HomeController implements Initializable {
         }
         return true;
     }
-    private void showAlert(String title,String msg)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(msg);
-        alert.showAndWait();
-    }
+
 
     private void setMap()
     {
@@ -272,7 +268,8 @@ public class HomeController implements Initializable {
                             "Away Team: " + selectedMatch.getAwayTeam() + "\n" +
                             "Status: " + selectedMatch.getStatus()+"\n"+
                             selectedMatch.getLeague()+"\n"+
-                            selectedMatch.getRound());
+                            selectedMatch.getRound()+"\n"+
+                            "Goals: "+selectedMatch.getGoals());
         }
     }
     private void showAlertt(String title, String msg) {
