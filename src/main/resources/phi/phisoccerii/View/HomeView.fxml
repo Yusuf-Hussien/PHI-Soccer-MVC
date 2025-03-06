@@ -38,7 +38,7 @@
             <TableColumn fx:id="awayTeam" minWidth="0.0" prefWidth="247.2000732421875" style="-fx-background-radius: 7; -fx-alignment: CENTER;" text="Away" />
         </columns>
       </TableView>
-      <DatePicker fx:id="datePicker" layoutX="400.0" layoutY="108.0" prefHeight="36.0" prefWidth="19.0" AnchorPane.leftAnchor="400.0" />
+      <DatePicker fx:id="datePicker" layoutX="344.0" layoutY="108.0" prefHeight="36.0" prefWidth="106.0" AnchorPane.leftAnchor="344.0" />
       <ComboBox fx:id="leaguesBox" editable="true" layoutX="486.0" layoutY="108.0" prefHeight="36.0" prefWidth="218.0" promptText="Select League if you need" style="-fx-background-radius: 7;" AnchorPane.rightAnchor="215.0" />
       <Button defaultButton="true" layoutX="695.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="36.0" prefWidth="106.0" text="OK">
          <opaqueInsets>
@@ -46,7 +46,7 @@
          </opaqueInsets>
       </Button>
       <CheckBox fx:id="liveBtn" layoutX="110.0" layoutY="117.0" mnemonicParsing="false" onAction="#checkIsLive" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
-      <TextField layoutX="23.0" layoutY="153.0" prefHeight="36.0" prefWidth="140.0" promptText="Search for Match " />
+      <TextField fx:id="matchSearchBar" layoutX="23.0" layoutY="153.0" prefHeight="36.0" prefWidth="140.0" promptText="Search for Match " />
       <Label layoutX="432.0" layoutY="171.0" style="-fx-text-fill: black;" text="Today">
          <font>
             <Font size="16.0" />

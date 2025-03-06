@@ -30,6 +30,7 @@ import phi.phisoccerii.Model.team.Team;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -49,6 +50,7 @@ public class HomeController implements Initializable {
     private List<Team>teamsList;
 
     private ObservableList<String>leaguesObsList;
+    ObservableList<Match>matchesObsList;
     private ObservableList<String>teamsObsList;
 
     private Map<String,Integer> leaguesMap;
@@ -57,6 +59,7 @@ public class HomeController implements Initializable {
     private FilteredList<String> leaguesFilList;
     private FilteredList<String> leaguesForMatchFilList;
     private FilteredList<String> teamsFilList;
+    private FilteredList<Match>matcheFilList;
 
     private final GeneralService service = new GeneralService();
 
@@ -70,6 +73,8 @@ public class HomeController implements Initializable {
     @FXML private TableView<Match> MatchesTable;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<String> leaguesBox;
+    @FXML private TextField matchSearchBar;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,9 +102,18 @@ public class HomeController implements Initializable {
 
 
     @FXML
+
+
+
+
+
     void checkIsLive(ActionEvent event) {
         if(liveBtn.isSelected())
+        {
             setMatchesTable(service.getURL(service.LIVE));
+            datePicker.setValue(LocalDate.now());
+            leaguesBox.setValue("");
+        }
         else
         {
             String date = null;
@@ -199,6 +213,24 @@ public class HomeController implements Initializable {
         homeLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
         awayLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
 
+
+        matchSearchBar.textProperty().addListener(((observable, oldValue, newValue) ->
+        {
+            matcheFilList.setPredicate(match->{
+                if(newValue.isEmpty() || newValue.isBlank() || newValue==null) return true;
+                String keyWord = newValue.toLowerCase();
+                if(match.getHomeTeam().toLowerCase().contains(keyWord)) return true;
+                else if(match.getAwayTeam().toLowerCase().contains(keyWord))return true;
+                else if(match.getTime().toLowerCase().contains(keyWord))return true;
+                else if(match.getStatus().toLowerCase().contains(keyWord))return true;
+                else if(match.getScore().toLowerCase().contains(keyWord))return true;
+                else if(match.getLeague().toLowerCase().contains(keyWord))return true;
+                else if(match.getRound().toLowerCase().contains(keyWord))return true;
+                else return false;
+            });
+
+        }));
+
     }
     private void setMatchesTable(String url)
     {
@@ -206,11 +238,12 @@ public class HomeController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 List<Match>matches = MatchService.getMatches(url);
-                ObservableList<Match>obsList = FXCollections.observableArrayList(matches);
-                Platform.runLater(()->{MatchesTable.setItems(obsList);});
+                matchesObsList = FXCollections.observableArrayList(matches);
+                matcheFilList = new FilteredList<>(matchesObsList);
+                Platform.runLater(()->{MatchesTable.setItems(matcheFilList);});
 
                 //setLogos
-                MatchService.setLogos(url,obsList);
+                MatchService.setLogos(url,matchesObsList);
                 Platform.runLater(() -> MatchesTable.refresh());
                 return null;
             }
@@ -285,6 +318,7 @@ public class HomeController implements Initializable {
 
     @FXML
     void searchWithDate(ActionEvent event) {
+        liveBtn.setSelected(false);
         String date = null;
         try {
              date = datePicker.getValue().toString();
