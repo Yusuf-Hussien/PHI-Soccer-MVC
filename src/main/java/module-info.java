@@ -6,7 +6,7 @@ module phi.phisoccerii {
     requires org.kordamp.bootstrapfx.core;
     requires org.json;
     requires java.net.http;
-    requires java.desktop;
+    requires javafx.graphics;
 
     opens phi.phisoccerii to javafx.fxml;
     exports phi.phisoccerii;
