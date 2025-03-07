@@ -34,8 +34,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import static phi.phisoccerii.Model.GeneralService.showAlert;
+import static phi.phisoccerii.Model.match.MatchService.*;
 
 public class HomeController implements Initializable {
     private FXMLLoader loader;
@@ -50,7 +53,7 @@ public class HomeController implements Initializable {
     private List<Team>teamsList;
 
     private ObservableList<String>leaguesObsList;
-    ObservableList<Match>matchesObsList;
+    ObservableList<Match>matchesObsList =FXCollections.observableArrayList();;
     private ObservableList<String>teamsObsList;
 
     private Map<String,Integer> leaguesMap;
@@ -232,7 +235,34 @@ public class HomeController implements Initializable {
         }));
 
     }
-    private void setMatchesTable(String url)
+    private void setMatchesTable(String url) {
+        matchesObsList.clear();
+        MatchesTable.refresh();
+        matcheFilList = new FilteredList<>(matchesObsList, p -> true);
+        MatchesTable.setItems(matcheFilList);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject response = GeneralService.fetchData(url);
+                JSONArray arr = response.getJSONArray("result");
+                for(int i =0 ;i<arr.length();i++)
+                {
+                    Match match = getMatchWithLogosSync(arr.getJSONObject(i));
+                    //Match match = getMatchWithLogosAsync(arr.getJSONObject(i));
+                    Platform.runLater(() -> {
+                        matchesObsList.add(match);
+                        MatchesTable.refresh();
+                    });
+                }
+                return null;
+                }
+        };
+        new Thread(task).start();
+    }
+
+
+    private void setMatchesTable0(String url)
     {
         Task<Void>task = new Task<Void>() {
             @Override

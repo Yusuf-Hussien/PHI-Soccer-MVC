@@ -1,7 +1,10 @@
 package phi.phisoccerii.Model.match;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.json.JSONArray;
@@ -20,6 +23,44 @@ import java.util.Date;
 import java.util.List;
 
 public class MatchService {
+
+
+    public static void fetchAndUpdateMatches(String url, ObservableList<Match>matchesObsList, TableView<Match>matchTable)
+    {
+        if (matchesObsList == null) {
+            System.out.println("matchesObsList is NULL! Initialize it in HomeController.");
+            return;
+        }
+        Platform.runLater(()->{matchesObsList.clear();});
+        Task<Void>task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject response = GeneralService.fetchData(url);
+                if (response==null) return null;
+
+                JSONArray matchesArr;
+                try {
+                    matchesArr = response.getJSONArray("result");
+                }catch (Exception e){
+                    System.out.println("There is No Matches!");
+                    return null;
+                }
+
+                for (int i=0;i<matchesArr.length();i++)
+                {
+                    JSONObject matchJson = matchesArr.getJSONObject(i);
+                    Match match = getMatch(matchJson);
+
+                    Platform.runLater(()->{
+                        matchesObsList.add(match);
+                        matchTable.refresh();
+                    });
+                }
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
 
     private static ImageView defaultLogo = new ImageView(new Image(App.class.getResourceAsStream("logo.png")));
 
@@ -58,7 +99,7 @@ public class MatchService {
         }
         return logos;
     }
-    private static List<ImageView>getMatchLogos(JSONObject obj)
+    public static List<ImageView>getMatchLogos(JSONObject obj)
     {
         ImageView homeLogo = getLogo(obj,"home");
         ImageView awayLogo = getLogo(obj,"away");
@@ -101,7 +142,7 @@ public class MatchService {
         }
         return matches;
     }
-    private static Match getMatch(JSONObject matchJson)
+    public static Match getMatch(JSONObject matchJson)
     {
         String homeTeam = matchJson.getString("event_home_team");
         String awayTeam = matchJson.getString("event_away_team");
@@ -122,6 +163,51 @@ public class MatchService {
         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);*/
 
         return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,null,null,null);
+    }
+
+    public static Match getMatchWithLogosSync(JSONObject matchJson)
+    {
+        String homeTeam = matchJson.getString("event_home_team");
+        String awayTeam = matchJson.getString("event_away_team");
+        String status = matchJson.getString("event_status");
+        String time = matchJson.getString("event_time");
+        String score = matchJson.getString("event_final_result");
+        String leagueName = matchJson.getString("league_name");
+        String country = matchJson.getString("country_name");
+        String round = matchJson.getString("league_round");
+        //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
+        //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
+
+        String homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
+        String awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
+        ImageView homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL));
+        ImageView awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL));
+        homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
+        awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
+
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,homeLogo,awayLogo,null);
+    }
+    public static Match getMatchWithLogosAsync(JSONObject matchJson)
+    {
+        String homeTeam = matchJson.getString("event_home_team");
+        String awayTeam = matchJson.getString("event_away_team");
+        String status = matchJson.getString("event_status");
+        String time = matchJson.getString("event_time");
+        String score = matchJson.getString("event_final_result");
+        String leagueName = matchJson.getString("league_name");
+        String country = matchJson.getString("country_name");
+        String round = matchJson.getString("league_round");
+        //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
+        //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
+
+        String homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
+        String awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
+        ImageView homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,true));
+        ImageView awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,true));
+        homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
+        awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
+
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,homeLogo,awayLogo,null);
     }
 
     private static final GeneralService service = new GeneralService();
