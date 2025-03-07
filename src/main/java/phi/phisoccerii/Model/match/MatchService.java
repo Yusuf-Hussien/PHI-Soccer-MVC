@@ -3,6 +3,7 @@ package phi.phisoccerii.Model.match;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -62,7 +63,7 @@ public class MatchService {
         new Thread(task).start();
     }
 
-    private static ImageView defaultLogo = new ImageView(new Image(App.class.getResourceAsStream("logo.png")));
+    public static ImageView defaultLogo = new ImageView(new Image(App.class.getResourceAsStream("logo.png")));
 
     public static void setLogos(String url, ObservableList<Match>matches)
     {
@@ -117,6 +118,39 @@ public class MatchService {
         return logo;
     }
 
+    private static Task<Void>currentTask=null;
+
+    public static void getMatches1by1(String url, ObservableList<Match>matchesObsList ,FilteredList<Match>matcheFilList, TableView<Match>matchesTable)
+    {
+        if(currentTask!=null && currentTask.isRunning()) currentTask.cancel();
+
+        matchesObsList.clear();
+        matchesTable.refresh();
+        matcheFilList = new FilteredList<>(matchesObsList, p -> true);
+        matchesTable.setItems(matcheFilList);
+
+        currentTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject response = GeneralService.fetchData(url);
+                JSONArray arr = response.getJSONArray("result");
+                for(int i =0 ;i<arr.length();i++)
+                {
+                    if(isCancelled()) break;
+                    Match match = getMatch(arr.getJSONObject(i),true,false);
+                    Platform.runLater(() -> {
+                        if(!isCancelled())
+                        {
+                            matchesObsList.add(match);
+                            matchesTable.refresh();
+                        }
+                    });
+                }
+                return null;
+            }
+        };
+        new Thread(currentTask).start();
+    }
 
     public static List<Match> getMatches(String url)
     {
@@ -165,7 +199,7 @@ public class MatchService {
         return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,null,null,null);
     }
 
-    public static Match getMatchWithLogosSync(JSONObject matchJson)
+    public static Match getMatch(JSONObject matchJson, boolean logo, boolean async)
     {
         String homeTeam = matchJson.getString("event_home_team");
         String awayTeam = matchJson.getString("event_away_team");
@@ -178,35 +212,19 @@ public class MatchService {
         //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
         //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
 
-        String homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
-        String awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
-        ImageView homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL));
-        ImageView awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL));
-        homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
-        awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
-
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,homeLogo,awayLogo,null);
-    }
-    public static Match getMatchWithLogosAsync(JSONObject matchJson)
-    {
-        String homeTeam = matchJson.getString("event_home_team");
-        String awayTeam = matchJson.getString("event_away_team");
-        String status = matchJson.getString("event_status");
-        String time = matchJson.getString("event_time");
-        String score = matchJson.getString("event_final_result");
-        String leagueName = matchJson.getString("league_name");
-        String country = matchJson.getString("country_name");
-        String round = matchJson.getString("league_round");
-        //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
-        //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
-
-        String homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
-        String awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
-        ImageView homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,true));
-        ImageView awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,true));
-        homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
-        awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
-
+        String homeLogoURL = null;
+        String awayLogoURL = null;
+        ImageView homeLogo = null;
+        ImageView awayLogo = null;
+        if(logo)
+        {
+         homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
+         awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
+         homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,async));
+         awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,async));
+         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
+         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
+        }
         return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,homeLogo,awayLogo,null);
     }
 

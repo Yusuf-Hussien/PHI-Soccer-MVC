@@ -17,11 +17,11 @@ public class LeagueService {
 
 
 
-    public static HashMap<String , Integer>getLeaguesMap(List<League> leagues)
+    public static HashMap<String , League>getLeaguesMap(List<League> leagues)
     {
-        HashMap<String , Integer>leaguesMap=new HashMap<>();
+        HashMap<String , League>leaguesMap=new HashMap<>();
         for(League league : leagues)
-            leaguesMap.put(league.getName(),league.getId());
+            leaguesMap.put(league.getName(),league);
         return leaguesMap;
     }
 
@@ -62,8 +62,10 @@ public class LeagueService {
         String name = obj.getString("league_name");
         String country = obj.getString("country_name");
         int id = obj.getInt("league_key");
+        //String logoUrl = obj.getString("league_logo");
+        String logoUrl = obj.isNull("league_logo") ? "logo.png" : obj.getString("league_logo");
 
-        return new League(name+" -"+country , id);
+        return new League(name+" -"+country , id,logoUrl);
     }
 
 
@@ -101,7 +103,7 @@ public class LeagueService {
         String country = node.get("country_name").asText();
         int id = node.get("league_key").asInt();
 
-        return new League(name+" -"+country , id);
+        return new League(name+" -"+country , id,"");
     }
 
 

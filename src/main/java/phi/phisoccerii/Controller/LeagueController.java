@@ -11,16 +11,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.LinksModel;
@@ -32,6 +33,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static phi.phisoccerii.Model.GeneralService.fetchData;
+import static phi.phisoccerii.Model.GeneralService.showAlert;
+import static phi.phisoccerii.Model.team.TeamService.getTeam;
 
 public class LeagueController implements Initializable {
 
@@ -53,9 +58,10 @@ public class LeagueController implements Initializable {
     @FXML private BorderPane contentPane;
 
     @FXML private Label leagueNameLab;
+    @FXML private ImageView leagueLogo;
 
-    private int leagueId;
     private League league;
+    private ObservableList<Team>standingObsList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -95,7 +101,6 @@ public class LeagueController implements Initializable {
         logoCol.setCellValueFactory(new PropertyValueFactory<>("logo"));
         teamCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         playedCol.setCellValueFactory(new PropertyValueFactory<>("matches"));
-        playedCol.setCellValueFactory(new PropertyValueFactory<>("points"));
         GDCol.setCellValueFactory(new PropertyValueFactory<>("goalDiff"));
         winCol.setCellValueFactory(new PropertyValueFactory<>("win"));
         drawCol.setCellValueFactory(new PropertyValueFactory<>("draw"));
@@ -103,13 +108,19 @@ public class LeagueController implements Initializable {
         pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
     }
 
-    public void setCells()
+    public void setCells(boolean oneBYone,boolean async)
+    {
+        if(oneBYone) setCells1by1(async);
+        else setCellsAll(async);
+    }
+
+    public void setCellsAll(boolean async)
     {
         declareStandingTable();
         Task<ObservableList<Team>>task = new Task<ObservableList<Team>>() {
             @Override
             protected ObservableList<Team> call() throws Exception {
-                ObservableList<Team>obsList = getObsList(service.getLeagueRoutes(leagueId ,"Standings" ));
+                ObservableList<Team>obsList = getObsList(service.getLeagueRoutes(league.getId() ,"Standings" ));
                 return obsList;
             }
         };
@@ -117,6 +128,41 @@ public class LeagueController implements Initializable {
 
         new Thread(task).start();
     }
+
+    public void setCells1by1(boolean async)
+    {
+        declareStandingTable();
+        standingObsList = FXCollections.observableArrayList();
+        standingTable.setItems(standingObsList);
+
+        Task<Void>task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject json = fetchData(service.getLeagueRoutes(league.getId() ,"Standings" ));
+                JSONObject result=null;
+                try {
+                    result = json.getJSONObject("result");
+                }catch (Exception e){
+                    //System.out.println("No Live Matches Now!");
+                    System.out.println("ERROR GETTING TEAMS!!!!!!!!!!!\n ----Check TeamService Class----");
+                }
+                if (result == null) return null;
+                JSONArray total = result.getJSONArray("total");
+                for (int i=0 ;i<total.length();i++)
+                {
+                    Team team = getTeam(total.getJSONObject(i),async);  //Flag for Async
+                    Platform.runLater(()->{
+                        standingObsList.add(team);
+                        standingTable.refresh();
+                    });
+                }
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
     private ObservableList<Team> getObsList(String link)
     {
         List<Team> list= TeamService.getTeams(link);
@@ -137,15 +183,15 @@ public class LeagueController implements Initializable {
        // contentPane.getChildren().removeAll();
         //contentPane.getChildren().add(root);
     }
-    private void setLeagueId(int leagueId)
-    {
-        this.leagueId = leagueId;
-    }
+
+
     public void setLeague(League league)
     {
         this.league = league;
-        setLeagueId(league.getId());
         leagueNameLab.setText(league.getName());
+        league.setLogo();
+        leagueLogo.setImage(league.getLogo());
+        //leagueLogo.setFitHeight(80);leagueLogo.setFitWidth(80);leagueLogo.setPreserveRatio(true);
     }
 
     @FXML void Back(ActionEvent event) throws IOException {
@@ -157,5 +203,10 @@ public class LeagueController implements Initializable {
         stage.setTitle("PHI Soccer");
         stage.show();
 
+    }
+
+    @FXML
+    void showPHIinfo(MouseEvent event) {
+        // load fxml node to new stage shoes my linkedin ang that project github repo
     }
 }

@@ -65,13 +65,13 @@ public class TeamService {
         for(int i =0 ;i<arr.length();i++)
         {
             JSONObject JSONteam = arr.getJSONObject(i);
-            Team team = getTeam(JSONteam);
+            Team team = getTeam(JSONteam,true);
             result.add(team);
         }
         return result;
     }
 
-    private static Team getTeam(JSONObject JSONteam)
+    public static Team getTeam(JSONObject JSONteam,boolean async)
     {
         String name = JSONteam.get("standing_team").toString();
         int id = JSONteam.getInt("team_key");
@@ -84,7 +84,7 @@ public class TeamService {
         int lose = JSONteam.getInt("standing_L");
         String logoURL = JSONteam.get("team_logo").toString();
         //ImageView logo = new ImageView(new Image(logoURL,30,30,true,true)); //noise
-        ImageView logo = new ImageView(new Image(logoURL,true));
+        ImageView logo = new ImageView(new Image(logoURL,async));
         logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
 
         name = name.equals("Israel")? "Shit" : name;

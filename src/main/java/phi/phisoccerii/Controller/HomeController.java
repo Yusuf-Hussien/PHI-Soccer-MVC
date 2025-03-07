@@ -31,7 +31,9 @@ import phi.phisoccerii.Model.team.Team;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.json.JSONArray;
@@ -52,19 +54,21 @@ public class HomeController implements Initializable {
     private List<League>leaguesList;
     private List<Team>teamsList;
 
-    private ObservableList<String>leaguesObsList;
-    ObservableList<Match>matchesObsList =FXCollections.observableArrayList();;
+    private static ObservableList<String>leaguesObsList=FXCollections.observableArrayList();
+    private ObservableList<Match>matchesObsList =FXCollections.observableArrayList();
     private ObservableList<String>teamsObsList;
 
-    private Map<String,Integer> leaguesMap;
+    private static Map<String,League> leaguesMap=null;
     private Map<String,Integer> teamsMap;
 
     private FilteredList<String> leaguesFilList;
     private FilteredList<String> leaguesForMatchFilList;
     private FilteredList<String> teamsFilList;
-    private FilteredList<Match>matcheFilList;
+    private FilteredList<Match> matchesFilList;
 
     private final GeneralService service = new GeneralService();
+
+    private boolean asyncLogo = true, oneBYone=true;
 
     @FXML private CheckBox liveBtn;
     @FXML private ComboBox<String> searchBox;
@@ -81,10 +85,16 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setDatePicker();
         MatchesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         setListsAsync();
         declareMatchesTable();
-        setMatchesTable(service.getURL(service.LIVE));
+        setMatchesTable(service.getURL(service.LIVE),asyncLogo);
+    }
+
+    public static void restoreLists()
+    {
+
     }
 
     @FXML
@@ -94,26 +104,23 @@ public class HomeController implements Initializable {
         else
         {
         String leagueName = searchBox.getSelectionModel().getSelectedItem();
-        int leagueId = leaguesMap.get(leagueName);
-        League league = new League(leagueName,leagueId);
+        League league = leaguesMap.get(leagueName);
+        int leagueId = league.getId();
+        //League league = new League(leagueName,leagueId);
         switchScene(event,"League");
         LeagueController controller2 = loader.getController();
                     controller2.setLeague(league);
-                    controller2.setCells();
+                    controller2.setCells(true,true);
         }
     }
 
 
+
     @FXML
-
-
-
-
-
     void checkIsLive(ActionEvent event) {
         if(liveBtn.isSelected())
         {
-            setMatchesTable(service.getURL(service.LIVE));
+            setMatchesTable(service.getURL(service.LIVE),asyncLogo);
             datePicker.setValue(LocalDate.now());
             leaguesBox.setValue("");
         }
@@ -124,7 +131,7 @@ public class HomeController implements Initializable {
              date =datePicker.getValue().toString();
             }catch (Exception e){}
             date = date==null? MatchService.getDayMatchesURL(0):date;
-            setMatchesTable(MatchService.getDayMatchesURL(date));
+            setMatchesTable(MatchService.getDayMatchesURL(date),asyncLogo);
         }
     }
 
@@ -136,8 +143,8 @@ public class HomeController implements Initializable {
                 updateMessage("Fetching league data...");
                 leaguesObsList = FXCollections.observableArrayList();
                 leaguesList = LeagueService.getLeagues(service.getURL("Leagues"));
-                //leaguesNamesList = LeagueService.getLeaguesNames(leaguesList);
-                leaguesNamesList =  leaguesList.parallelStream().map(League::getName).toList(); //faster
+               leaguesNamesList = LeagueService.getLeaguesNames(leaguesList);
+                //leaguesNamesList =  leaguesList.parallelStream().map(League::getName).toList(); //faster
                 leaguesObsList.addAll(leaguesNamesList);
                 leaguesFilList = new FilteredList<>(leaguesObsList,p->true);
                 leaguesForMatchFilList = new FilteredList<>(leaguesObsList,p->true);
@@ -217,9 +224,10 @@ public class HomeController implements Initializable {
         awayLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
 
 
+
         matchSearchBar.textProperty().addListener(((observable, oldValue, newValue) ->
         {
-            matcheFilList.setPredicate(match->{
+            matchesFilList.setPredicate(match->{
                 if(newValue.isEmpty() || newValue.isBlank() || newValue==null) return true;
                 String keyWord = newValue.toLowerCase();
                 if(match.getHomeTeam().toLowerCase().contains(keyWord)) return true;
@@ -235,42 +243,59 @@ public class HomeController implements Initializable {
         }));
 
     }
-    private void setMatchesTable(String url) {
+
+    private void setMatchesTable(String url,boolean oneBYone ,boolean async)
+    {
+        if(oneBYone)setMatchesTable(url,async);
+        else setMatchesTableAll(url);
+    }
+
+    private void setMatchesTable2(String url)
+    {
+        MatchService.getMatches1by1(url,matchesObsList, matchesFilList,MatchesTable);
+    }
+
+    private Task<Void>currentTask=null;
+    private void setMatchesTable(String url,boolean async) {
+        if(currentTask!=null && currentTask.isRunning()) currentTask.cancel();
+
         matchesObsList.clear();
         MatchesTable.refresh();
-        matcheFilList = new FilteredList<>(matchesObsList, p -> true);
-        MatchesTable.setItems(matcheFilList);
+        matchesFilList = new FilteredList<>(matchesObsList, p -> true);
+        MatchesTable.setItems(matchesFilList);
 
-        Task<Void> task = new Task<>() {
+        currentTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 JSONObject response = GeneralService.fetchData(url);
                 JSONArray arr = response.getJSONArray("result");
                 for(int i =0 ;i<arr.length();i++)
                 {
-                    Match match = getMatchWithLogosSync(arr.getJSONObject(i));
-                    //Match match = getMatchWithLogosAsync(arr.getJSONObject(i));
+                    if(isCancelled()) break;
+                    Match match = getMatch(arr.getJSONObject(i),true,async);
                     Platform.runLater(() -> {
-                        matchesObsList.add(match);
-                        MatchesTable.refresh();
+                        if(!isCancelled())
+                        {
+                            matchesObsList.add(match);
+                            MatchesTable.refresh();
+                        }
                     });
                 }
                 return null;
                 }
         };
-        new Thread(task).start();
+        new Thread(currentTask).start();
     }
 
-
-    private void setMatchesTable0(String url)
+    private void setMatchesTableAll(String url)
     {
         Task<Void>task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 List<Match>matches = MatchService.getMatches(url);
                 matchesObsList = FXCollections.observableArrayList(matches);
-                matcheFilList = new FilteredList<>(matchesObsList);
-                Platform.runLater(()->{MatchesTable.setItems(matcheFilList);});
+                matchesFilList = new FilteredList<>(matchesObsList);
+                Platform.runLater(()->{MatchesTable.setItems(matchesFilList);});
 
                 //setLogos
                 MatchService.setLogos(url,matchesObsList);
@@ -280,6 +305,7 @@ public class HomeController implements Initializable {
         };
         new Thread(task).start();
     }
+
     private void setMatchStatus()
     {
         status.setCellFactory(tc->new TableCell<>(){
@@ -346,6 +372,25 @@ public class HomeController implements Initializable {
 
     }
 
+    private void setDatePicker()
+    {
+        Locale.setDefault(Locale.ENGLISH);
+        // Set the DatePicker format to English
+        datePicker.setConverter(new javafx.util.StringConverter<java.time.LocalDate>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+
+            @Override
+            public String toString(java.time.LocalDate date) {
+                return (date != null) ? formatter.format(date) : "";
+            }
+
+            @Override
+            public java.time.LocalDate fromString(String string) {
+                return (string != null && !string.isEmpty()) ? java.time.LocalDate.parse(string, formatter) : null;
+            }
+        });
+    }
+
     @FXML
     void searchWithDate(ActionEvent event) {
         liveBtn.setSelected(false);
@@ -358,11 +403,11 @@ public class HomeController implements Initializable {
         if(date!=null){
             String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
             String league = leaguesBox.getSelectionModel().getSelectedItem();
-            if(league!=null){
-                int leagueId = leaguesMap.get(league);
+            if(league!=null && !league.isEmpty()){
+                int leagueId = leaguesMap.get(league).getId();
                 url+= "&"+service.LEAGUE_ID+"="+leagueId;
             }
-            setMatchesTable(url);
+            setMatchesTable(url,asyncLogo);
         }
         //setTable("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152");
     }

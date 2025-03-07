@@ -126,12 +126,7 @@ public class GeneralService {
         HttpResponse<String> response=null;
         JSONObject jsonResponse = null;
         try{
-            if(false && cached.containsKey(link) && cached.get(link)!=null )
-            {
-                jsonResponse = cached.get(link);
-                System.out.println("Cached");
-            }
-            else {
+
             client = HttpClient.newHttpClient();
             request = HttpRequest.newBuilder()
                     .uri(URI.create(link))
@@ -140,8 +135,14 @@ public class GeneralService {
             response = client.send(request,HttpResponse.BodyHandlers.ofString());
             jsonResponse = new JSONObject(response.body());
             cached.put(link,jsonResponse);
-            }
+
         }catch (IOException e){
+            if( cached.containsKey(link) && cached.get(link)!=null )
+            {
+                jsonResponse = cached.get(link);
+                System.out.println("Cached");
+                return jsonResponse;
+            }
             //System.out.println("Failed To Connect");
             if(!isFailed)
             {

@@ -3,6 +3,13 @@
     -fx-background-color: white; /*linear-gradient(to bottom, #1C2833, #17202A);*/
 }
 
+#PHI{
+         -fx-fill: #2ecc71;
+         -fx-font-size: 55px;
+         -fx-font-weight: bold;
+         -fx-effect: dropshadow(gaussian, black, 11, 0, 0, 0);
+}
+
 .text-field{
 -fx-font-size:14px;
 -fx-padding:8px;
@@ -282,3 +289,129 @@ box {
     -fx-shape: " ";
     -fx-padding: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Change the text field background color */
+.date-picker {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color:#ffffff;
+    -fx-border-radius: 5px;
+}
+
+/* Change the color of the calendar popup */
+.date-picker .popup-content {
+    -fx-background-color: #34495e;
+    -fx-border-color: #2ecc71;
+}
+
+/* Change the appearance of the selected date */
+.date-picker .cell:selected {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+/* Change the hover effect in the dropdown calendar */
+.date-picker .cell:hover {
+    -fx-background-color: #34495e;
+}
+
+/* Change the arrow button (dropdown) */
+.date-picker .arrow-button {
+    -fx-background-color:#2ecc71;
+    -fx-background-radius: 5px;
+}
+
+/* Change the color of the arrow inside the button */
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #34495e;
+}
+
+
+/* Change the header color */
+.date-picker .month-year-pane {
+    -fx-background-color:#2ecc71 ;
+}
+
+/* Change the week day labels */
+.date-picker .day-name-cell {
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+/* Ensure the selected day is fully styled */
+.date-picker .cell:focused {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+
+
+
+
+/* Style the CheckBox container */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+/* Style the CheckBox itself (unchecked state) */
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #2ecc71;
+    -fx-border-radius: 4px;
+    -fx-padding: 3px;
+    -fx-min-width: 16px;
+    -fx-min-height: 16px;
+}
+
+/* Style the CheckBox when hovered */
+.check-box:hover .box {
+    -fx-background-color: #34495e;
+}
+
+/* Style the CheckBox when checked */
+.check-box:selected .box {
+    -fx-background-color: #2ecc71;
+    -fx-border-color: #2ecc71;
+}
+
+/* Style the check mark */
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+
+
+.check-box .box {
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+}
+.check-box:selected .mark {
+    -fx-scale-x: 1.25;
+    -fx-scale-y: 1.25;
+}
+.check-box:focused {
+    -fx-effect: none;
+}
+
+
+
+
+
+
+
+
+
+
