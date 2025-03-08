@@ -414,4 +414,36 @@ box {
 
 
 
+.notPressed{
+-fx-background-color: white;
+    -fx-text-fill: #2ecc71;
+-fx-background-radius: 15px;
+
+}
+.notPressed:hover {
+    -fx-background-color: #e0f7fa; /* Light blue background on hover */
+    -fx-text-fill: #00796b; /* Darker green text on hover */
+}
+
+.pressed {
+    -fx-background-color:#2ecc71;
+    -fx-text-fill: white;
+
+         -fx-background-radius: 15px;
+
+}
+/*.pressed {
+      -fx-background-color:white;
+      -fx-text-fill: #45a049;
+
+       -fx-underline: true;
+  } */
+.pressed:hover {
+    -fx-background-color: white; /* Light blue background on hover */
+    -fx-text-fill: #00796b; /* Darker green text on hover */
+
+}
+
+
+
 

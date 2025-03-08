@@ -191,7 +191,7 @@ public class LeagueController implements Initializable {
         leagueNameLab.setText(league.getName());
         league.setLogo();
         leagueLogo.setImage(league.getLogo());
-        //leagueLogo.setFitHeight(80);leagueLogo.setFitWidth(80);leagueLogo.setPreserveRatio(true);
+        leagueLogo.setFitHeight(50);leagueLogo.setFitWidth(50);leagueLogo.setPreserveRatio(true);
     }
 
     @FXML void Back(ActionEvent event) throws IOException {

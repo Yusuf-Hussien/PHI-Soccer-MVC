@@ -68,7 +68,7 @@ public class HomeController implements Initializable {
 
     private final GeneralService service = new GeneralService();
 
-    private boolean asyncLogo = true, oneBYone=true;
+    private boolean asyncLogo = false, oneBYone=true;
 
     @FXML private CheckBox liveBtn;
     @FXML private ComboBox<String> searchBox;
@@ -82,6 +82,10 @@ public class HomeController implements Initializable {
     @FXML private ComboBox<String> leaguesBox;
     @FXML private TextField matchSearchBar;
 
+    @FXML private Button todaybtn;
+    @FXML private Button tomorrowbtn;
+    @FXML private Button yesterdaybtn;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,7 +93,10 @@ public class HomeController implements Initializable {
         MatchesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         setListsAsync();
         declareMatchesTable();
-        setMatchesTable(service.getURL(service.LIVE),asyncLogo);
+        setDateButtons();
+        //if(leaguesList.isEmpty())
+           setMatchesTable(service.getURL(service.LIVE),asyncLogo);
+        //else restoreLists();
     }
 
     public static void restoreLists()
@@ -99,6 +106,7 @@ public class HomeController implements Initializable {
 
     @FXML
     void searchForLeague(ActionEvent event) {
+        if (currButton!=null)currButton.getStyleClass().remove("pressed");
         if(!validateBox(searchBox))
             showAlert("invalid INPUT","Please Select Exist League");
         else
@@ -118,6 +126,7 @@ public class HomeController implements Initializable {
 
     @FXML
     void checkIsLive(ActionEvent event) {
+        if (currButton!=null)currButton.getStyleClass().remove("pressed");
         if(liveBtn.isSelected())
         {
             setMatchesTable(service.getURL(service.LIVE),asyncLogo);
@@ -410,5 +419,20 @@ public class HomeController implements Initializable {
             setMatchesTable(url,asyncLogo);
         }
         //setTable("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152");
+    }
+    private void setDateButtons()
+    {
+        yesterdaybtn.setOnAction(e->setDateButton(yesterdaybtn,-1));
+        todaybtn.setOnAction(e->setDateButton(todaybtn,0));
+        tomorrowbtn.setOnAction(e->setDateButton(tomorrowbtn,1));
+    }
+    private Button currButton = null;
+    private void setDateButton(Button btn , int days)
+    {
+        liveBtn.setSelected(false);
+        if (currButton!=null)currButton.getStyleClass().remove("pressed");
+        currButton = btn;
+        currButton.getStyleClass().add("pressed");
+        setMatchesTable(MatchService.getDayMatchesURL(days),asyncLogo);
     }
 }

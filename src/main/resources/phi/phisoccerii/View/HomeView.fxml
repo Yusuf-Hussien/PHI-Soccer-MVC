@@ -22,14 +22,14 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Label layoutX="14.0" layoutY="15.0" prefHeight="33.0" prefWidth="46.0" text="PHI">
+            <Label id="PHI" layoutX="14.0" layoutY="-4.0" prefHeight="82.0" prefWidth="158.0" style="-fx-text-fill: #2ecc71;" text="PHI">
                <font>
                   <Font size="29.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <TableView fx:id="MatchesTable" layoutX="23.2" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="383.0" prefWidth="854.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0">
+      <TableView fx:id="MatchesTable" layoutX="22.4" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="383.0" prefWidth="855.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0">
         <columns>
           <TableColumn fx:id="homeTeam" prefWidth="264.7999577522278" style="-fx-background-radius: 7; -fx-alignment: CENTER;" text="Home" />
             <TableColumn fx:id="homeLogo" prefWidth="56.0" style="-fx-background-radius: 7;" text="logo" />
@@ -47,20 +47,20 @@
       </Button>
       <CheckBox fx:id="liveBtn" layoutX="110.0" layoutY="117.0" mnemonicParsing="false" onAction="#checkIsLive" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
       <TextField fx:id="matchSearchBar" layoutX="23.0" layoutY="153.0" prefHeight="36.0" prefWidth="140.0" promptText="Search for Match " />
-      <Label layoutX="432.0" layoutY="171.0" style="-fx-text-fill: black;" text="Today">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="302.0" layoutY="171.0" style="-fx-text-fill: black;" text="Yesterday">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="554.0" layoutY="171.0" style="-fx-text-fill: black;" text="Tomorrow">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
+      <Button fx:id="yesterdaybtn" layoutX="320.0" layoutY="166.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Yesterday">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="todaybtn" layoutX="408.0" layoutY="166.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Today">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="tomorrowbtn" layoutX="496.0" layoutY="166.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Tomorrow">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
    </children>
 </AnchorPane>
