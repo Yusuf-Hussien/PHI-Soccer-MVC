@@ -16,20 +16,20 @@
    <children>
       <AnchorPane layoutX="23.0" layoutY="18.0" prefHeight="74.0" prefWidth="855.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 7;" stylesheets="@../style.css" AnchorPane.topAnchor="22.0">
          <children>
-            <ComboBox fx:id="searchBox" editable="true" layoutX="145.0" layoutY="19.0" prefHeight="26.0" prefWidth="580.0" promptText="search for League" style="-fx-background-radius: 7;" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="175.79999999999995" AnchorPane.topAnchor="19.0" />
+            <ComboBox fx:id="leaguesSearchBox" editable="true" layoutX="145.0" layoutY="19.0" prefHeight="26.0" prefWidth="580.0" promptText="search for League" style="-fx-background-radius: 7;" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="175.79999999999995" AnchorPane.topAnchor="19.0" />
             <Button defaultButton="true" layoutX="734.0" layoutY="19.0" mnemonicParsing="false" onAction="#searchForLeague" prefHeight="36.0" prefWidth="106.0" text="Search" AnchorPane.rightAnchor="14.800000000000068" AnchorPane.topAnchor="19.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Label id="PHI" layoutX="14.0" layoutY="-4.0" prefHeight="82.0" prefWidth="158.0" style="-fx-text-fill: #2ecc71;" text="PHI">
+            <Label id="PHI" layoutX="14.0" layoutY="-4.0" onMouseClicked="#PHI_clicked" prefHeight="82.0" prefWidth="158.0" style="-fx-text-fill: #2ecc71;" text="PHI">
                <font>
                   <Font size="29.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <TableView fx:id="MatchesTable" layoutX="22.4" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="383.0" prefWidth="855.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0">
+      <TableView fx:id="MatchesTable" layoutX="22.4" layoutY="167.0" onMouseClicked="#onMatchClicked" prefHeight="383.0" prefWidth="855.0" style="-fx-background-radius: 7;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0">
         <columns>
           <TableColumn fx:id="homeTeam" prefWidth="264.7999577522278" style="-fx-background-radius: 7; -fx-alignment: CENTER;" text="Home" />
             <TableColumn fx:id="homeLogo" prefWidth="56.0" style="-fx-background-radius: 7;" text="logo" />
@@ -39,13 +39,13 @@
         </columns>
       </TableView>
       <DatePicker fx:id="datePicker" layoutX="319.2" layoutY="108.0" prefHeight="38.0" prefWidth="131.0" promptText="Select a date" AnchorPane.leftAnchor="319.0" />
-      <ComboBox fx:id="leaguesBox" editable="true" layoutX="486.0" layoutY="108.0" prefHeight="36.0" prefWidth="218.0" promptText="Select League if you need" style="-fx-background-radius: 7;" AnchorPane.rightAnchor="215.0" />
+      <ComboBox fx:id="leaguesForMatchBox" editable="true" layoutX="486.0" layoutY="108.0" prefHeight="36.0" prefWidth="218.0" promptText="Select League if you need" style="-fx-background-radius: 7;" AnchorPane.rightAnchor="215.0" />
       <Button defaultButton="true" layoutX="695.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="36.0" prefWidth="106.0" text="OK">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Button>
-      <CheckBox fx:id="liveBtn" layoutX="110.0" layoutY="117.0" mnemonicParsing="false" onAction="#checkIsLive" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
+      <CheckBox fx:id="liveBtn" layoutX="110.0" layoutY="117.0" mnemonicParsing="false" onAction="#handelLiveButton" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
       <TextField fx:id="matchSearchBar" layoutX="23.0" layoutY="153.0" prefHeight="36.0" prefWidth="140.0" promptText="Search for Match " />
       <Button fx:id="yesterdaybtn" layoutX="320.0" layoutY="166.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Yesterday">
          <opaqueInsets>

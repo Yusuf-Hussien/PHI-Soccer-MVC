@@ -13,18 +13,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
-import phi.phisoccerii.Model.LinksModel;
 import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.team.Team;
 import phi.phisoccerii.Model.team.TeamService;
@@ -35,7 +31,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static phi.phisoccerii.Model.GeneralService.fetchData;
-import static phi.phisoccerii.Model.GeneralService.showAlert;
+import static phi.phisoccerii.Model.GeneralService.showPHIinfo;
 import static phi.phisoccerii.Model.team.TeamService.getTeam;
 
 public class LeagueController implements Initializable {
@@ -67,7 +63,6 @@ public class LeagueController implements Initializable {
     public void initialize(URL location, ResourceBundle resources)
     {
         standingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-        System.out.println("from league Controller constructor");
         //setCells();
     }
 
@@ -202,11 +197,11 @@ public class LeagueController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("PHI Soccer");
         stage.show();
-
     }
 
     @FXML
-    void showPHIinfo(MouseEvent event) {
-        // load fxml node to new stage shoes my linkedin ang that project github repo
+    public void PHI_clicked(MouseEvent event) {
+        showPHIinfo();
     }
+
 }

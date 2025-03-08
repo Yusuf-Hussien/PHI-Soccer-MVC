@@ -19,7 +19,7 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="170.0">
                <children>
-                  <Text fx:id="PHI" layoutX="38.0" layoutY="120.0" onMouseClicked="#showPHIinfo" strokeType="OUTSIDE" strokeWidth="0.0" text="PHI" />
+                  <Text fx:id="PHI" layoutX="38.0" layoutY="120.0" onMouseClicked="#PHI_clicked" strokeType="OUTSIDE" strokeWidth="0.0" text="PHI" />
                </children></Pane>
             <Button fx:id="standingBTN" mnemonicParsing="false" onAction="#standing" prefHeight="54.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" text="Standing">
                <font>

@@ -378,18 +378,21 @@ box {
 
 /* Style the CheckBox when hovered */
 .check-box:hover .box {
-    -fx-background-color: #34495e;
+    -fx-background-color: #2ecc71;
 }
 
 /* Style the CheckBox when checked */
 .check-box:selected .box {
-    -fx-background-color: #2ecc71;
-    -fx-border-color: #2ecc71;
+    /*-fx-background-color: #2ecc71;
+    -fx-border-color: #2ecc71;*/
+    -fx-background-color: #f39c12;
+     -fx-border-color: #f39c12;
 }
 
 /* Style the check mark */
 .check-box:selected .mark {
-    -fx-background-color: white;
+    /*-fx-background-color: white;*/
+     -fx-background-color: transparent; /* Hide the check mark */
 }
 
 

@@ -117,6 +117,11 @@ public class GeneralService {
         alert.showAndWait();
     }
 
+    public static void showPHIinfo()
+    {
+        System.out.println("PHI");
+        // load fxml node to new stage shoes my linkedin ang that project github repo
+    }
 
     private static Boolean isFailed=false;
     public static JSONObject fetchData(String link)
