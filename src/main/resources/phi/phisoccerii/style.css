@@ -59,6 +59,8 @@
     -fx-text-fill: white; /* White text for headers */
     -fx-font-weight: bold; /* Bold text for headers */
     -fx-alignment: CENTER; /* Center align header text */
+    -fx-background-radius : 20;
+
 }
 .table-view .column-header {
     -fx-border-color: transparent;
@@ -109,9 +111,13 @@
     -fx-background-color: #fce4ec; /* Light pink background for logo column */
 }
 
+.bold-text {
+    -fx-font-weight: bold;
+}
 
-
-
+.green-text {
+    -fx-text-fill: green;
+}
 
 
 /* Scrollbar track (background) */
@@ -445,6 +451,11 @@ box {
     -fx-background-color: white; /* Light blue background on hover */
     -fx-text-fill: #00796b; /* Darker green text on hover */
 
+}
+
+
+.columHeaders{
+-fx-background-radius : 20;
 }
 
 

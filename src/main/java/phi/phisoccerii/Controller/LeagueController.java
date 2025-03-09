@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.App;
+import phi.phisoccerii.Controller.League.IController;
+import phi.phisoccerii.Controller.League.StandingController;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.team.Team;
@@ -34,36 +36,28 @@ import static phi.phisoccerii.Model.GeneralService.fetchData;
 import static phi.phisoccerii.Model.GeneralService.showPHIinfo;
 import static phi.phisoccerii.Model.team.TeamService.getTeam;
 
-public class LeagueController implements Initializable {
+public class LeagueController implements Initializable ,IController{
 
     private  FXMLLoader loader;
     private Parent root;
 
     private final GeneralService service = new GeneralService();
 
-    @FXML private TableColumn<Team, Integer> rankCol;
-    @FXML private TableColumn<Team, ImageView> logoCol;
-    @FXML private TableColumn<Team, String> teamCol;
-    @FXML private TableColumn<Team, Integer> playedCol;
-    @FXML private TableColumn<Team, Integer> winCol;
-    @FXML private TableColumn<Team, Integer> drawCol;
-    @FXML private TableColumn<Team, Integer> loseCol;
-    @FXML private TableColumn<Team,Integer> GDCol;
-    @FXML private TableColumn<Team, Integer> pointsCol;
-    @FXML private TableView<Team> standingTable;
     @FXML private BorderPane contentPane;
-
     @FXML private Label leagueNameLab;
     @FXML private ImageView leagueLogo;
 
     private League league;
-    private ObservableList<Team>standingObsList;
+    boolean oneBYone,  async;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        standingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         //setCells();
+    }
+    public void setStanding()
+    {
+        standing(new ActionEvent());
     }
 
     @FXML
@@ -90,96 +84,24 @@ public class LeagueController implements Initializable {
         switchTab("TopScorers");
     }
 
-    private void declareStandingTable()
-    {
-        rankCol.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        logoCol.setCellValueFactory(new PropertyValueFactory<>("logo"));
-        teamCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        playedCol.setCellValueFactory(new PropertyValueFactory<>("matches"));
-        GDCol.setCellValueFactory(new PropertyValueFactory<>("goalDiff"));
-        winCol.setCellValueFactory(new PropertyValueFactory<>("win"));
-        drawCol.setCellValueFactory(new PropertyValueFactory<>("draw"));
-        loseCol.setCellValueFactory(new PropertyValueFactory<>("lose"));
-        pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
-    }
-
-    public void setCells(boolean oneBYone,boolean async)
-    {
-        if(oneBYone) setCells1by1(async);
-        else setCellsAll(async);
-    }
-
-    public void setCellsAll(boolean async)
-    {
-        declareStandingTable();
-        Task<ObservableList<Team>>task = new Task<ObservableList<Team>>() {
-            @Override
-            protected ObservableList<Team> call() throws Exception {
-                ObservableList<Team>obsList = getObsList(service.getLeagueRoutes(league.getId() ,"Standings" ));
-                return obsList;
-            }
-        };
-        task.setOnSucceeded(e->{standingTable.setItems(task.getValue());});
-
-        new Thread(task).start();
-    }
-
-    public void setCells1by1(boolean async)
-    {
-        declareStandingTable();
-        standingObsList = FXCollections.observableArrayList();
-        standingTable.setItems(standingObsList);
-
-        Task<Void>task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                JSONObject json = fetchData(service.getLeagueRoutes(league.getId() ,"Standings" ));
-                JSONObject result=null;
-                try {
-                    result = json.getJSONObject("result");
-                }catch (Exception e){
-                    //System.out.println("No Live Matches Now!");
-                    System.out.println("ERROR GETTING TEAMS!!!!!!!!!!!\n ----Check TeamService Class----");
-                }
-                if (result == null) return null;
-                JSONArray total = result.getJSONArray("total");
-                for (int i=0 ;i<total.length();i++)
-                {
-                    Team team = getTeam(total.getJSONObject(i),async);  //Flag for Async
-                    Platform.runLater(()->{
-                        standingObsList.add(team);
-                        standingTable.refresh();
-                    });
-                }
-
-                return null;
-            }
-        };
-        new Thread(task).start();
-    }
-
-    private ObservableList<Team> getObsList(String link)
-    {
-        List<Team> list= TeamService.getTeams(link);
-                ObservableList<Team>obsList = FXCollections.observableArrayList(list);
-                return obsList;
-    }
 
     public void switchTab(String viewName)
     {
          loader = new FXMLLoader(App.class.getResource("View/League/"+viewName+"View.fxml"));
         try {
              root = loader.load();
+             IController controller = loader.getController();
+             controller.setLeague(league);
+             controller.setMethod(oneBYone,async);
+             controller.setUpTable();
         } catch (IOException e) {
             System.out.println("ERROR LOADING FXML FILE CHECK CONTROLLER!");
         }
         contentPane.setCenter(root);
-
-       // contentPane.getChildren().removeAll();
-        //contentPane.getChildren().add(root);
     }
 
 
+    @Override
     public void setLeague(League league)
     {
         this.league = league;
@@ -188,6 +110,15 @@ public class LeagueController implements Initializable {
         leagueLogo.setImage(league.getLogo());
         leagueLogo.setFitHeight(50);leagueLogo.setFitWidth(50);leagueLogo.setPreserveRatio(true);
     }
+
+    @Override
+    public void setMethod(boolean oneBYone, boolean async) {
+        this.oneBYone = oneBYone;
+        this.async = async;
+    }
+
+    @Override
+    public void setUpTable() {}
 
     @FXML void Back(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("View/HomeView.fxml"));

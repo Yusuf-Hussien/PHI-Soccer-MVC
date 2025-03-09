@@ -38,8 +38,7 @@ import java.util.ResourceBundle;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static phi.phisoccerii.Model.GeneralService.showAlert;
-import static phi.phisoccerii.Model.GeneralService.showPHIinfo;
+import static phi.phisoccerii.Model.GeneralService.*;
 import static phi.phisoccerii.Model.match.MatchService.*;
 
 public class HomeController implements Initializable {
@@ -113,7 +112,8 @@ public class HomeController implements Initializable {
             switchScene("League");
             LeagueController controller2 = loader.getController();
             controller2.setLeague(league);
-            controller2.setCells(true,true);
+            controller2.setMethod(true,true);
+            controller2.setStanding();
         }
     }
 
@@ -374,7 +374,8 @@ public class HomeController implements Initializable {
         homeLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
         awayLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
 
-
+        applyBoldTextStyle(homeTeam);
+        applyBoldTextStyle(awayTeam);
 
         matchSearchBar.textProperty().addListener(((observable, oldValue, newValue) ->
         {

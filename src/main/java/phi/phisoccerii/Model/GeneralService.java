@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.App;
@@ -93,6 +95,37 @@ public class GeneralService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
         String time12H = time.format(formatter);
         return time12H;
+    }
+
+    /**
+     * Applies the "bold-text" CSS style to the text in a TableColumn.
+     *
+     * @param column The TableColumn to which the style will be applied.
+     * @param <S>    The type of the TableView items (e.g., Team, Player, etc.).
+     * @param <T>    The type of the column's data (e.g., String, Integer, etc.).
+     */
+    public static  <S, T> void applyBoldTextStyle(TableColumn<S, T> column) {
+        applyStyleForCell(column,"bold-text");
+    }
+    public static  <S, T> void applyStyleForCell(TableColumn<S, T> column,String styleClassName)
+    {
+        column.setCellFactory(col -> {
+            TableCell<S, T> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(T item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                        getStyleClass().remove(styleClassName);
+                    } else {
+                        setText(item.toString());
+                        getStyleClass().add(styleClassName);
+                    }
+                }
+            };
+            return cell;
+        });
     }
 
     /*public static <T>List<String>getNames(List<T>objList)

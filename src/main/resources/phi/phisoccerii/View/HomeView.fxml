@@ -45,7 +45,7 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <CheckBox fx:id="liveBtn" layoutX="110.0" layoutY="117.0" mnemonicParsing="false" onAction="#handelLiveButton" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
+      <CheckBox fx:id="liveBtn" layoutX="801.0" layoutY="161.0" mnemonicParsing="false" onAction="#handelLiveButton" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
       <TextField fx:id="matchSearchBar" layoutX="23.0" layoutY="153.0" prefHeight="36.0" prefWidth="140.0" promptText="Search for Match " />
       <Button fx:id="yesterdaybtn" layoutX="320.0" layoutY="166.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Yesterday">
          <opaqueInsets>

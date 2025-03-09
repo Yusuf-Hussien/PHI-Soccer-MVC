@@ -25,7 +25,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/League/LeagueView.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/HomeView.fxml"));
-        //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/test.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/League/StandingView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("PHI Soccer");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));

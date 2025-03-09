@@ -80,14 +80,14 @@
       <TableView fx:id="standingTable" prefHeight="494.0" prefWidth="731.0" style="-fx-background-color: #34495e; -fx-background-radius: 20;" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="rankCol" prefWidth="31.20001256465912" style="-fx-background-radius: 20;" text="#" />
-          <TableColumn fx:id="logoCol" prefWidth="49.60003662109375" style="-fx-background-radius: 20;" text="logo" />
-            <TableColumn fx:id="teamCol" prefWidth="184.00000762939453" style="-fx-background-radius: 20; -fx-alignment: CENTER_LEFT;" text="Team" />
-            <TableColumn fx:id="playedCol" prefWidth="92.00003051757812" style="-fx-background-radius: 20;" text="Played" />
-            <TableColumn fx:id="winCol" minWidth="7.20001220703125" prefWidth="54.39996337890625" style="-fx-background-radius: 20;" text="W" />
-            <TableColumn fx:id="drawCol" prefWidth="60.7999267578125" style="-fx-background-radius: 20;" text="D" />
-            <TableColumn fx:id="loseCol" prefWidth="56.000030517578125" style="-fx-background-radius: 20;" text="L" />
-            <TableColumn fx:id="GDCol" prefWidth="76.800048828125" style="-fx-background-radius: 20;" text="GD" />
-            <TableColumn fx:id="pointsCol" prefWidth="86.4000244140625" style="-fx-background-radius: 20;" text="Points" />
+          <TableColumn fx:id="logoCol" prefWidth="49.60003662109375" text="logo" />
+            <TableColumn fx:id="teamCol" prefWidth="184.00000762939453" style="-fx-alignment: CENTER_LEFT;" text="Team" />
+            <TableColumn fx:id="playedCol" prefWidth="92.00003051757812" text="Played" />
+            <TableColumn fx:id="winCol" minWidth="7.20001220703125" prefWidth="54.39996337890625" text="W" />
+            <TableColumn fx:id="drawCol" prefWidth="60.7999267578125" text="D" />
+            <TableColumn fx:id="loseCol" prefWidth="56.000030517578125" text="L" />
+            <TableColumn fx:id="GDCol" prefWidth="76.800048828125" text="GD" />
+            <TableColumn fx:id="pointsCol" prefWidth="86.4000244140625" text="Points" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" />
