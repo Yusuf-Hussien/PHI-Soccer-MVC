@@ -12,12 +12,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import phi.phisoccerii.App;
@@ -47,18 +49,20 @@ public class HomeController implements Initializable {
     private FXMLLoader loader;
     private Stage stage;
     private Scene scene;
-    private Parent root;
+    private Parent leaguePane;
+
+    private FXMLLoader MatchesLoader;
+    private Parent matchesTable;
+    private MatchesController matchesController;
 
     //Lists
     private List<String> leaguesNamesList;
     private List<League>leaguesList;
     //Observable Lists
     private ObservableList<String>leaguesObsList=FXCollections.observableArrayList();
-    private ObservableList<Match>matchesObsList =FXCollections.observableArrayList();
     //Filtered Lists
     private FilteredList<String> leaguesFilList;
     private FilteredList<String> leaguesForMatchFilList;
-    private FilteredList<Match> matchesFilList;
     //map for getting id and data of selected league
     private  Map<String,League> leaguesMap=null;
     //For Services like Fetching data and more...
@@ -68,17 +72,11 @@ public class HomeController implements Initializable {
     private boolean asyncLogo = false, oneBYone=true;
 
     //Needed Components
+    @FXML private BorderPane contentPane;
     @FXML private CheckBox liveBtn;
     @FXML private ComboBox<String> leaguesSearchBox;
-    @FXML private TableColumn<Match, String> homeTeam;
-    @FXML private TableColumn<Match, String> status;
-    @FXML private TableColumn<Match, String> awayTeam;
-    @FXML private TableColumn<Match, ImageView> awayLogo;
-    @FXML private TableColumn<Match, ImageView> homeLogo;
-    @FXML private TableView<Match> MatchesTable;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<String> leaguesForMatchBox;
-    @FXML private TextField matchSearchBar;
     @FXML private Button todaybtn;
     @FXML private Button tomorrowbtn;
     @FXML private Button yesterdaybtn;
@@ -87,15 +85,14 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setDatePicker();
-        MatchesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         setListsAsync();
-        declareMatchesTable();
+        setUpMatchesTable();
+        matchesController.setUpTable(service.getURL(service.LIVE));
         setDaysButtons();
-        setMatchesTable(service.getURL(service.LIVE),oneBYone,asyncLogo);
 
         Platform.runLater(()->{  //to cancel fetching data when exit app
-            stage = (Stage)todaybtn.getScene().getWindow();
-            if(stage!=null)stage.setOnCloseRequest(e->{cancelFetchingMatches();});
+            Stage currStage = (Stage)leaguesSearchBox.getScene().getWindow();
+            if(currStage!=null)currStage.setOnCloseRequest(e->{matchesController.cancelPreviousOperation();});
         });
     }
 
@@ -106,7 +103,7 @@ public class HomeController implements Initializable {
             showAlert("invalid INPUT","Please Select Exist League");
         else
         {
-            cancelFetchingMatches();
+            matchesController.cancelPreviousOperation();
             String leagueName = leaguesSearchBox.getSelectionModel().getSelectedItem();
             League league = leaguesMap.get(leagueName);
             switchScene("League");
@@ -122,7 +119,7 @@ public class HomeController implements Initializable {
         if (currButton!=null)currButton.getStyleClass().remove("pressed");
         if(liveBtn.isSelected()) //if Selected get LIVE matches
         {
-            setMatchesTable(service.getURL(service.LIVE),oneBYone,asyncLogo);
+            matchesController.setUpTable(service.getURL(service.LIVE));
             datePicker.setValue(LocalDate.now());
             leaguesForMatchBox.setValue("");
         }
@@ -139,7 +136,7 @@ public class HomeController implements Initializable {
                 //currButton = todaybtn;
                 todaybtn.fire();
             }*/
-            setMatchesTable(MatchService.getDayMatchesURL(date),oneBYone,asyncLogo);
+            matchesController.setUpTable(MatchService.getDayMatchesURL(date));
         }
     }
 
@@ -159,29 +156,8 @@ public class HomeController implements Initializable {
                 int leagueId = leaguesMap.get(league).getId();
                 url+= "&"+service.LEAGUE_ID+"="+leagueId;
             }
-            setMatchesTable(url,oneBYone,asyncLogo);
+            matchesController.setUpTable(url);
         }
-    }
-
-    @FXML
-    private void onMatchClicked()
-    {
-        Match selectedMatch = MatchesTable.getSelectionModel().getSelectedItem();
-        if (selectedMatch != null) {
-            showSelectedMatchInfo(selectedMatch);
-        }
-    }
-
-    private void showSelectedMatchInfo(Match match) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Match Details");
-        alert.setContentText("Home Team: " + match.getHomeTeam() + "\n" +
-                        "Away Team: " + match.getAwayTeam() + "\n" +
-                        "Status: " + match.getStatus()+"\n"+
-                        match.getLeague()+"\n"+
-                        match.getRound()+"\n"+
-                        "Goals: "+match.getGoals());
-        alert.showAndWait();
     }
 
     private void setListsAsync()
@@ -228,101 +204,6 @@ public class HomeController implements Initializable {
         }));
     }
 
-    private void setMatchesTable(String url,boolean oneBYone ,boolean async)
-    {
-        if(oneBYone)setMatchesTable1by1(url,async);
-        else setMatchesTableAll(url);
-    }
-
-    private void setMatchesTable1by1(String url,boolean async) {
-        if(currentTask!=null && currentTask.isRunning()) currentTask.cancel(); //if there is new task ordered cancel previous
-
-        matchesObsList.clear();
-        MatchesTable.refresh();
-        matchesFilList = new FilteredList<>(matchesObsList, p -> true);
-        MatchesTable.setItems(matchesFilList);
-
-        currentTask = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                JSONObject response = GeneralService.fetchData(url);
-                JSONArray arr = response.getJSONArray("result");
-                for(int i =0 ;i<arr.length();i++)
-                {
-                    if(isCancelled()) break;
-                    Match match = getMatch(arr.getJSONObject(i),true,async);
-                    Platform.runLater(() -> {
-                        if(!isCancelled())  //if there is new task ordered
-                        {
-                            matchesObsList.add(match);
-                            MatchesTable.refresh();
-                        }
-                    });
-                }
-                return null;
-                }
-        };
-        new Thread(currentTask).start();
-    }
-
-    private void setMatchesTableAll(String url)
-    {
-        Task<Void>task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                List<Match>matches = MatchService.getMatches(url);
-                matchesObsList = FXCollections.observableArrayList(matches);
-                matchesFilList = new FilteredList<>(matchesObsList);
-                Platform.runLater(()->{MatchesTable.setItems(matchesFilList);});
-
-                //setLogos
-                MatchService.setLogos(url,matchesObsList);
-                Platform.runLater(() -> MatchesTable.refresh());
-                return null;
-            }
-        };
-        new Thread(task).start();
-    }
-
-    private void setMatchStatus()
-    {
-        status.setCellFactory(tc->new TableCell<>(){
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null);
-                } else {
-                    Match match = getTableView().getItems().get(getIndex());
-
-                    // Status ->Bold
-                    Label scoreLabel;
-                    if(match.getScore().equals("-"))
-                        scoreLabel = new Label(match.getTime());
-                    else scoreLabel = new Label(match.getScore());
-                    scoreLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-
-
-                    Label roundLabel = new Label(match.getRound());
-                    roundLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
-
-                    Label leagueLabel = new Label(match.getLeague());
-                    leagueLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
-
-                    Label statusLabel = new Label(match.getStatus());
-                    if(match.getStatus().equals("Finished")) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: red;");
-                    else if(match.getStatus().equals("Postponed") || match.getStatus().equals("After Pen.") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
-                    else if( match.getStatus().equals("Half Time") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: orange;");
-                    else statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill:  #2ecc71;");
-
-                    VBox vbox = new VBox( leagueLabel ,roundLabel ,scoreLabel,statusLabel);
-                    vbox.setAlignment(Pos.CENTER);
-
-                    setGraphic(vbox);
-                }
-            }
-        });
-    }
 
     private void setDatePicker()
     {
@@ -363,44 +244,13 @@ public class HomeController implements Initializable {
            int selectedLeagueId = leaguesMap.get(selectedLeague).getId();
             url+= "&"+service.LEAGUE_ID+"="+selectedLeagueId;
         }
-        setMatchesTable(url,oneBYone,asyncLogo);
+        matchesController.setUpTable(url);
     }
 
     private void cancelFetchingMatches() {
         if (currentTask!=null && currentTask.isRunning())currentTask.cancel();
     }
 
-    private void declareMatchesTable()
-    {
-        homeTeam.setCellValueFactory(new PropertyValueFactory<>("homeTeam"));
-        awayTeam.setCellValueFactory(new PropertyValueFactory<>("awayTeam"));
-        //status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        status.setCellValueFactory(cellData-> new SimpleStringProperty(cellData.getValue().getStatus()));
-        setMatchStatus();
-        homeLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
-        awayLogo.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
-
-        applyBoldTextStyle(homeTeam);
-        applyBoldTextStyle(awayTeam);
-
-        matchSearchBar.textProperty().addListener(((observable, oldValue, newValue) ->
-        {
-            matchesFilList.setPredicate(match->{
-                if(newValue.isEmpty() || newValue.isBlank() || newValue==null) return true;
-                String keyWord = newValue.toLowerCase();
-                if(match.getHomeTeam().toLowerCase().contains(keyWord)) return true;
-                else if(match.getAwayTeam().toLowerCase().contains(keyWord))return true;
-                else if(match.getTime().toLowerCase().contains(keyWord))return true;
-                else if(match.getStatus().toLowerCase().contains(keyWord))return true;
-                else if(match.getScore().toLowerCase().contains(keyWord))return true;
-                else if(match.getLeague().toLowerCase().contains(keyWord))return true;
-                else if(match.getRound().toLowerCase().contains(keyWord))return true;
-                else return false;
-            });
-
-        }));
-
-    }
 
     private void setMap()
     {
@@ -428,14 +278,28 @@ public class HomeController implements Initializable {
     {
         try {
             loader = new FXMLLoader(App.class.getResource("View/"+selected+"/"+selected+"View.fxml"));
-            root = loader.load();
-            //stage = (Stage) ((Node)event.getSource()).getScene().getWindow();  //loaded already
-            scene = new Scene(root);
+            leaguePane = loader.load();
+            stage = (Stage)leaguesSearchBox.getScene().getWindow();  //loaded already
+            scene = new Scene(leaguePane);
             stage.setScene(scene);
             stage.setTitle(selected);
             stage.show();
         } catch (IOException e) {
             System.out.println("ERROR LOADING FXML FILE CHECK CONTROLLER!");
+        }
+    }
+
+    private void setUpMatchesTable()
+    {
+         MatchesLoader = new FXMLLoader(App.class.getResource("View/MatchesView.fxml"));
+        try{
+            matchesTable = MatchesLoader.load();
+            matchesController = MatchesLoader.getController();
+            matchesController.setMethod(oneBYone,asyncLogo);
+            matchesController.declareTable();
+            Platform.runLater(()->contentPane.setCenter(matchesTable));
+        } catch (Exception e) {
+            System.out.println("Error Loading Matches Table!");
         }
     }
 

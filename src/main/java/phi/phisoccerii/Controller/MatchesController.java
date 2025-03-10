@@ -10,14 +10,13 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.Model.GeneralService;
@@ -39,6 +38,7 @@ public class MatchesController implements Initializable, IController {
     private ObservableList<Match> matchesObsList =FXCollections.observableArrayList();
     private FilteredList<Match> matchesFilList;
 
+    @FXML private TextField matchSearchBar;
     @FXML private TableColumn<Match, String> homeCol;
     @FXML private TableColumn<Match, ImageView> homeLogoCol;
     @FXML private TableColumn<Match, String> statusCol;
@@ -73,6 +73,7 @@ public class MatchesController implements Initializable, IController {
 
         //applyBoldTextStyle(homeCol);
         //applyBoldTextStyle(awayCol);
+        setUpMatchSearchBar();
     }
 
     private void setMatchStatus()
@@ -88,11 +89,25 @@ public class MatchesController implements Initializable, IController {
 
                     // Status ->Bold
                     Label scoreLabel;
+                    Label statusLabel;
                     if(match.getScore().equals("-"))
+                    {
                         scoreLabel = new Label(match.getTime());
-                    else scoreLabel = new Label(match.getScore());
+                        statusLabel = new Label(match.getDate());
+                    }
+                    else
+                    {
+                        scoreLabel = new Label(match.getScore());
+                        statusLabel = new Label(match.getStatus());
+                    }
+
                     scoreLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
+                    if(match.getStatus().equals("Finished")) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: red;");
+                    else if(match.getStatus().equals("Postponed") || match.getStatus().equals("After Pen.") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
+                    else if( match.getStatus().equals("Half Time") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: orange;");
+                    else if( statusLabel.getText().contains("-") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: white;");
+                    else statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill:  #2ecc71;");
 
                     Label roundLabel = new Label(match.getRound());
                     roundLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
@@ -100,11 +115,6 @@ public class MatchesController implements Initializable, IController {
                     Label leagueLabel = new Label(match.getLeague());
                     leagueLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
 
-                    Label statusLabel = new Label(match.getStatus());
-                    if(match.getStatus().equals("Finished")) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: red;");
-                    else if(match.getStatus().equals("Postponed") || match.getStatus().equals("After Pen.") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
-                    else if( match.getStatus().equals("Half Time") ) statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: orange;");
-                    else statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill:  #2ecc71;");
 
                     VBox vbox = new VBox( leagueLabel ,roundLabel ,scoreLabel,statusLabel);
                     vbox.setAlignment(Pos.CENTER);
@@ -115,15 +125,40 @@ public class MatchesController implements Initializable, IController {
         });
     }
 
+    private void setUpMatchSearchBar()
+    {
+        matchSearchBar.textProperty().addListener(((observable, oldValue, newValue) ->
+        {
+            matchesFilList.setPredicate(match->{
+                if(newValue.isEmpty() || newValue.isBlank() || newValue==null) return true;
+                String keyWord = newValue.toLowerCase();
+                if(match.getHomeTeam().toLowerCase().contains(keyWord)) return true;
+                else if(match.getAwayTeam().toLowerCase().contains(keyWord))return true;
+                else if(match.getTime().toLowerCase().contains(keyWord))return true;
+                else if(match.getStatus().toLowerCase().contains(keyWord))return true;
+                else if(match.getScore().toLowerCase().contains(keyWord))return true;
+                else if(match.getLeague().toLowerCase().contains(keyWord))return true;
+                else if(match.getRound().toLowerCase().contains(keyWord))return true;
+                else return false;
+            });
+
+        }));
+    }
+
     @Override
     public void setUpTable() {
-        declareTable();
+        if(oneBYone)setMatchesTable1by1();
+        else setMatchesTableAll();
+    }
+
+    public void setUpTable(String url) {
+        setURL(url);
         if(oneBYone)setMatchesTable1by1();
         else setMatchesTableAll();
     }
 
     private void setMatchesTable1by1() {
-        if(currentTask!=null && currentTask.isRunning()) currentTask.cancel(); //if there is new task ordered cancel previous
+        cancelPreviousOperation(); //if there is new task ordered cancel previous
 
         matchesObsList.clear();
         matchesTable.refresh();
@@ -154,6 +189,8 @@ public class MatchesController implements Initializable, IController {
     }
 
     private void setMatchesTableAll() {
+        cancelPreviousOperation(); //if there is new task ordered cancel previous
+        matchesObsList.clear();
         Task<Void>task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -174,5 +211,25 @@ public class MatchesController implements Initializable, IController {
 
     @FXML
     public void onMatchClicked(MouseEvent mouseEvent) {
+        Match selectedMatch = matchesTable.getSelectionModel().getSelectedItem();
+        if (selectedMatch != null) {
+            showSelectedMatchInfo(selectedMatch);
+        }
     }
+    private void showSelectedMatchInfo(Match match) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Match Details");
+        alert.setContentText("Home Team: " + match.getHomeTeam() + "\n" +
+                "Away Team: " + match.getAwayTeam() + "\n" +
+                "Status: " + match.getStatus()+"\n"+
+                match.getLeague()+"\n"+
+                match.getRound()+"\n"+
+                "Goals: "+match.getGoals());
+        alert.showAndWait();
+    }
+
+    void cancelPreviousOperation() {
+        if (currentTask!=null && currentTask.isRunning())currentTask.cancel();
+    }
+
 }

@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -98,13 +99,13 @@ public class GeneralService {
         return time12H;
     }
 
-    /**
-     * Applies the "bold-text" CSS style to the text in a TableColumn.
-     *
-     * @param column The TableColumn to which the style will be applied.
-     * @param <S>    The type of the TableView items (e.g., Team, Player, etc.).
-     * @param <T>    The type of the column's data (e.g., String, Integer, etc.).
-     */
+    public static String to_mm_dd_format(String origin)
+    {
+        LocalDate oldFormat = LocalDate.parse(origin,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MM-dd", Locale.ENGLISH);
+        return oldFormat.format(formatter);
+    }
+
     public static  <S, T> void applyBoldTextStyle(TableColumn<S, T> column) {
         applyStyleForCell(column,"bold-text");
     }

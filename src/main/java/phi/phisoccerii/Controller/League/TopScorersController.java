@@ -52,7 +52,6 @@ public class TopScorersController implements Initializable, ILeagueController {
 
     @Override
     public void setUpTable() {
-        declareTable();
         Task<ObservableList<Player>> task = new Task<ObservableList<Player>>() {
             @Override
             protected ObservableList<Player> call() throws Exception {

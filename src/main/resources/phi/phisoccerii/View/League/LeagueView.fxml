@@ -15,7 +15,7 @@
 
 <BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.LeagueController">
    <left>
-      <VBox fx:id="sidebar" prefHeight="600.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" styleClass="sidebar" stylesheets="@..\..\style.css" BorderPane.alignment="CENTER">
+      <VBox fx:id="sidebar" prefHeight="600.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" styleClass="sidebar" stylesheets="@../../style.css" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="200.0" prefWidth="170.0">
                <children>
@@ -38,14 +38,6 @@
                </VBox.margin>
             </Button>
             <Button fx:id="matchesBTN" mnemonicParsing="false" onAction="#matches" prefHeight="54.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" text="Matches">
-               <font>
-                  <Font size="17.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="liveBTN" mnemonicParsing="false" onAction="#live" prefHeight="54.0" prefWidth="170.0" style="-fx-background-color: #2ecc71;" text="LIVE">
                <font>
                   <Font size="17.0" />
                </font>

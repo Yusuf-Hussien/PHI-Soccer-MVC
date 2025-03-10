@@ -1,5 +1,6 @@
 package phi.phisoccerii.Controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,17 +41,10 @@ public class LeagueController implements Initializable , ILeagueController {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        //setCells();
     }
     public void setStanding()
     {
         standing(new ActionEvent());
-    }
-
-    @FXML
-    void live(ActionEvent event)
-    {
-        switchTab("Live");
     }
 
     @FXML
@@ -80,10 +74,12 @@ public class LeagueController implements Initializable , ILeagueController {
              ILeagueController controller = loader.getController();
              controller.setLeague(league);
              controller.setMethod(oneBYone,async);
+             controller.declareTable();
              controller.setUpTable();
         } catch (IOException e) {
             System.out.println("ERROR LOADING FXML FILE CHECK CONTROLLER!");
         }
+        //Platform.runLater(()->contentPane.setCenter(root));
         contentPane.setCenter(root);
     }
 

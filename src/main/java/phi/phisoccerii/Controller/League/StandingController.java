@@ -78,7 +78,6 @@ public class StandingController implements Initializable , ILeagueController {
 
     public void setCellsAll(boolean async)
     {
-        declareTable();
         Task<ObservableList<Team>> task = new Task<ObservableList<Team>>() {
             @Override
             protected ObservableList<Team> call() throws Exception {

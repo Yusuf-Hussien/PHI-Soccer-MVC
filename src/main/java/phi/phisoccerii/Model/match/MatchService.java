@@ -186,6 +186,7 @@ public class MatchService {
         String leagueName = matchJson.getString("league_name");
         String country = matchJson.getString("country_name");
         String round = matchJson.getString("league_round");
+        String date = matchJson.getString("event_date");
         //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
         //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
 
@@ -196,7 +197,7 @@ public class MatchService {
         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);*/
 
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,null,null,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,null,null,null);
     }
 
     public static Match getMatch(JSONObject matchJson, boolean logo, boolean async)
@@ -209,6 +210,7 @@ public class MatchService {
         String leagueName = matchJson.getString("league_name");
         String country = matchJson.getString("country_name");
         String round = matchJson.getString("league_round");
+        String date = GeneralService.to_mm_dd_format(matchJson.getString("event_date")) ;
         //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
         //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
 
@@ -225,7 +227,7 @@ public class MatchService {
          homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
          awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
         }
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,homeLogo,awayLogo,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,null);
     }
 
     private static final GeneralService service = new GeneralService();
@@ -236,6 +238,13 @@ public class MatchService {
         String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
         return url;
     } */
+
+    public static String getDayMatchesURL(String startDate,String endDate)
+    {
+        String url = service.getURL(service.FIXTURES)+"&from="+startDate+"&to="+endDate;
+        return url;
+    }
+
     public static String getDayMatchesURL(String date)
     {
         String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
@@ -247,6 +256,19 @@ public class MatchService {
         String date = getDateFromToday(days);
         return getDayMatchesURL(date);
     }
+    public static String getWeakMatchesURL(int start)
+    {
+        String startDate = getDateFromToday(start);
+        String endDate = getDateFromToday(start+7);
+        return getDayMatchesURL(startDate,endDate);
+    }
+    public static String getSeasonMatchesURL(int season)
+    {
+        String startDate = getSeasonStartFromCurrent(season);
+        String endDate = getSeasonEnd(startDate);
+        return getDayMatchesURL(startDate,endDate);
+    }
+
     private static String getDateFromToday(int days)
     {
         LocalDate today = LocalDate.now();
@@ -264,5 +286,33 @@ public class MatchService {
             date = prev.format(formatter);
         }
         return date;
+    }
+
+    private static String getSeasonStartFromCurrent(int season)
+    {
+        LocalDate currSeason = LocalDate.parse("2024-07-15",DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDate="";
+        if(season==0) startDate = currSeason.format(formatter);
+        else if(season>0)
+        {
+            LocalDate next = currSeason.plusYears(season);
+            startDate = next.format(formatter);
+        }
+        else if(season<0)
+        {
+            LocalDate prev = currSeason.minusYears(Math.abs(season));
+            startDate = prev.format(formatter);
+        }
+        return startDate;
+    }
+    private static String getSeasonEnd(String season)
+    {
+        LocalDate currSeason = LocalDate.parse(season,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDate="";
+            LocalDate next = currSeason.plusYears(1);
+            startDate = next.format(formatter);
+        return startDate;
     }
 }

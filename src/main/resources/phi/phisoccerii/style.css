@@ -430,6 +430,60 @@ box {
 -fx-background-radius : 20;
 }
 
+.text-field{
+    -fx-background-color: #34495e; /* Background color */
+    -fx-background-radius: 15;
+    /*-fx-background-radius: 15px 15px 15px 0; /* Rounded corners: top-left=0, top-right=15px, bottom-right=15px, bottom-left=0 */
+    -fx-border-color: transparent;     /* Border color */
+    -fx-border-width: 0px;      /*    Border width */
+    -fx-font-size: 13px;           /* Font size */
+    -fx-text-fill: white;        /* Text color */
+}
 
+.text-field:focused {
+    -fx-background-color: #2ecc71; /* Background color when focused */
+}
+/*#matchSearchBar{}*/
+
+
+
+
+.combo-box {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: white;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #34495e;
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 0px;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #388E3C;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+}
 
 

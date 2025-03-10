@@ -2,12 +2,14 @@ package phi.phisoccerii;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import phi.phisoccerii.Controller.MatchesController;
+import phi.phisoccerii.Controller.League.MatchesController;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.league.LeagueService;
@@ -25,12 +27,72 @@ import java.util.concurrent.CompletableFuture;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        /*MatchesController controller = fxmlLoader.getController();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/MatchesView.fxml"));
-        controller.setURL("https://apiv2.allsportsapi.com/football/?met=Fixtures&APIkey=2dab65248f3aa20cfd3443712133ec1b37d00b40e45098fec59818ef713be4a9&from=2025-03-11&to=2025-03-11&timezone=Africa/cairo&leagueId=3");
-        controller.setMethod(true,false);
-        controller.setUpTable();*/
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/HomeView.fxml"));
+
+
+        /*FXMLLoader MatchesLoader = new FXMLLoader(App.class.getResource("View/League/MatchesView.fxml"));
+        Parent matchesTable= null;
+        final MatchesController matchesController ;
+        try{
+            matchesTable = MatchesLoader.load();
+        } catch (Exception e) {
+            System.out.println("Error Loading Matches Table!");
+        }
+        matchesController = MatchesLoader.getController();
+        matchesController.setMethod(true,false);
+        matchesController.declareTable();
+        matchesController.setLeague(new League("test",152,null));
+        matchesController.setUpTable();
+        Scene scene = new Scene(matchesTable);
+
+
+         */
+        //MatchesController finalMatchesController1 = matchesController;
+       /* Task<Void>task=new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(500000);
+                String url2 = "https://apiv2.allsportsapi.com/football/?met=Fixtures&APIkey=2dab65248f3aa20cfd3443712133ec1b37d00b40e45098fec59818ef713be4a9&from=2025-03-12&to=2025-03-12&timezone=Africa/cairo&leagueId=3";
+                Platform.runLater(()->
+                {
+                    if(matchesController!=null)
+                        matchesController.setUpTable(url2);
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();*/
+
+        /*FXMLLoader MatchesLoader = new FXMLLoader(App.class.getResource("View/MatchesView.fxml"));
+        Parent matchesTable= null;
+        final MatchesController matchesController ;
+        try{
+            matchesTable = MatchesLoader.load();
+        } catch (Exception e) {
+            System.out.println("Error Loading Matches Table!");
+        }
+            matchesController = MatchesLoader.getController();
+            matchesController.setMethod(true,false);
+            matchesController.declareTable();
+            matchesController.setUpTable("https://apiv2.allsportsapi.com/football/?met=Fixtures&APIkey=2dab65248f3aa20cfd3443712133ec1b37d00b40e45098fec59818ef713be4a9&from=2025-03-11&to=2025-03-11&timezone=Africa/cairo&leagueId=3");
+        Scene scene = new Scene(matchesTable);
+        //MatchesController finalMatchesController1 = matchesController;
+        Task<Void>task=new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(5000);
+                String url2 = "https://apiv2.allsportsapi.com/football/?met=Fixtures&APIkey=2dab65248f3aa20cfd3443712133ec1b37d00b40e45098fec59818ef713be4a9&from=2025-03-12&to=2025-03-12&timezone=Africa/cairo&leagueId=3";
+                Platform.runLater(()->
+                {
+                    if(matchesController!=null)
+                    matchesController.setUpTable(url2);
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();*/
+
+
+       FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("View/HomeView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("PHI Soccer");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("logo.png")));
