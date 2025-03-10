@@ -43,7 +43,8 @@ public class GeneralService {
     //API parameters
     public final String LIVE = "Livescore"
             ,FIXTURES = "Fixtures"
-            ,LEAGUE_ID = "leagueId";
+            ,LEAGUE_ID = "leagueId"
+            ,TOP_SCORERS = "Topscorers";
     public GeneralService()
     {
         setProp();

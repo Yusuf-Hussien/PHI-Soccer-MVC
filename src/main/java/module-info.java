@@ -21,4 +21,6 @@ module phi.phisoccerii {
     exports phi.phisoccerii.Controller.League to javafx.fxml;
     opens phi.phisoccerii.Controller.League to javafx.fxml;
 
+    opens phi.phisoccerii.Model.player to javafx.base;
+
 }

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="486.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.League.TopScorersController">
-   <children>
-      <Label layoutX="351.0" layoutY="53.0" text="Label" />
-   </children>
+<AnchorPane styleClass="topScoreres-table" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.League.TopScorersController">
+   <TableView fx:id="topScorersTable" layoutX="-1.0" prefHeight="533.0" prefWidth="731.0" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+      <columns>
+         <TableColumn fx:id="rankCol" prefWidth="35.200045585632324" styleClass="bold-text" text="#" />
+         <TableColumn fx:id="nameCol" prefWidth="168.79997634887695" style="-fx-alignment: CENTER_LEFT;" styleClass="bold-text" text="Player" />
+         <TableColumn fx:id="teamCol" prefWidth="163.20008850097656" text="Team" />
+         <TableColumn fx:id="assistsCol" prefWidth="88.00006103515625" text="Assists" />
+         <TableColumn fx:id="penaltiesCol" minWidth="7.20001220703125" prefWidth="89.60000610351562" text="Penalties" />
+         <TableColumn fx:id="goalsCol" prefWidth="177.60003662109375" styleClass="bold-text" text="Goals" />
+      </columns>
+   </TableView>
 </AnchorPane>

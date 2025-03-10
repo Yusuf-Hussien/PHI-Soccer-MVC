@@ -1,9 +1,5 @@
 package phi.phisoccerii.Controller;
 
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,31 +8,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import phi.phisoccerii.App;
-import phi.phisoccerii.Controller.League.IController;
-import phi.phisoccerii.Controller.League.StandingController;
+import phi.phisoccerii.Controller.League.ILeagueController;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.league.League;
-import phi.phisoccerii.Model.team.Team;
-import phi.phisoccerii.Model.team.TeamService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import static phi.phisoccerii.Model.GeneralService.fetchData;
 import static phi.phisoccerii.Model.GeneralService.showPHIinfo;
-import static phi.phisoccerii.Model.team.TeamService.getTeam;
 
-public class LeagueController implements Initializable ,IController{
+public class LeagueController implements Initializable , ILeagueController {
 
     private  FXMLLoader loader;
     private Parent root;
@@ -90,7 +77,7 @@ public class LeagueController implements Initializable ,IController{
          loader = new FXMLLoader(App.class.getResource("View/League/"+viewName+"View.fxml"));
         try {
              root = loader.load();
-             IController controller = loader.getController();
+             ILeagueController controller = loader.getController();
              controller.setLeague(league);
              controller.setMethod(oneBYone,async);
              controller.setUpTable();
@@ -115,6 +102,11 @@ public class LeagueController implements Initializable ,IController{
     public void setMethod(boolean oneBYone, boolean async) {
         this.oneBYone = oneBYone;
         this.async = async;
+    }
+
+    @Override
+    public void declareTable() {
+
     }
 
     @Override

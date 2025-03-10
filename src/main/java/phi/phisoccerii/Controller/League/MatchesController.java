@@ -6,7 +6,7 @@ import phi.phisoccerii.Model.league.League;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MatchesController implements Initializable,IController{
+public class MatchesController implements Initializable, ILeagueController {
     boolean oneBYone, async;
     League league;
 
@@ -24,6 +24,11 @@ public class MatchesController implements Initializable,IController{
     public void setMethod(boolean oneBYone, boolean async) {
         this.oneBYone = oneBYone;
         this.async = async;
+    }
+
+    @Override
+    public void declareTable() {
+
     }
 
     @Override

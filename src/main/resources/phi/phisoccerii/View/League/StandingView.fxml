@@ -29,7 +29,7 @@
                 -->
 
 <AnchorPane stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.League.StandingController">
-    <TableView fx:id="standingTable" layoutX="-1.0" prefHeight="533.0" prefWidth="731.0" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+    <TableView id="standingTable" fx:id="standingTable" layoutX="-1.0" prefHeight="533.0" prefWidth="731.0" style="-fx-background-color: #34495e;" styleClass="standing-table" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="rankCol" prefWidth="31.20001256465912" text="#" />
             <TableColumn fx:id="logoCol" prefWidth="49.60003662109375" text="logo" />

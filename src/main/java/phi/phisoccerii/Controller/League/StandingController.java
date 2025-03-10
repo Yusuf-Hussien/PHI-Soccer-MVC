@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,7 +25,7 @@ import static phi.phisoccerii.Model.GeneralService.applyBoldTextStyle;
 import static phi.phisoccerii.Model.GeneralService.fetchData;
 import static phi.phisoccerii.Model.team.TeamService.getTeam;
 
-public class StandingController implements Initializable ,IController{
+public class StandingController implements Initializable , ILeagueController {
 
     private League league;
     private boolean oneBYone,async;
@@ -52,7 +51,8 @@ public class StandingController implements Initializable ,IController{
     }
 
 
-    private void declareStandingTable()
+    @Override
+    public void declareTable()
     {
         rankCol.setCellValueFactory(new PropertyValueFactory<>("rank"));
         logoCol.setCellValueFactory(new PropertyValueFactory<>("logo"));
@@ -78,7 +78,7 @@ public class StandingController implements Initializable ,IController{
 
     public void setCellsAll(boolean async)
     {
-        declareStandingTable();
+        declareTable();
         Task<ObservableList<Team>> task = new Task<ObservableList<Team>>() {
             @Override
             protected ObservableList<Team> call() throws Exception {
@@ -93,7 +93,7 @@ public class StandingController implements Initializable ,IController{
 
     public void setCells1by1(boolean async)
     {
-        declareStandingTable();
+        declareTable();
         standingObsList = FXCollections.observableArrayList();
         standingTable.setItems(standingObsList);
 

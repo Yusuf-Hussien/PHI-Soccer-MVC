@@ -133,13 +133,18 @@ public class HomeController implements Initializable {
              date =datePicker.getValue().toString();
             }catch (Exception e){}
             date = date==null? MatchService.getDayMatchesURL(0):date; //if there is NO date Selected in datepicker get Todays Matches
+            /*if(date==null)
+            {
+                MatchService.getDayMatchesURL(0);
+                //currButton = todaybtn;
+                todaybtn.fire();
+            }*/
             setMatchesTable(MatchService.getDayMatchesURL(date),oneBYone,asyncLogo);
         }
     }
 
     @FXML
     void searchWithDate(ActionEvent event) {
-        liveBtn.setSelected(false);
         String date = null;
         try {
             date = datePicker.getValue().toString();
@@ -147,6 +152,7 @@ public class HomeController implements Initializable {
             showAlert("No Date Selected","Please Select date First!");
         }
         if(date!=null){ //Format  -> Fixtures&from=2025-03-08&to=2025-03-08&leagueId=152
+        liveBtn.setSelected(false);
             String url = service.getURL(service.FIXTURES)+"&from="+date+"&to="+date;
             String league = leaguesForMatchBox.getSelectionModel().getSelectedItem();
             if(league!=null && !league.isEmpty()){ //if there is league selected

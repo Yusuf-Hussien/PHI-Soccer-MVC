@@ -12,6 +12,7 @@ import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.league.LeagueService;
 import phi.phisoccerii.Model.match.Match;
 import phi.phisoccerii.Model.match.MatchService;
+import phi.phisoccerii.Model.player.PlayerService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
 
-        GeneralService service = new GeneralService();
+
         //System.out.println(service.getLeagueRoutes(152,"Standings"));
         //System.out.println(service.getURL("Livescore"));
         //List<Match>matches = MatchService.getMatches("https://apiv2.allsportsapi.com/football/?APIkey=61cb19bbb2ebed263a52388fceca6a9affe7db36d0b9d0bc1cd25a6a8b03cede&met=Livescore");
@@ -46,6 +47,9 @@ public class App extends Application {
           // System.out.println(logos);
 
         //System.out.println(GeneralService.from24Hto12H("22:05"));
+
+        /*GeneralService service = new GeneralService();
+        System.out.println( PlayerService.getPlayers(service.getLeagueRoutes(141,service.TOP_SCORERS)));*/
         launch();
 
 
