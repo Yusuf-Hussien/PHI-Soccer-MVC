@@ -484,11 +484,13 @@ box {
     -fx-background-color: #2E7D32;
     -fx-text-fill: white;
 }
+.combo-box-popup .list-view {
+    -fx-pref-width: 300; /* Set your desired width */
+    }
 
 
 
-
-#matchSearchBar {
+.matchSearchBar1 {
     -fx-prompt-text-fill: #f39c12;
     -fx-background-color: #229954;
     -fx-text-fill: #f39c12;
@@ -504,4 +506,11 @@ box {
     -fx-background-color: #32a883;
 }
 
+.matchSearchBar2  {
+    -fx-prompt-text-fill: white;
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-border-color: #1abc9c;
+    -fx-border-radius: 5px;
+}
 

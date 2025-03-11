@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.ImageView;
 import phi.phisoccerii.Model.goal.Goal;
 import phi.phisoccerii.Model.league.League;
+import phi.phisoccerii.Model.player.Player;
 import phi.phisoccerii.Model.team.Team;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public class Match {
     private String  time;
     private String date;
     List<Goal> goals;
+    List<Player>homeLineup;
+    List<Player>awayLineup;
+    private String homeCoach;
+    private String awayCoach;
     private SimpleObjectProperty<ImageView> homeLogo;
     private SimpleObjectProperty<ImageView> awayLogo;
 
@@ -29,7 +34,7 @@ public class Match {
     // private String score;
     //private List<Palyer>homeTeamLineUp;
 
-    public Match(String homeTeam, String status,String time,String score, String awayTeam, String league, String round,String date, ImageView homeLogo, ImageView awayLogo,List<Goal> goals) {
+    public Match(String homeTeam, String status, String time, String score, String awayTeam, String league, String round, String date, ImageView homeLogo, ImageView awayLogo, List<Goal> goals, List<Player>homeLineup, List<Player>awayLineup,String homeCoach,String awayCoach) {
         this.homeTeam = homeTeam;
         this.status = status;
         this.time = time;
@@ -39,6 +44,10 @@ public class Match {
         this.round = round;
         this.date = date;
         this.goals = goals;
+        this.homeLineup = homeLineup;
+        this.awayLineup = awayLineup;
+        this.homeCoach = homeCoach;
+        this.awayCoach = awayCoach;
         this.homeLogo = new SimpleObjectProperty<>(homeLogo);
         this.awayLogo = new SimpleObjectProperty<>(awayLogo);
     }
@@ -77,6 +86,22 @@ public class Match {
 
     public List<Goal> getGoals() {
         return goals;
+    }
+
+    public List<Player> getHomeLineup() {
+        return homeLineup;
+    }
+
+    public List<Player> getAwayLineup() {
+        return awayLineup;
+    }
+
+    public String getHomeCoach() {
+        return homeCoach;
+    }
+
+    public String getAwayCoach() {
+        return awayCoach;
     }
 
     public ImageView getHomeLogo() {

@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import phi.phisoccerii.Controller.IController;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.match.Match;
@@ -29,6 +28,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static java.lang.Thread.sleep;
 import static phi.phisoccerii.Model.match.MatchService.getMatch;
 
 public class MatchesController implements Initializable, ILeagueController {
@@ -51,9 +51,14 @@ public class MatchesController implements Initializable, ILeagueController {
     @FXML private TableColumn<Match, String> awayCol;
     @FXML private TableView<Match> matchesTable;
 
+    public static final Label loadingMatchesLab = new Label("Matches Loading!");
+    public static final Label noMatchesLab = new Label("No Matches on that Weak!");
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         matchesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        loadingMatchesLab.setStyle("-fx-text-fill:green;");
+        noMatchesLab.setStyle("-fx-text-fill:red;");
         liveBtn.setSelected(false);
         Platform.runLater(()->{  //to cancel fetching data when exit app
             Stage stage = (Stage)liveBtn.getScene().getWindow();
@@ -156,9 +161,11 @@ public class MatchesController implements Initializable, ILeagueController {
 
     @Override
     public void setUpTable() {
+        matchesTable.setPlaceholder(loadingMatchesLab);
         if(url==null) setURL(service.getLeagueRoutes(league.getId(),service.FIXTURES+MatchService.getWeakMatchesURL(startDay)));
         if(oneBYone)setMatchesTable1by1();
         else setMatchesTableAll();
+        checkFailedLoading();
     }
 
     private void setMatchesTable1by1() {
@@ -228,7 +235,11 @@ public class MatchesController implements Initializable, ILeagueController {
                 "Status: " + match.getStatus()+"\n"+
                 match.getLeague()+"\n"+
                 match.getRound()+"\n"+
-                "Goals: "+match.getGoals());
+                "Goals: "+match.getGoals()+"\n"+
+                "\n"+match.getHomeCoach()+"\n"+
+                "\n"+match.getAwayCoach()+"\n"+
+                match.getHomeLineup()+"\n"+
+                match.getAwayLineup());
         alert.showAndWait();
     }
 
@@ -267,5 +278,14 @@ public class MatchesController implements Initializable, ILeagueController {
             setURL(service.getLeagueRoutes(league.getId(),service.FIXTURES+MatchService.getWeakMatchesURL(0)));
             setUpTable();
         }
+    }
+    private void checkFailedLoading()
+    {
+        new Thread(()->{
+            try {
+                sleep(3500);
+            } catch (InterruptedException e) {}
+            Platform.runLater(()->{if(matchesObsList.isEmpty())matchesTable.setPlaceholder(noMatchesLab);});
+        }).start();
     }
 }

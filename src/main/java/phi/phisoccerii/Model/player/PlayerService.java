@@ -52,4 +52,27 @@ public class PlayerService {
          return new Player(id,name,rank,team,goals,assists,penaltys);
     }
 
+
+
+
+    public static List<Player>getPlayersLineup(JSONObject jsonTeam)
+    {
+        JSONArray startingLineup = jsonTeam.getJSONArray("starting_lineups");
+        List<Player>lineUp = new ArrayList<>();
+        for (int i=0 ;i<startingLineup.length();i++)
+            lineUp.add(getPlayerLineup(startingLineup.getJSONObject(i)));
+        return lineUp;
+    }
+    private static Player getPlayerLineup(JSONObject JSONPlayer)
+    {
+        int id = JSONPlayer.getInt("player_position");
+        String name = JSONPlayer.getString("player");
+        int rank = JSONPlayer.getInt("player_number");
+
+        return new Player(id,name,rank);
+    }
+
+    public static String getCoach(JSONObject teamJson) {
+        return teamJson.getJSONArray("coaches").getJSONObject(0).getString("coache");
+    }
 }

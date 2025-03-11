@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static java.lang.Thread.sleep;
 import static phi.phisoccerii.Model.GeneralService.applyBoldTextStyle;
 import static phi.phisoccerii.Model.match.MatchService.getMatch;
 
@@ -45,6 +46,7 @@ public class MatchesController implements Initializable, IController {
     @FXML private TableColumn<Match, ImageView> awayLogoCol;
     @FXML private TableColumn<Match, String> awayCol;
     @FXML private TableView<Match> matchesTable;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -224,7 +226,11 @@ public class MatchesController implements Initializable, IController {
                 "Status: " + match.getStatus()+"\n"+
                 match.getLeague()+"\n"+
                 match.getRound()+"\n"+
-                "Goals: "+match.getGoals());
+                "Goals: "+match.getGoals()+"\n"+
+                "\n"+match.getHomeCoach()+"\n"+
+                "\n"+match.getAwayCoach()+"\n"+
+                match.getHomeLineup()+"\n"+
+                match.getAwayLineup());
         alert.showAndWait();
     }
 

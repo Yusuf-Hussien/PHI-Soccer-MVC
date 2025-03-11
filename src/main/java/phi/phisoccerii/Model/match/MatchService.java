@@ -15,6 +15,8 @@ import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.goal.Goal;
 import phi.phisoccerii.Model.goal.GoalService;
 import phi.phisoccerii.Model.league.League;
+import phi.phisoccerii.Model.player.Player;
+import phi.phisoccerii.Model.player.PlayerService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -197,7 +199,7 @@ public class MatchService {
         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);*/
 
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,null,null,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,null,null,null,null,null,null,null);
     }
 
     public static Match getMatch(JSONObject matchJson, boolean logo, boolean async)
@@ -214,6 +216,14 @@ public class MatchService {
         JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
         List<Goal> goals = GoalService.getGoals(goalsJsonArr);
 
+        JSONObject linupsJson = matchJson.getJSONObject("lineups");
+        JSONObject homeJson = linupsJson.getJSONObject("home_team");
+        JSONObject awayJson = linupsJson.getJSONObject("away_team");
+        List<Player>homeLineup = PlayerService.getPlayersLineup(homeJson);
+        List<Player>awayLinup = PlayerService.getPlayersLineup(awayJson);
+        String homeCoach = PlayerService.getCoach(homeJson);
+        String awayCoach = PlayerService.getCoach(awayJson);
+
         String homeLogoURL = null;
         String awayLogoURL = null;
         ImageView homeLogo = null;
@@ -227,7 +237,7 @@ public class MatchService {
          homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
          awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
         }
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,goals);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,goals,homeLineup,awayLinup,homeCoach,awayCoach);
     }
 
     private static final GeneralService service = new GeneralService();

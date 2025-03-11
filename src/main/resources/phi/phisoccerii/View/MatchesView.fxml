@@ -30,7 +30,7 @@
             <TableColumn fx:id="statusCol" prefWidth="200">
             <graphic>
                 <HBox alignment="CENTER" spacing="5">
-                    <TextField fx:id="matchSearchBar" prefHeight="35.0" prefWidth="215.0" promptText="Search..." />
+                    <TextField fx:id="matchSearchBar" prefHeight="35.0" prefWidth="215.0" promptText="Search..." styleClass="matchSearchBar1" />
                 </HBox>
             </graphic>
             </TableColumn>

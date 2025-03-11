@@ -24,6 +24,11 @@ public class Player {
         this.assists = assists;
         this.penaltys = penaltys;
     }
+    public Player(int position, String name, int number) {
+        this.id = position;
+        this.name = name;
+        this.rank = number;
+    }
 
     public int getRank() {
         return rank;
@@ -55,7 +60,7 @@ public class Player {
     @Override
     public  String toString()
     {
-        return rank+" - "+name+" "+goals+"\n";
+        return id+" - "+name+" "+rank+"\n";
     }
 
 }
