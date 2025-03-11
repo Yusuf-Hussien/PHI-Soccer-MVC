@@ -4,7 +4,7 @@
 
 #PHI{
          -fx-fill: #2ecc71;
-         -fx-font-size: 55px;
+         -fx-font-size: 45px;
          -fx-font-weight: bold;
          -fx-effect: dropshadow(gaussian, black, 11, 0, 0, 0);
 }
@@ -396,8 +396,8 @@ box {
 
 
 .notPressed{
--fx-background-color: white;
-    -fx-text-fill: #2ecc71;
+-fx-background-color: #2ecc71;
+    -fx-text-fill: white;
 -fx-background-radius: 15px;
 
 }
@@ -407,9 +407,8 @@ box {
 }
 
 .pressed {
-    -fx-background-color:#2ecc71;
-    -fx-text-fill: white;
-
+    -fx-background-color:white;
+    -fx-text-fill: #2ecc71;
          -fx-background-radius: 15px;
 
 }
@@ -463,7 +462,7 @@ box {
 }
 
 .combo-box .arrow {
-    -fx-background-color: white;
+    -fx-background-color: #2ecc71;
 }
 
 .combo-box .list-view {
@@ -484,6 +483,25 @@ box {
 .combo-box .list-cell:selected {
     -fx-background-color: #2E7D32;
     -fx-text-fill: white;
+}
+
+
+
+
+#matchSearchBar {
+    -fx-prompt-text-fill: #f39c12;
+    -fx-background-color: #229954;
+    -fx-text-fill: #f39c12;
+    -fx-border-color: #1abc9c;
+    -fx-border-radius: 5px;
+}
+
+#matchSearchBar:focused {
+    -fx-border-color: #16a085;
+}
+
+#liveBtn:hover .box{
+    -fx-background-color: #32a883;
 }
 
 

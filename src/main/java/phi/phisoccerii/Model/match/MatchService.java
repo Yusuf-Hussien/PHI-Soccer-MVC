@@ -211,8 +211,8 @@ public class MatchService {
         String country = matchJson.getString("country_name");
         String round = matchJson.getString("league_round");
         String date = GeneralService.to_mm_dd_format(matchJson.getString("event_date")) ;
-        //JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
-        //List<Goal> goals = GoalService.getGoals(goalsJsonArr);
+        JSONArray goalsJsonArr = matchJson.getJSONArray("goalscorers");
+        List<Goal> goals = GoalService.getGoals(goalsJsonArr);
 
         String homeLogoURL = null;
         String awayLogoURL = null;
@@ -227,7 +227,7 @@ public class MatchService {
          homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
          awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
         }
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,goals);
     }
 
     private static final GeneralService service = new GeneralService();

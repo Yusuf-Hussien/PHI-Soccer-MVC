@@ -10,59 +10,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="contentPane" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.HomeController">
-   <top>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane layoutY="14.999999523162842" prefHeight="74.0" prefWidth="855.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 7;" stylesheets="@../style.css">
-               <children>
-                  <ComboBox fx:id="leaguesSearchBox" editable="true" layoutX="145.0" layoutY="19.0" prefHeight="26.0" prefWidth="580.0" promptText="search for League" style="-fx-background-radius: 7;" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="175.79999999999995" AnchorPane.topAnchor="19.0" />
-                  <Button defaultButton="true" layoutX="734.0" layoutY="19.0" mnemonicParsing="false" onAction="#searchForLeague" prefHeight="36.0" prefWidth="106.0" text="Search" AnchorPane.rightAnchor="14.800000000000068" AnchorPane.topAnchor="19.0">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-                  <Label id="PHI" layoutX="14.0" layoutY="-4.0" onMouseClicked="#PHI_clicked" prefHeight="82.0" prefWidth="158.0" style="-fx-text-fill: #2ecc71;" text="PHI">
-                     <font>
-                        <Font size="29.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutY="100.59999990463257">
-               <children>
-                  <DatePicker fx:id="datePicker" layoutX="296.0000114440918" prefHeight="38.0" prefWidth="131.0" promptText="Select a date" />
-                  <ComboBox fx:id="leaguesForMatchBox" editable="true" layoutX="443.1999931335449" prefHeight="36.0" prefWidth="218.0" promptText="Select League if you need" style="-fx-background-radius: 7;" />
-                  <Button defaultButton="true" layoutX="672.0000114440918" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="36.0" prefWidth="106.0" text="OK">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-                  <CheckBox fx:id="liveBtn" layoutX="777.5999870300293" layoutY="53.0" mnemonicParsing="false" onAction="#handelLiveButton" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" />
-                  <Button fx:id="yesterdaybtn" layoutX="296.79999923706055" layoutY="58.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Yesterday">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-                  <Button fx:id="todaybtn" layoutX="384.79999923706055" layoutY="58.0" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Today">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-                  <Button fx:id="tomorrowbtn" layoutX="472.79999923706055" layoutY="58.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" styleClass="notPressed" text="Tomorrow">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-   </top>
+<BorderPane fx:id="contentPane" prefHeight="600.0" prefWidth="900.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.HomeController">
    <center>
-      <TableView fx:id="MatchesTable" prefHeight="383.0" prefWidth="855.0" style="-fx-background-radius: 7;" styleClass="matches-table" BorderPane.alignment="CENTER">
+      <TableView fx:id="MatchesTable" prefHeight="383.0" prefWidth="685.0" style="-fx-background-radius: 7;" styleClass="matches-table" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="homeTeam" prefWidth="264.7999577522278" style="-fx-background-radius: 7; -fx-alignment: CENTER_RIGHT;" text="Home" />
             <TableColumn fx:id="homeLogo" prefWidth="56.0" style="-fx-background-radius: 7;" text="logo" />
@@ -72,4 +25,69 @@
         </columns>
       </TableView>
    </center>
+   <left>
+      <VBox prefHeight="530.0" prefWidth="176.0" style="-fx-background-color: #2ecc71;" styleClass="sidebar" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </BorderPane.margin>
+         <children>
+            <Label id="PHI" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#PHI_clicked" prefHeight="66.0" prefWidth="208.0" style="-fx-text-fill: #2ecc71;" text="PHI" textAlignment="CENTER">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="liveBtn" mnemonicParsing="false" onAction="#handelLiveButton" prefHeight="18.0" prefWidth="66.0" selected="true" text="LIVE!" textFill="#34495e">
+               <VBox.margin>
+                  <Insets left="55.0" top="40.0" />
+               </VBox.margin>
+            </CheckBox>
+            <Button fx:id="tomorrowbtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="287.0" styleClass="notPressed" text="Tomorrow">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="30.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="todaybtn" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="228.0" styleClass="notPressed" text="Today">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="yesterdaybtn" mnemonicParsing="false" onAction="#searchWithDate" prefHeight="26.0" prefWidth="170.0" styleClass="notPressed" text="Yesterday">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="20.0" />
+               </VBox.margin>
+            </Button>
+            <ComboBox fx:id="leaguesForMatchBox" editable="true" prefHeight="40.0" prefWidth="140.0" promptText="Select League" style="-fx-background-radius: 7;">
+               <VBox.margin>
+                  <Insets left="20.0" top="40.0" />
+               </VBox.margin>
+            </ComboBox>
+            <DatePicker fx:id="datePicker" onAction="#searchWithDate" prefHeight="38.0" prefWidth="131.0" promptText="Select a date">
+               <VBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </VBox.margin>
+            </DatePicker>
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <AnchorPane prefHeight="36.0" prefWidth="855.0" style="-fx-background-radius: 7;" stylesheets="@../style.css" BorderPane.alignment="CENTER">
+         <children>
+            <ComboBox fx:id="leaguesSearchBox" editable="true" layoutX="7.2" prefHeight="45.0" prefWidth="901.0" promptText="search for League" style="-fx-background-radius: 7;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="5.0" />
+            <Button defaultButton="true" layoutX="812.0" layoutY="13.8" mnemonicParsing="false" onAction="#searchForLeague" prefHeight="26.0" prefWidth="59.0" style="-fx-background-radius: 10; -fx-background-color: #2ecc71;" text="Search" AnchorPane.rightAnchor="28.799999999999955" AnchorPane.topAnchor="13.8">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>

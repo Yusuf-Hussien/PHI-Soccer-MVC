@@ -49,7 +49,7 @@ public class HomeController implements Initializable {
     private FXMLLoader loader;
     private Stage stage;
     private Scene scene;
-    private Parent leaguePane;
+    private Parent root;
 
     private FXMLLoader MatchesLoader;
     private Parent matchesTable;
@@ -69,7 +69,7 @@ public class HomeController implements Initializable {
     private final GeneralService service = new GeneralService();
     private Task<Void>currentTask=null;  //Background task
     //flags for Setting Up matches on the table
-    private boolean asyncLogo = false, oneBYone=true;
+    private boolean asyncLogo = true, oneBYone=true;
 
     //Needed Components
     @FXML private BorderPane contentPane;
@@ -129,14 +129,9 @@ public class HomeController implements Initializable {
             try{
              date =datePicker.getValue().toString();
             }catch (Exception e){}
-            date = date==null? MatchService.getDayMatchesURL(0):date; //if there is NO date Selected in datepicker get Todays Matches
-            /*if(date==null)
-            {
-                MatchService.getDayMatchesURL(0);
-                //currButton = todaybtn;
-                todaybtn.fire();
-            }*/
-            matchesController.setUpTable(MatchService.getDayMatchesURL(date));
+            //date = date==null? MatchService.getDayMatchesURL(0):date; //if there is NO date Selected in datepicker get Todays Matches
+            if(date==null) todaybtn.fire();
+            else matchesController.setUpTable(MatchService.getDayMatchesURL(date));
         }
     }
 
@@ -247,11 +242,6 @@ public class HomeController implements Initializable {
         matchesController.setUpTable(url);
     }
 
-    private void cancelFetchingMatches() {
-        if (currentTask!=null && currentTask.isRunning())currentTask.cancel();
-    }
-
-
     private void setMap()
     {
         leaguesMap = LeagueService.getLeaguesMap(leaguesList);
@@ -278,9 +268,9 @@ public class HomeController implements Initializable {
     {
         try {
             loader = new FXMLLoader(App.class.getResource("View/"+selected+"/"+selected+"View.fxml"));
-            leaguePane = loader.load();
+            root = loader.load();
             stage = (Stage)leaguesSearchBox.getScene().getWindow();  //loaded already
-            scene = new Scene(leaguePane);
+            scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle(selected);
             stage.show();
