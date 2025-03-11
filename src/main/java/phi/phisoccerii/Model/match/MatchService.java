@@ -199,8 +199,9 @@ public class MatchService {
         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);*/
 
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,null,null,null,null,null,null,null);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,null,null,null,null,null,null,null,null,null,null,null);
     }
+
 
     public static Match getMatch(JSONObject matchJson, boolean logo, boolean async)
     {
@@ -224,20 +225,25 @@ public class MatchService {
         String homeCoach = PlayerService.getCoach(homeJson);
         String awayCoach = PlayerService.getCoach(awayJson);
 
+        String stadium =matchJson.getString("event_stadium");
+        String judg =matchJson.getString("event_referee");
+        String homeFormat = matchJson.getString("event_home_formation");
+        String awayFormat = matchJson.getString("event_away_formation");/**/
+
         String homeLogoURL = null;
         String awayLogoURL = null;
         ImageView homeLogo = null;
         ImageView awayLogo = null;
         if(logo)
         {
-         homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
-         awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
-         homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,async));
-         awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,async));
-         homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
-         awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
+            homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
+            awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
+            homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,async));
+            awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,async));
+            homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
+            awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
         }
-        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,goals,homeLineup,awayLinup,homeCoach,awayCoach);
+        return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,goals,homeFormat,homeLineup,awayFormat,awayLinup,homeCoach,awayCoach,stadium,judg);
     }
 
     private static final GeneralService service = new GeneralService();

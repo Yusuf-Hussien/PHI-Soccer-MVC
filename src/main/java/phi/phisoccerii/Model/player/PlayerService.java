@@ -58,6 +58,7 @@ public class PlayerService {
     public static List<Player>getPlayersLineup(JSONObject jsonTeam)
     {
         JSONArray startingLineup = jsonTeam.getJSONArray("starting_lineups");
+        if (startingLineup.isEmpty())return List.of();
         List<Player>lineUp = new ArrayList<>();
         for (int i=0 ;i<startingLineup.length();i++)
             lineUp.add(getPlayerLineup(startingLineup.getJSONObject(i)));
@@ -73,6 +74,11 @@ public class PlayerService {
     }
 
     public static String getCoach(JSONObject teamJson) {
-        return teamJson.getJSONArray("coaches").getJSONObject(0).getString("coache");
+        //String coach= teamJson.getJSONArray("coaches").getJSONObject(0).getString("coache");
+        JSONArray coaches = teamJson.getJSONArray("coaches");
+        if (coaches==null || coaches.isEmpty()) return "";
+        JSONObject coachObj = coaches.getJSONObject(0);
+        String coach = coachObj.getString("coache");
+        return coach;
     }
 }

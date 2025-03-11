@@ -8,7 +8,10 @@ import phi.phisoccerii.Model.league.League;
 import phi.phisoccerii.Model.player.Player;
 import phi.phisoccerii.Model.team.Team;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class Match {
 
@@ -20,13 +23,20 @@ public class Match {
     private String status;
     private String  time;
     private String date;
-    List<Goal> goals;
-    List<Player>homeLineup;
-    List<Player>awayLineup;
+    private List<Goal> goals;
+    private List<Player>homeLineup;
+    private List<Player>awayLineup;
     private String homeCoach;
     private String awayCoach;
     private SimpleObjectProperty<ImageView> homeLogo;
     private SimpleObjectProperty<ImageView> awayLogo;
+
+    private String stadium;
+    private String judg;
+    private String homeFormat;
+    private String awayFormat;
+
+
 
     //private List<Goal>goals;
 
@@ -34,7 +44,7 @@ public class Match {
     // private String score;
     //private List<Palyer>homeTeamLineUp;
 
-    public Match(String homeTeam, String status, String time, String score, String awayTeam, String league, String round, String date, ImageView homeLogo, ImageView awayLogo, List<Goal> goals, List<Player>homeLineup, List<Player>awayLineup,String homeCoach,String awayCoach) {
+    public Match(String homeTeam, String status, String time, String score, String awayTeam, String league, String round, String date, ImageView homeLogo, ImageView awayLogo, List<Goal> goals,String homeFormat, List<Player>homeLineup,String awayFormat,List<Player>awayLineup,String homeCoach,String awayCoach,String stadium,String judg) {
         this.homeTeam = homeTeam;
         this.status = status;
         this.time = time;
@@ -50,7 +60,17 @@ public class Match {
         this.awayCoach = awayCoach;
         this.homeLogo = new SimpleObjectProperty<>(homeLogo);
         this.awayLogo = new SimpleObjectProperty<>(awayLogo);
+        this.stadium = stadium;
+        this.judg =judg;
+        this.homeFormat =homeFormat;
+        this.awayFormat = awayFormat;
     }
+
+    /*private List<Integer> setFormat(String formation) {
+        if (formation==null || formation.isEmpty())return List.of();
+        String[]parts = formation.split("-");
+        return Arrays.stream(parts).map(Integer::parseInt).collect(Collectors.toList());
+    }*/
 
     public String getHomeTeam() {
         return homeTeam;
@@ -102,6 +122,22 @@ public class Match {
 
     public String getAwayCoach() {
         return awayCoach;
+    }
+
+    public String getStadium() {
+        return stadium;
+    }
+
+    public String getJudg() {
+        return judg;
+    }
+
+    public String getHomeFormat() {
+        return homeFormat;
+    }
+
+    public String getAwayFormat() {
+        return awayFormat;
     }
 
     public ImageView getHomeLogo() {
