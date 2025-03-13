@@ -46,8 +46,8 @@ public class LineupController {
         else lineupGrid.setVgap(50);
         lineupGrid.setMaxSize(345,430);
         playground.getChildren().add(lineupGrid);
-        this.format.addFirst(1);
         Collections.reverse(format);
+        this.format.addLast(1);
         Collections.reverse(lineup);
         addPlayersToGrid(lineupGrid,lineup,format);
     }
@@ -71,11 +71,11 @@ public class LineupController {
                 Player player = lineup.get(playerIndex++);
 
                 Text name = new Text(player.getName());
-                name.setFont(new Font(10));
-                name.setFill(Color.valueOf("#34495e"));
+                name.setStyle("-fx-fill: #34495e; -fx-font-size: 10px; -fx-font-weight: bold;");
+
 
                 Text number = new Text(String.valueOf(player.getRank()));
-                number.setFill(Color.WHITE);
+                number.setStyle("-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;");
 
                 Circle circle = new Circle(20);
                 circle.setFill(Color.valueOf("#34495e"));

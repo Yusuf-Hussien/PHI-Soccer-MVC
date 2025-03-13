@@ -23,7 +23,7 @@
          <children>
             <Label fx:id="coach_and_format" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="350.0" text="Coach+Format" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="20.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
             <StackPane fx:id="playground" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">

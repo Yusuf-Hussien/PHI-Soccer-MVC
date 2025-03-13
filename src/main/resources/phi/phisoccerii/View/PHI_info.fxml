@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.PHIinfoController">
+   <children>
+      <BorderPane layoutX="179.0" layoutY="83.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #34495e; -fx-background-radius: 25;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <center>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="164.0" fitWidth="200.0" layoutX="194.0" layoutY="192.0">
+                     <image>
+                        <Image url="@../myLogo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView layoutX="169.0" layoutY="107.0" onMouseClicked="#openMyLinkedIn">
+                     <image>
+                        <Image url="@../../../../../../../../Downloads/Workspace/PHI-Soccer/linkedIn/icons8-linkedin-48.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="45.0" fitWidth="46.0" layoutX="168.0" layoutY="51.0" onMouseClicked="#openProjectRepo">
+                     <image>
+                        <Image url="@../githubLogo.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="217.0" layoutY="57.0" text="PHI-Soccer-MVC" textFill="#2ecc71">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="221.0" layoutY="113.0" text="Yusuf Hussien" textFill="#2ecc71">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="45.0" fitWidth="46.0" layoutX="168.0" layoutY="108.0" onMouseClicked="#openMyLinkedIn">
+                     <image>
+                        <Image url="@../linkedInLogo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

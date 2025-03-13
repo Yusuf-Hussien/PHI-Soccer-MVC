@@ -22,14 +22,14 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="judg" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="94.0" prefWidth="598.0" text="Judj" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                  <Label fx:id="judg" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="94.0" prefWidth="598.0" text="Judge" textFill="#34495e" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="satdium" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="590.0" text="Stadium" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                  <Label fx:id="satdium" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="95.0" prefWidth="590.0" text="Stadium" textFill="#34495e" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
                </children>

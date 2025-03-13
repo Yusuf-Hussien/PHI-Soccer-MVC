@@ -139,7 +139,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>phi.phisoccerii.Main</mainClass>
+              <mainClass>phi.phisoccerii.App</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

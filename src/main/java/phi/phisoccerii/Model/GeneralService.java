@@ -8,9 +8,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import phi.phisoccerii.App;
@@ -155,7 +159,16 @@ public class GeneralService {
     public static void showPHIinfo()
     {
         System.out.println("PHI");
-        // load fxml node to new stage shoes my linkedin ang that project github repo
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("View/PHI_info.fxml"));
+        try{
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("PHI-Soccer");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }catch (Exception e){
+            System.out.println("Error Loading Info Pane!");
+        }
     }
 
     private static Boolean isFailed=false;
