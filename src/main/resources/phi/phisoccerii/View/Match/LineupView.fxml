@@ -30,7 +30,7 @@
                <children>
                   <ImageView fitHeight="428.0" fitWidth="344.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../PlayGround3.png" />
+                        <Image url="@../../Media/PlayGround3.png" />
                      </image>
                   </ImageView>
                </children>
