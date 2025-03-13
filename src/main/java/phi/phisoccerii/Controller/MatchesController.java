@@ -8,9 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -19,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import phi.phisoccerii.App;
 import phi.phisoccerii.Model.GeneralService;
 import phi.phisoccerii.Model.match.Match;
 import phi.phisoccerii.Model.match.MatchService;
@@ -32,6 +36,11 @@ import static phi.phisoccerii.Model.GeneralService.applyBoldTextStyle;
 import static phi.phisoccerii.Model.match.MatchService.getMatch;
 
 public class MatchesController implements Initializable, IController {
+    private FXMLLoader matchLoader;
+    private Parent matchPane;
+    private MatchController matchController;
+    private Stage matchStage=new Stage();
+
     private boolean oneBYone, async;
     private String url;
     private static Task<Void>currentTask=null;
@@ -215,7 +224,16 @@ public class MatchesController implements Initializable, IController {
     public void onMatchClicked(MouseEvent mouseEvent) {
         Match selectedMatch = matchesTable.getSelectionModel().getSelectedItem();
         if (selectedMatch != null) {
-            showSelectedMatchInfo(selectedMatch);
+            //showSelectedMatchInfo(selectedMatch);
+             matchLoader =  new FXMLLoader(App.class.getResource("View/MatchView.fxml"));
+             try{
+                 matchPane = matchLoader.load();
+                 matchController = matchLoader.getController();
+                 matchController.setMatch(selectedMatch);
+                 matchStage.setScene(new Scene(matchPane));
+                 matchStage.setTitle(selectedMatch.getHomeTeam()+" - "+selectedMatch.getAwayTeam());
+                 matchStage.show();
+             }catch (Exception e){System.out.println("ERROR LOADING MATCH!");}
         }
     }
     private void showSelectedMatchInfo(Match match) {

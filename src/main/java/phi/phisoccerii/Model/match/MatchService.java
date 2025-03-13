@@ -209,7 +209,7 @@ public class MatchService {
         String awayTeam = matchJson.getString("event_away_team");
         String status = matchJson.getString("event_status");
         String time = matchJson.getString("event_time");
-        String score = matchJson.getString("event_final_result");
+        String score = matchJson.getString("event_penalty_result").isEmpty()?matchJson.getString("event_final_result"): matchJson.getString("event_penalty_result");
         String leagueName = matchJson.getString("league_name");
         String country = matchJson.getString("country_name");
         String round = matchJson.getString("league_round");

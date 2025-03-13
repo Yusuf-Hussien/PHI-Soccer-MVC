@@ -207,6 +207,76 @@ box {
 
 
 
+/* Style the ListView itself */
+#goalsListView {
+    -fx-background-color: #34495e; /* Dark background */
+    /*-fx-border-color: #3A3A3A;
+    -fx-border-width: 1px;*/
+    -fx-background-color: transparent;
+    -fx-border-color:transparent;
+        -fx-border-radius: 0px; /* Adjust the radius as needed */
+        -fx-background-radius: 15px;
+        -fx-padding: 5px;
+}
+
+/* Style each cell in the ListView */
+#goalsListView .list-cell {
+    -fx-padding: 10px;
+    -fx-background-color: #34495e; /* Slightly lighter than the background */
+    /*-fx-border-color: #3A3A3A;  Subtle border between items */
+    /*-fx-border-width: 0 0 1px 0;  Bottom border only */
+    -fx-text-fill: white;
+
+    -fx-padding: 15px;
+        -fx-min-height: 75px; /* Set minimum height */
+        -fx-pref-height: 75px; /* Ensure height is consistent */
+
+        -fx-background-color: transparent;
+
+}
+
+/* Change background color when hovering */
+#goalsListView .list-cell:hover {
+    -fx-background-color: transparent;
+}
+
+/* Selected item styling */
+#goalsListView .list-cell:selected {
+    -fx-background-color: transparent; /* Blue highlight */
+}
+
+/* Goal scorer text (make important text stand out) */
+.scorer-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Time label */
+ .time-label {
+    -fx-font-size: 20px;
+    -fx-text-fill: #AAAAAA;
+    -fx-font-weight:bold;
+}
+
+/* Assist label */
+ .assist-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #CCCCCC;
+}
+
+/* Home team goals (green color) */
+ .home-goal {
+    -fx-text-fill: #4CAF50; /* Green */
+    -fx-font-weight:bold;
+}
+
+/* Away team goals (white color) */
+ .away-goal {
+    -fx-text-fill: white;
+    -fx-font-weight:bold;
+}
+
+
 
 
 

@@ -23,4 +23,6 @@ module phi.phisoccerii {
 
     opens phi.phisoccerii.Model.player to javafx.base;
 
+    exports phi.phisoccerii.Controller.Match to javafx.fxml;
+    opens phi.phisoccerii.Controller.Match to javafx.fxml;
 }

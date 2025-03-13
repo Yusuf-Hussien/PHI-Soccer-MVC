@@ -89,7 +89,6 @@ public class HomeController implements Initializable {
         setUpMatchesTable();
         matchesController.setUpTable(service.getURL(service.LIVE));
         setDaysButtons();
-
         Platform.runLater(()->{  //to cancel fetching data when exit app
             Stage currStage = (Stage)leaguesSearchBox.getScene().getWindow();
             if(currStage!=null)currStage.setOnCloseRequest(e->{matchesController.cancelPreviousOperation();});

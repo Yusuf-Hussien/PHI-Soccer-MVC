@@ -5,12 +5,18 @@ public class Goal {
     private String assist;
     private String time;
     private String score;
+    private boolean isHomeScored;
 
-    public Goal(String soccer, String assist, String time, String score) {
+    public Goal(String soccer, String assist, String time, String score,boolean isHomeScored) {
         this.soccer = soccer;
         this.assist = assist;
         this.time = time;
         this.score = score;
+        this.isHomeScored =isHomeScored;
+    }
+
+    public boolean isHomeScored() {
+        return isHomeScored;
     }
 
     public String getSoccer() {

@@ -27,13 +27,15 @@ public class GoalService {
         String time = obj.getString("time");
         String soccer = obj.getString("home_scorer");
         String assist;
+        boolean isHomeScored=true;
         if(soccer==null || soccer.isEmpty())
         {
+            isHomeScored=false;
             soccer = obj.getString("away_scorer");
-            assist = obj.getString("away_assist");
+            assist = obj.isNull("away_assist")? "": obj.getString("away_assist");
         }
-        else assist = obj.getString("home_assist");
+        else assist = obj.isNull("home_assist")?"":obj.getString("home_assist");
 
-        return new Goal(soccer,assist,time,score);
+        return new Goal(soccer,assist,time,score,isHomeScored);
     }
 }
