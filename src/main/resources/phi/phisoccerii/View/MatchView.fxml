@@ -108,7 +108,7 @@
         </AnchorPane>
     </top>
     <center>
-        <Label alignment="CENTER" prefHeight="332.0" prefWidth="718.0" text="goals" BorderPane.alignment="CENTER">
+        <Label alignment="CENTER" prefHeight="460.0" prefWidth="700.0" text="goals" BorderPane.alignment="CENTER">
             <font>
                 <Font size="22.0" />
             </font>

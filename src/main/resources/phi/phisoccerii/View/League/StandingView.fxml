@@ -11,7 +11,7 @@
                 <?import javafx.scene.control.TableView?>
                 <?import javafx.scene.layout.AnchorPane?>
 
-                <AnchorPane prefHeight="494.0" prefWidth="731.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.League.StandingController">
+                <AnchorPane prefHeight="494.0" prefWidth="731.0" stylesheets="@../../style2.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phi.phisoccerii.Controller.League.StandingController">
                     <TableView fx:id="standingTable" prefHeight="494.0" prefWidth="731.0" style="-fx-background-color: #34495e; -fx-background-radius: 20;" >
                         <columns>
                             <TableColumn fx:id="rankCol" prefWidth="31.20001256465912" style="-fx-background-radius: 20;" text="#" />

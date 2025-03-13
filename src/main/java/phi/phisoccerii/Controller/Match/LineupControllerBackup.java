@@ -4,23 +4,18 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import phi.phisoccerii.Model.match.Match;
 import phi.phisoccerii.Model.player.Player;
-import phi.phisoccerii.Model.player.PlayerService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class LineupController {
+public class LineupControllerBackup {
     String coach;
     List<Integer>format;
     List<Player>lineup;
@@ -42,8 +37,8 @@ public class LineupController {
 
 
         lineupGrid.setAlignment(Pos.CENTER);
-        if(format.size()+1>=5) lineupGrid.setVgap(30);
-        else lineupGrid.setVgap(50);
+        lineupGrid.setHgap(5);
+        lineupGrid.setVgap(50);
         lineupGrid.setMaxSize(345,430);
         playground.getChildren().add(lineupGrid);
         this.format.addFirst(1);
@@ -57,27 +52,23 @@ public class LineupController {
         int playerIndex=0;
         int totalRows = format.size();
 
-
         for(int row=0;row<totalRows;row++)
         {
-        HBox rowBox = new HBox(7);
-        rowBox.setAlignment(Pos.CENTER);
-
-        int playersInRow = format.get(row);
+            int playersInRow = format.get(row);
 
             for (int col=0;col<playersInRow;col++)
             {
                 if (playerIndex>=lineup.size()) return;
+
                 Player player = lineup.get(playerIndex++);
 
                 Text name = new Text(player.getName());
-                name.setFont(new Font(10));
-                name.setFill(Color.valueOf("#34495e"));
+                name.setFill(Color.WHITE);
 
                 Text number = new Text(String.valueOf(player.getRank()));
                 number.setFill(Color.WHITE);
 
-                Circle circle = new Circle(20);
+                Circle circle = new Circle(15);
                 circle.setFill(Color.valueOf("#34495e"));
                 circle.setStroke(Color.WHITE);
                 StackPane playerCircle = new StackPane();
@@ -86,9 +77,12 @@ public class LineupController {
                 VBox playerBox = new VBox(5,playerCircle,name);
                 playerBox.setAlignment(Pos.CENTER);
 
-                rowBox.getChildren().add(playerBox);
+                int totalCols=9;
+                int startCol=(totalCols-(playersInRow*2)/2);
+                int colIndex = startCol+(col*2);
+                lineupGrid.add(playerBox,colIndex,row);
             }
-            lineupGrid.add(rowBox,0,row);
+
         }
     }
 }

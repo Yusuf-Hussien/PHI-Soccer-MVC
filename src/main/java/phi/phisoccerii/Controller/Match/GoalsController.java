@@ -61,11 +61,11 @@ public class GoalsController implements IMatchController{
                     //HBox.setHgrow(vBox, Priority.ALWAYS);
 
                     if (goal.isHomeScored()) {
-                        hBox.getChildren().addAll(goalImage,timeLabel, vBox);
-                        hBox.setAlignment(Pos.CENTER_RIGHT);
-                    } else {
                         hBox.getChildren().addAll(vBox, timeLabel,goalImage);
                         hBox.setAlignment(Pos.CENTER_LEFT);
+                    } else {
+                        hBox.getChildren().addAll(goalImage,timeLabel, vBox);
+                        hBox.setAlignment(Pos.CENTER_RIGHT);
                     }
 
                     setGraphic(hBox);

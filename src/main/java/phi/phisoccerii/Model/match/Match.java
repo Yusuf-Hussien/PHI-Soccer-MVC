@@ -66,11 +66,11 @@ public class Match {
         this.awayFormat = awayFormat;
     }
 
-    /*private List<Integer> setFormat(String formation) {
+    private List<Integer> setFormat(String formation) {
         if (formation==null || formation.isEmpty())return List.of();
         String[]parts = formation.split("-");
         return Arrays.stream(parts).map(Integer::parseInt).collect(Collectors.toList());
-    }*/
+    }
 
     public String getHomeTeam() {
         return homeTeam;
@@ -132,12 +132,12 @@ public class Match {
         return judg;
     }
 
-    public String getHomeFormat() {
-        return homeFormat;
+    public List<Integer> getHomeFormat() {
+        return setFormat(this.homeFormat);
     }
 
-    public String getAwayFormat() {
-        return awayFormat;
+    public List<Integer> getAwayFormat() {
+        return setFormat(this.awayFormat);
     }
 
     public ImageView getHomeLogo() {
