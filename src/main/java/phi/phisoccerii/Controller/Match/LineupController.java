@@ -32,7 +32,7 @@ public class LineupController {
     public void setData(String coach, List<Integer>format, List<Player>lineup) {
         this.coach = coach;
         this.format =new ArrayList<>(format);
-        this .lineup = lineup;
+        this .lineup = new ArrayList<>(lineup);
         setContent();
 
     }
@@ -46,8 +46,8 @@ public class LineupController {
         else lineupGrid.setVgap(50);
         lineupGrid.setMaxSize(345,430);
         playground.getChildren().add(lineupGrid);
-        Collections.reverse(format);
-        this.format.addLast(1);
+        this.format.addFirst(1);
+        Collections.reverse(this.format);
         Collections.reverse(lineup);
         addPlayersToGrid(lineupGrid,lineup,format);
     }
