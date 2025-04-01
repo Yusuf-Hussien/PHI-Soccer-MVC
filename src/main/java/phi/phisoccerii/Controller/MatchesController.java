@@ -79,9 +79,8 @@ public class MatchesController implements Initializable, IController {
         //status.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusCol.setCellValueFactory(cellData-> new SimpleStringProperty(cellData.getValue().getStatus()));
         setMatchStatus();
-        homeLogoCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
-        awayLogoCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
-
+        homeLogoCol.setCellValueFactory(new PropertyValueFactory<>("homeLogo"));
+        awayLogoCol.setCellValueFactory(new PropertyValueFactory<>("awayLogo"));
         //applyBoldTextStyle(homeCol);
         //applyBoldTextStyle(awayCol);
         setUpMatchSearchBar();

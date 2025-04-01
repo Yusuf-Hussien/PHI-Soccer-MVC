@@ -2,6 +2,7 @@ package phi.phisoccerii.Model.match;
 
 
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import phi.phisoccerii.Model.goal.Goal;
 import phi.phisoccerii.Model.league.League;
@@ -9,7 +10,9 @@ import phi.phisoccerii.Model.player.Player;
 import phi.phisoccerii.Model.team.Team;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -28,14 +31,15 @@ public class Match {
     private List<Player>awayLineup;
     private String homeCoach;
     private String awayCoach;
-    private SimpleObjectProperty<ImageView> homeLogo;
-    private SimpleObjectProperty<ImageView> awayLogo;
+    private ImageView homeLogo;
+    private ImageView awayLogo;
 
     private String stadium;
     private String judg;
     private String homeFormat;
     private String awayFormat;
 
+    public static final Map<String , ImageView>cachedLogos=new HashMap<>();
 
 
     //private List<Goal>goals;
@@ -58,8 +62,8 @@ public class Match {
         this.awayLineup = awayLineup;
         this.homeCoach = homeCoach;
         this.awayCoach = awayCoach;
-        this.homeLogo = new SimpleObjectProperty<>(homeLogo);
-        this.awayLogo = new SimpleObjectProperty<>(awayLogo);
+        this.homeLogo = homeLogo;
+        this.awayLogo = awayLogo;
         this.stadium = stadium;
         this.judg =judg;
         this.homeFormat =homeFormat;
@@ -141,27 +145,22 @@ public class Match {
     }
 
     public ImageView getHomeLogo() {
-        return homeLogo.get();
-    }
-
-    public ImageView getAwayLogo() {
-        return awayLogo.get();
-    }
-
-    public SimpleObjectProperty<ImageView> getHomeLogoProp() {
         return homeLogo;
     }
 
-    public SimpleObjectProperty<ImageView> getAwayLogoProp() {
+    public ImageView getAwayLogo() {
         return awayLogo;
     }
 
+
+
+
     public void setAwayLogo(ImageView awayLogo) {
-        this.awayLogo = new SimpleObjectProperty<>(awayLogo);
+        this.awayLogo = awayLogo;
     }
 
     public void setHomeLogo(ImageView homeLogo) {
-        this.homeLogo = new SimpleObjectProperty<>(homeLogo);
+        this.homeLogo = homeLogo;
     }
 
     @Override

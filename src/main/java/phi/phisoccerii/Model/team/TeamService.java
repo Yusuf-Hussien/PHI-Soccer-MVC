@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static phi.phisoccerii.Model.match.Match.cachedLogos;
+import static phi.phisoccerii.Model.match.MatchService.defaultLogo;
+
 public class TeamService {
     // Main Services
     public static List<String>getTeamsNames(List<Team>teams)
@@ -83,9 +86,15 @@ public class TeamService {
         int draw = JSONteam.getInt("standing_D");
         int lose = JSONteam.getInt("standing_L");
         String logoURL = JSONteam.get("team_logo").toString();
-        //ImageView logo = new ImageView(new Image(logoURL,30,30,true,true)); //noise
-        ImageView logo = new ImageView(new Image(logoURL,async));
-        logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
+        ImageView logo ;
+        if(cachedLogos.containsKey(logoURL))
+            logo = cachedLogos.get(logoURL);
+        else{
+
+            logo = logoURL==null? defaultLogo: new ImageView(new Image(logoURL,async));
+            logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
+            cachedLogos.put(logoURL,logo);
+        }
 
         name = name.equals("Israel")? "Shit" : name;
         return new Team(name,id,logo,rank,points,matches,goalDiff,win,draw,lose);

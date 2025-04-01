@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static phi.phisoccerii.Model.match.Match.cachedLogos;
+
 public class MatchService {
 
 
@@ -236,11 +238,22 @@ public class MatchService {
         ImageView awayLogo = null;
         if(logo)
         {
-            homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
+               homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
+            if(cachedLogos.containsKey(homeLogoURL))
+                           homeLogo= new ImageView(cachedLogos.get(homeLogoURL).getImage());
+            else{
+               homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,async));
+               cachedLogos.put(homeLogoURL,homeLogo);
+            }
+               homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
+
             awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
-            homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,async));
+            if(cachedLogos.containsKey(awayLogoURL))
+                           awayLogo= new ImageView(cachedLogos.get(awayLogoURL).getImage());
+            else{
             awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,async));
-            homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
+            cachedLogos.put(awayLogoURL,awayLogo);
+            }
             awayLogo.setFitHeight(30);awayLogo.setFitWidth(30);awayLogo.setPreserveRatio(true);
         }
         return new Match(homeTeam,status,GeneralService.from24Hto12H(time),score,awayTeam, country+" | "+leagueName , round,date,homeLogo,awayLogo,goals,homeFormat,homeLineup,awayFormat,awayLinup,homeCoach,awayCoach,stadium,judg);

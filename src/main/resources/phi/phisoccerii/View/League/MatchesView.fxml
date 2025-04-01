@@ -14,9 +14,9 @@
     <TableView fx:id="matchesTable" layoutX="-1.0" layoutY="44.0" onMouseClicked="#onMatchClicked" prefHeight="490.0" prefWidth="731.0" style="-fx-background-color: #34495e;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
         <columns>
             <TableColumn fx:id="homeCol" prefWidth="200" style="-fx-alignment: CENTER_RIGHT;" styleClass="bold-text" text="Home" />
-            <TableColumn fx:id="homeLogoCol" prefWidth="50" text="logo" />
+            <TableColumn fx:id="homeLogoCol" prefWidth="49.60003662109375" text="logo" />
             <TableColumn fx:id="statusCol" prefWidth="200" text="Status" />
-            <TableColumn fx:id="awayLogoCol" prefWidth="50" text="logo" />
+            <TableColumn fx:id="awayLogoCol" prefWidth="49.60003662109375" text="logo" />
             <TableColumn fx:id="awayCol" prefWidth="200" style="-fx-alignment: CENTER_LEFT;" styleClass="bold-text" text="Away" />
         </columns>
     </TableView>

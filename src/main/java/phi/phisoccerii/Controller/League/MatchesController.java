@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -98,8 +99,9 @@ public class MatchesController implements Initializable, ILeagueController {
         //status.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusCol.setCellValueFactory(cellData-> new SimpleStringProperty(cellData.getValue().getStatus()));
         setMatchStatus();
-        homeLogoCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHomeLogo()));
-        awayLogoCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAwayLogo()));
+        //homeLogoCol.setCellValueFactory(cell->new SimpleObjectProperty<>(cell.getValue().getHomeLogo()));
+        homeLogoCol.setCellValueFactory(new PropertyValueFactory<>("homeLogo"));
+        awayLogoCol.setCellValueFactory(new PropertyValueFactory<>("awayLogo"));
 
         setUpMatchSearchBar();
     }
