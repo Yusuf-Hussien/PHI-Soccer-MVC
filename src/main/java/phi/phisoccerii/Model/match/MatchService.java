@@ -239,7 +239,7 @@ public class MatchService {
         if(logo)
         {
                homeLogoURL = matchJson.isNull("home_team_logo")? null : matchJson.getString("home_team_logo");
-            if(cachedLogos.containsKey(homeLogoURL))
+            if(cachedLogos.containsKey(homeLogoURL) && cachedLogos.get(homeLogoURL)!=null)
                            homeLogo= new ImageView(cachedLogos.get(homeLogoURL).getImage());
             else{
                homeLogo = homeLogoURL==null? defaultLogo: new ImageView(new Image(homeLogoURL,async));
@@ -248,7 +248,7 @@ public class MatchService {
                homeLogo.setFitHeight(30);homeLogo.setFitWidth(30);homeLogo.setPreserveRatio(true);
 
             awayLogoURL = matchJson.isNull("away_team_logo")? null :matchJson.getString("away_team_logo");
-            if(cachedLogos.containsKey(awayLogoURL))
+            if(cachedLogos.containsKey(awayLogoURL)&& cachedLogos.get(awayLogoURL)!=null)
                            awayLogo= new ImageView(cachedLogos.get(awayLogoURL).getImage());
             else{
             awayLogo = awayLogoURL==null? defaultLogo:new ImageView(new Image(awayLogoURL,async));

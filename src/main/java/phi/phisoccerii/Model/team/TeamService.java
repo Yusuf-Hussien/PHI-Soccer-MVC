@@ -88,13 +88,12 @@ public class TeamService {
         String logoURL = JSONteam.get("team_logo").toString();
         ImageView logo ;
         if(cachedLogos.containsKey(logoURL))
-            logo = cachedLogos.get(logoURL);
+            logo = new ImageView(cachedLogos.get(logoURL).getImage());
         else{
-
             logo = logoURL==null? defaultLogo: new ImageView(new Image(logoURL,async));
-            logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
             cachedLogos.put(logoURL,logo);
         }
+            logo.setFitHeight(30);logo.setFitWidth(30);logo.setPreserveRatio(true);
 
         name = name.equals("Israel")? "Shit" : name;
         return new Team(name,id,logo,rank,points,matches,goalDiff,win,draw,lose);

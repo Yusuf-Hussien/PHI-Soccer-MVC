@@ -57,7 +57,7 @@ public class HomeController implements Initializable {
 
     //Lists
     private List<String> leaguesNamesList;
-    private List<League>leaguesList;
+    private static List<League>leaguesList;
     //Observable Lists
     private ObservableList<String>leaguesObsList=FXCollections.observableArrayList();
     //Filtered Lists
@@ -161,7 +161,8 @@ public class HomeController implements Initializable {
             protected Void call() throws Exception {
                 updateMessage("Fetching league data...");
                 leaguesObsList = FXCollections.observableArrayList();
-                leaguesList = LeagueService.getLeagues(service.getURL("Leagues"));
+                if(leaguesList==null || leaguesList.isEmpty())
+                   leaguesList = LeagueService.getLeagues(service.getURL("Leagues"));
                 //leaguesNamesList = LeagueService.getLeaguesNames(leaguesList);  // sync
                 leaguesNamesList =  leaguesList.parallelStream().map(League::getName).toList(); // async
                 leaguesObsList.addAll(leaguesNamesList);

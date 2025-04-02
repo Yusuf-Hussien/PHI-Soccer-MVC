@@ -1,0 +1,492 @@
+.root {
+    -fx-background-color: white;
+}
+
+#PHI{
+         -fx-fill: #2ecc71;
+         -fx-font-size: 45px;
+         -fx-font-weight: bold;
+         -fx-effect: dropshadow(gaussian, black, 11, 0, 0, 0);
+}
+
+.text-field{
+-fx-font-size:14px;
+-fx-padding:8px;
+-fx-border-radius:5px;
+-fx-background-radius:5px;
+}
+
+.button {
+    -fx-background-color: #0a3d62;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-font-weight: bold;
+}
+.button:hover {
+    -fx-background-color: #1e5799;
+}
+.button:pressed{
+-fx-background-color: #1e6ea6;
+}
+
+.label{
+   -fx-text-fill :white;
+}
+#welcome{
+    -fx-text-fill :blue;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+
+.table-view {
+    -fx-background-color:  #34495e;
+     -fx-background-radius: 20px;
+        -fx-border-radius: 20px;
+        -fx-border-color: transparent;
+        -fx-background-insets: 0;
+        -fx-padding: 5px;
+        -fx-table-cell-border-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #229954;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-background-radius : 20;
+
+}
+.table-view .column-header {
+    -fx-border-color: transparent;
+    -fx-background-color: #229954;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.table-view .column-header-background {
+    -fx-background-color: #3C4A61;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #34495e;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+.table-cell {
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+}
+
+.rank-column .table-cell {
+    -fx-background-color: #e0f7fa;
+    -fx-text-fill: green;
+}
+
+.team-column .table-cell {
+    -fx-background-color: #fff3e0;
+}
+
+.logo-column .table-cell {
+    -fx-background-color: #fce4ec;
+}
+
+.bold-text {
+    -fx-font-weight: bold;
+}
+
+.green-text {
+    -fx-text-fill: green;
+}
+
+.table-view .scroll-bar:vertical,
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar:vertical .thumb,
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 10px;
+}
+
+.table-view .scroll-bar:vertical .thumb:hover,
+.table-view .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #388E3C;
+}
+
+.table-view .increment-button,
+.table-view .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .scroll-bar {
+    -fx-border-color: transparent;
+}
+
+.table-view .scroll-bar:vertical {
+    -fx-pref-width: 10px;
+}
+
+.table-view .scroll-bar:horizontal {
+    -fx-pref-height: 10px;
+}
+
+.table-view .cell {
+    -fx-padding: 10px 5px;
+    -fx-font-size: 10px;
+}
+.standing-table .cell {
+    -fx-padding: 5px 0px;
+    -fx-font-size: 13px;
+}
+.topScoreres-table .cell {
+    -fx-padding: 10px 5px;
+    -fx-font-size: 15px;
+}
+.matches-table .cell {
+    -fx-padding: 6px 5px;
+    -fx-font-size: 10px;
+}
+
+
+box {
+    -fx-background-color: green;
+}
+.my-vbox {
+    -fx-background-color: green;
+}
+
+.navigation-bar-buttons{
+     -fx-text-fill: white;
+        -fx-font-size: 16px;
+        -fx-padding: 10px 20px;
+        -fx-background-radius: 10px;
+        -fx-effect: dropshadow(gaussian, white, 1, 1, 0,0 );
+}
+
+.top-bar {
+    -fx-background-color: white;
+}
+.sidebar {
+    -fx-background-color: #229954;
+    -fx-background-radius: 0px 35px 35px 0px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2);
+}
+
+#goalsListView {
+    -fx-background-color: #34495e;
+    -fx-background-color: transparent;
+    -fx-border-color:transparent;
+        -fx-border-radius: 0px;
+        -fx-background-radius: 15px;
+        -fx-padding: 5px;
+}
+
+#goalsListView .list-cell {
+    -fx-padding: 10px;
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-padding: 15px;
+        -fx-min-height: 75px;
+        -fx-pref-height: 75px;
+        -fx-background-color: transparent;
+
+}
+
+#goalsListView .list-cell:hover {
+    -fx-background-color: transparent;
+}
+
+#goalsListView .list-cell:selected {
+    -fx-background-color: transparent;
+}
+
+.scorer-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+ .time-label {
+    -fx-font-size: 20px;
+    -fx-text-fill: #AAAAAA;
+    -fx-font-weight:bold;
+}
+
+
+ .assist-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #CCCCCC;
+}
+
+ .home-goal {
+    -fx-text-fill: #4CAF50;
+    -fx-font-weight:bold;
+}
+
+ .away-goal {
+    -fx-text-fill: white;
+    -fx-font-weight:bold;
+}
+
+.list-view {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+}
+
+.list-cell {
+    -fx-background-color: #f4f4f4;
+    -fx-text-fill: #333333;
+    -fx-padding: 5px;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333333;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: #f4f4f4;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 5px;
+}
+
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.date-picker {
+    -fx-background-color: #2ecc71;
+    -fx-border-color:#ffffff;
+    -fx-border-width:0;
+    -fx-border-radius: 5px;
+}
+
+.date-picker .popup-content {
+    -fx-background-color: #34495e;
+    -fx-border-color: #2ecc71;
+}
+
+.date-picker .cell:selected {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+.date-picker .cell:hover {
+    -fx-background-color: #34495e;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color:#2ecc71;
+    -fx-background-radius: 5px;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #34495e;
+}
+
+.date-picker .month-year-pane {
+    -fx-background-color:#2ecc71 ;
+}
+
+.date-picker .day-name-cell {
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.date-picker .cell:focused {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #2ecc71;
+    -fx-border-radius: 4px;
+    -fx-padding: 3px;
+    -fx-min-width: 16px;
+    -fx-min-height: 16px;
+}
+
+.check-box:hover .box {
+    -fx-background-color: #2ecc71;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #f39c12;
+     -fx-border-color: #f39c12;
+}
+
+.check-box:selected .mark {
+     -fx-background-color: transparent;
+}
+
+.check-box .box {
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+}
+.check-box:selected .mark {
+    -fx-scale-x: 1.25;
+    -fx-scale-y: 1.25;
+}
+.check-box:focused {
+    -fx-effect: none;
+}
+
+.notPressed{
+-fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+-fx-background-radius: 15px;
+
+}
+.notPressed:hover {
+    -fx-background-color: #e0f7fa;
+    -fx-text-fill: #00796b;
+}
+
+.pressed {
+    -fx-background-color:white;
+    -fx-text-fill: #2ecc71;
+         -fx-background-radius: 15px;
+
+}
+
+.pressed:hover {
+    -fx-background-color: white;
+    -fx-text-fill: #00796b;
+
+}
+
+.columHeaders{
+-fx-background-radius : 20;
+}
+
+.text-field{
+    -fx-background-color: #34495e;
+    -fx-background-radius: 15;
+    -fx-alignment: center;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+}
+
+.text-field:focused {
+    -fx-background-color: #2ecc71;
+}
+
+.notMainField .text-field:focused {
+    -fx-background-color: #4CAF50;
+}
+
+.combo-box {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #2ecc71;
+}
+
+.combo-box .list-view {
+-fx-alignment: center;
+    -fx-background-color: #34495e;
+    -fx-border-color: #2E7D32;
+    -fx-border-width: 0px;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-alignment:center;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #388E3C;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+}
+.combo-box-popup .list-view {
+    -fx-pref-width: 890;
+
+    }
+
+.filteringLegues .list-cell {
+                      -fx-background-color: #34495e;
+                      -fx-text-fill: white;
+                      -fx-alignment:center_left;
+                  }
+.filteringLegues .combo-box-popup .list-view {
+    -fx-pref-width: 275;
+    }
+
+.matchSearchBar1 {
+    -fx-prompt-text-fill: #f39c12;
+    -fx-background-color: #229954;
+    -fx-text-fill: #f39c12;
+    -fx-border-color: #1abc9c;
+    -fx-border-radius: 5px;
+}
+
+#matchSearchBar:focused {
+    -fx-border-color: #16a085;
+}
+
+#liveBtn:hover .box{
+    -fx-background-color: #32a883;
+}
+
+.matchSearchBar2  {
+    -fx-prompt-text-fill: white;
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-border-color: #1abc9c;
+    -fx-border-radius: 5px;
+}
+
