@@ -69,16 +69,13 @@ public class GeneralService {
                 IOException e) {
             System.out.println("Error getting property file");;
         }
-        //LEAGUES = prop.getProperty("leagues");
-        //TEAMS = prop.getProperty("teams");
-        //PLAYERS = prop.getProperty("players");
-
     }
+
     public String getURL(String type)
     {
         String Base="" ;
         try{
-           Base = prop.getProperty("BASE_URL");
+           Base = prop.getProperty("BASE_URL")+prop.getProperty("API_KEY")+prop.getProperty("SUB_URL");
         }catch (Exception e){
             System.out.println("failed Getting BASE_URL");
         }
@@ -86,13 +83,7 @@ public class GeneralService {
     }
     public String getLeagueRoutes(int leagueId, String type)
     {
-        String Base="" ;
-        try{
-            Base = prop.getProperty("BASE_URL");
-        }catch (Exception e){
-            System.out.println("failed Getting BASE_URL");
-        }
-        return Base+type+"&leagueId="+leagueId;
+        return  getURL(type) +"&leagueId="+leagueId;
     }
 
     public static String from24Hto12H(String time24H)
@@ -134,19 +125,7 @@ public class GeneralService {
         });
     }
 
-    /*public static <T>List<String>getNames(List<T>objList)
-    {
-        List<String>names=new ArrayList<>();
-        for(T t: objList) names.add(t.getName());
-        return names;
-    }*/
 
-    public static<T>ObservableList<T>getObsList(List<T>list)
-    {
-        ObservableList<T> obsList = FXCollections.observableArrayList();
-        obsList.addAll(list);
-        return obsList;
-    }
 
     public static void showAlert(String title,String msg)
     {
