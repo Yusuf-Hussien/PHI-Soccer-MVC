@@ -32,6 +32,10 @@ cd PHI-Soccer-MVC
 ```
 ### 2️⃣ Build the app For Your Local Machine
 ```sh
+./mvnw clean package javafx:run
+```
+OR (Manually)
+```sh
 ./mvnw clean package 
 cd target
 java -jar "PHI-Soccer-ii-1.0-SNAPSHOT.jar"
